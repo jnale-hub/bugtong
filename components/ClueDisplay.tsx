@@ -1,18 +1,26 @@
 import { ClueComponent, ClueData, TextRange } from "@/data/clues";
 import { useMemo } from "react";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 type ClueDisplayProps = {
-  clue: ClueData;
+  clue?: ClueData | null;
+  loading?: boolean;
   activeHints: {
     showIndicator: boolean;
     showFodder: boolean;
     showDefinition: boolean;
   };
+  onExplain?: (title: string, body: string) => void;
 };
 
-export default function ClueDisplay({ clue, activeHints }: ClueDisplayProps) {
+export default function ClueDisplay({
+  clue,
+  loading = false,
+  activeHints,
+  onExplain,
+}: ClueDisplayProps) {
   const segments = useMemo(() => {
+    if (!clue) return [];
     const cutPoints = new Set<number>([0, clue.clueText.length]);
 
     const addRange = (r: TextRange) => {
@@ -40,39 +48,73 @@ export default function ClueDisplay({ clue, activeHints }: ClueDisplayProps) {
     return chunks;
   }, [clue]);
 
-  // Render the clue with optional highlights based on activeHints
+  if (loading || !clue) {
+    return (
+      <View className="bg-white rounded-lg p-4 pb-3 mb-8 min-h-24">
+        <View className="gap-2 my-auto">
+          <View className="bg-ink/10 h-6 w-full rounded animate-pulse" />
+          <View className="bg-ink/10 h-6 w-11/12 rounded animate-pulse" />
+        </View>
+      </View>
+    );
+  }
+
   return (
-    <View className="bg-yellow-50 rounded-lg p-4 pb-3 mb-8 min-h-24">
+    <View className="bg-white rounded-lg p-4 pb-3 mb-8 min-h-24">
       <Text className="text-2xl leading-snug flex-row flex-wrap my-auto">
         {segments.map((seg, i) => {
-          // Determine the segment type for highlighting (if enabled in activeHints)
           let type: "indicator" | "fodder" | "definition" | null = null;
+          let explanation: string | undefined;
 
           if (
             activeHints.showDefinition &&
             checkComponent(seg, clue.definition)
           ) {
             type = "definition";
+            explanation = clue.definition.explanation;
           } else if (
             activeHints.showIndicator &&
             checkComponent(seg, clue.indicator)
           ) {
             type = "indicator";
+            explanation = clue.indicator?.explanation;
           } else if (
             activeHints.showFodder &&
             checkComponent(seg, clue.fodder)
           ) {
             type = "fodder";
+            explanation = clue.fodder?.explanation;
           }
 
-          return <Segment key={i} text={seg.text} type={type} />;
+          if (!type || !onExplain) {
+            return <Segment key={i} text={seg.text} type={type} />;
+          }
+
+          const title =
+            type === "definition"
+              ? "Definition"
+              : type === "indicator"
+                ? "Indicator"
+                : "Fodder";
+
+          return (
+            <Pressable
+              key={i}
+              onPress={() =>
+                onExplain(title, explanation || "No explanation provided.")
+              }
+            >
+              <Segment text={seg.text} type={type} />
+            </Pressable>
+          );
         })}
         <Text numberOfLines={1}>
           {" "}
           (
-          {Array.isArray(clue.enumeration)
-            ? clue.enumeration.join(",")
-            : clue.enumeration}
+          {clue.answer
+            .split(" ")
+            .map((w) => w.length)
+            .join(", ")}
           )
         </Text>
       </Text>
@@ -80,23 +122,19 @@ export default function ClueDisplay({ clue, activeHints }: ClueDisplayProps) {
   );
 }
 
-// Helper functions
 function Segment({ text, type }: { text: string; type: string | null }) {
-  // Render a span; background indicates the segment type when highlighted
   let specificClasses = "bg-transparent";
-  if (type === "indicator") specificClasses = "bg-pastel-pink text-ink";
+  if (type === "indicator") specificClasses = "bg-emerald-300 text-ink";
   else if (type === "fodder") specificClasses = "bg-pastel-yellow text-ink";
   else if (type === "definition") specificClasses = "bg-pastel-blue text-ink";
 
   return <Text className={specificClasses}>{text}</Text>;
 }
 
-// Return true if the segment is fully inside the provided range
 function isInside(seg: { start: number; end: number }, target: TextRange) {
   return seg.start >= target.start && seg.end <= target.end;
 }
 
-// Check whether a segment falls inside any ranges from a clue component
 function checkComponent(
   seg: { start: number; end: number },
   component?: ClueComponent,
