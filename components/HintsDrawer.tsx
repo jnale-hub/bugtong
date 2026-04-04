@@ -25,7 +25,6 @@ function HintRow({ label, active = false, onClick, colorName }: HintRowProps) {
       `}
     >
       <View className="relative">
-        {/* Static Highlight */}
         {colorName && (
           <View
             className={`
@@ -47,6 +46,13 @@ interface Props {
   hints: HintState;
   toggleHint: (type: "indicator" | "fodder" | "definition") => void;
   revealLetter: () => void;
+  onExplain: (title: string, body: string) => void;
+  explanations: {
+    indicator?: string;
+    fodder?: string;
+    definition?: string;
+    letter?: string;
+  };
 }
 
 export default function HintsDrawer({
@@ -54,6 +60,8 @@ export default function HintsDrawer({
   hints,
   toggleHint,
   revealLetter,
+  onExplain,
+  explanations,
 }: Props) {
   const titleId = useId();
 
@@ -64,16 +72,9 @@ export default function HintsDrawer({
       animationType="slide"
       onRequestClose={onClose}
     >
-      <Pressable
-        onPress={onClose}
-        className="flex-1"
-      >
-        <Pressable
-          onPress={() => {}} // prevent closing when clicking inside
-          className="absolute bottom-0 w-full p-4"
-        >
-          <View className="bg-white rounded-2xl shadow-soft border-3 border-ink overflow-hidden p-6 pb-8">
-            {/* Header */}
+      <Pressable onPress={onClose} className="flex-1">
+        <Pressable onPress={() => {}} className="absolute bottom-0 w-full p-4">
+          <View className="bg-white rounded-2xl shadow-soft border-[3px] border-ink overflow-hidden p-6 pb-8 max-w-2xl mx-auto w-full">
             <View className="flex-row justify-between items-center mb-2">
               <Text id={titleId} className="font-light text-gray-900 text-lg">
                 Select a hint
@@ -83,27 +84,49 @@ export default function HintsDrawer({
               </Pressable>
             </View>
 
-            {/* List */}
             <View className="flex-col sm:gap-1">
               <HintRow
                 label="show indicators"
-                colorName="bg-pastel-pink"
+                colorName="bg-emerald-300"
                 active={hints.showIndicator}
-                onClick={() => toggleHint("indicator")}
+                onClick={() => {
+                  toggleHint("indicator");
+                  onClose();
+                  onExplain(
+                    "Indicator",
+                    explanations.indicator ||
+                      "No indicator explanation provided.",
+                  );
+                }}
               />
 
               <HintRow
                 label="show fodder"
                 colorName="bg-pastel-yellow"
                 active={hints.showFodder}
-                onClick={() => toggleHint("fodder")}
+                onClick={() => {
+                  toggleHint("fodder");
+                  onClose();
+                  onExplain(
+                    "Fodder",
+                    explanations.fodder || "No fodder explanation provided.",
+                  );
+                }}
               />
 
               <HintRow
                 label="show definition"
                 colorName="bg-pastel-blue"
                 active={hints.showDefinition}
-                onClick={() => toggleHint("definition")}
+                onClick={() => {
+                  toggleHint("definition");
+                  onClose();
+                  onExplain(
+                    "Definition",
+                    explanations.definition ||
+                      "No definition explanation provided.",
+                  );
+                }}
               />
 
               <View className="h-2 sm:h-4" />
