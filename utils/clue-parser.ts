@@ -1,6 +1,6 @@
 import { ClueData } from "@/data/clues";
 
-type SegmentType = 'definition' | 'indicator' | 'fodder' | 'text';
+type SegmentType = "definition" | "indicator" | "fodder" | "text";
 
 export interface TextSegment {
   text: string;
@@ -13,21 +13,28 @@ type ClueIndices = {
   fodderIndices?: [number, number];
 };
 
-export function parseClueSegments(clue: ClueData & ClueIndices, activeLayers: { def: boolean, ind: boolean, fod: boolean }): TextSegment[] {
+export function parseClueSegments(
+  clue: ClueData & ClueIndices,
+  activeLayers: { def: boolean; ind: boolean; fod: boolean },
+): TextSegment[] {
   const segments: TextSegment[] = [];
   const fullText = clue.clueText;
-  
-  // Map each character to a segment type. Ranges may touch or be adjacent.
-  const charMap: SegmentType[] = new Array(fullText.length).fill('text') as SegmentType[];
+
+  const charMap: SegmentType[] = new Array(fullText.length).fill(
+    "text",
+  ) as SegmentType[];
 
   if (activeLayers.def && clue.definitionIndices) {
-    for (let i = clue.definitionIndices[0]; i < clue.definitionIndices[1]; i++) charMap[i] = 'definition';
+    for (let i = clue.definitionIndices[0]; i < clue.definitionIndices[1]; i++)
+      charMap[i] = "definition";
   }
   if (activeLayers.ind && clue.indicatorIndices) {
-    for (let i = clue.indicatorIndices[0]; i < clue.indicatorIndices[1]; i++) charMap[i] = 'indicator';
+    for (let i = clue.indicatorIndices[0]; i < clue.indicatorIndices[1]; i++)
+      charMap[i] = "indicator";
   }
   if (activeLayers.fod && clue.fodderIndices) {
-    for (let i = clue.fodderIndices[0]; i < clue.fodderIndices[1]; i++) charMap[i] = 'fodder';
+    for (let i = clue.fodderIndices[0]; i < clue.fodderIndices[1]; i++)
+      charMap[i] = "fodder";
   }
 
   // Handle empty clue text
