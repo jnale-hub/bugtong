@@ -19,8 +19,8 @@ const ActionButton = ({
       onPress={onPress}
       disabled={disabled}
       className={`
-      sm:px-8 px-4 py-2 sm:pb-3 border-3 border-ink rounded-full shadow-soft-sm items-center justify-center
-      active:translate-y-px active:shadow-none transition-all
+      sm:px-8 px-4 py-2 sm:pb-3 border-[3px] border-ink rounded-full shadow-soft-sm items-center justify-center
+      active:translate-y-px active:shadow-none transition-all 
       ${disabled ? "opacity-50" : color}
     `}
     >
