@@ -158,38 +158,35 @@ export default function PlayView({
 
               {status === "won" ? (
                 <Animated.View entering={SlideInDown} exiting={FadeOut}>
-                  <SectionCard className="mt-6">
-                    <View className="relative">
-                      <View className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-5 bg-emerald-300" />
-                      <Text className="relative font-sansita font-bold text-xl mb-1">
-                        Explanation
-                      </Text>
-                    </View>
-                    <View className="mt-4 gap-3">
-                      <View>
+                  <SectionCard className="mt-6 max-w-lg w-full mx-auto">
+                    <Text className="font-sansita font-bold text-xl text-ink">
+                      Explanation
+                    </Text>
+                    <View className="mt-4 gap-4">
+                      <View className="gap-1">
                         <Text className="font-mulish text-xs uppercase tracking-wide text-ink/70">
                           Definition
                         </Text>
-                        <Text className="text-sm leading-relaxed text-ink mt-1">
+                        <Text className="text-sm leading-relaxed text-ink">
                           {activeClue.definition.explanation}
                         </Text>
                       </View>
                       {activeClue.indicator?.explanation ? (
-                        <View>
+                        <View className="gap-1">
                           <Text className="font-mulish text-xs uppercase tracking-wide text-ink/70">
                             Indicator
                           </Text>
-                          <Text className="text-sm leading-relaxed text-ink mt-1">
+                          <Text className="text-sm leading-relaxed text-ink">
                             {activeClue.indicator.explanation}
                           </Text>
                         </View>
                       ) : null}
                       {activeClue.fodder?.explanation ? (
-                        <View>
+                        <View className="gap-1">
                           <Text className="font-mulish text-xs uppercase tracking-wide text-ink/70">
                             Fodder
                           </Text>
-                          <Text className="text-sm leading-relaxed text-ink mt-1">
+                          <Text className="text-sm leading-relaxed text-ink">
                             {activeClue.fodder.explanation}
                           </Text>
                         </View>
