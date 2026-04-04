@@ -63,71 +63,69 @@ const AnswerGrid = ({ answer, guess, status, shake, revealed = [] }: Props) => {
   }));
 
   return (
-    <Animated.View
-      style={[animatedStyle]}
-    >
+    <Animated.View style={[animatedStyle]}>
       <View className="flex-row flex-wrap gap-y-4 justify-center items-center">
-      {wordLayout.map((part, wordIdx) => {
-        if (part.type === "separator") {
-          if (part.char === " ") {
-            return null;
+        {wordLayout.map((part, wordIdx) => {
+          if (part.type === "separator") {
+            if (part.char === " ") {
+              return null;
+            }
+
+            return (
+              <View
+                key={`sep-${wordIdx}`}
+                className="w-6 h-12 items-center justify-center mb-4"
+              >
+                <Text className="text-3xl font-extrabold text-ink">
+                  {part.char}
+                </Text>
+              </View>
+            );
           }
+
+          const nextPart = wordLayout[wordIdx + 1];
+          const hasTrailingSpace =
+            nextPart?.type === "separator" && nextPart.char === " ";
 
           return (
             <View
-              key={`sep-${wordIdx}`}
-              className="w-6 h-12 items-center justify-center mb-4"
+              key={`word-${wordIdx}`}
+              className={`flex-row border-4 border-ink rounded-lg shadow-soft shadow-blue-400 bg-white overflow-hidden w-min ${hasTrailingSpace ? "mr-3" : "mr-1"}`}
             >
-              <Text className="text-3xl font-extrabold text-ink">
-                {part.char}
-              </Text>
-            </View>
-          );
-        }
+              {part.indices.map((index, i, arr) => {
+                const value = guess[index];
+                const isLast = i === arr.length - 1;
+                const cellBgClass =
+                  status === "won"
+                    ? "bg-pastel-mint"
+                    : revealedSet.has(index)
+                      ? "bg-pastel-yellow"
+                      : activeIndex === index
+                        ? "bg-emerald-300"
+                        : "bg-white";
 
-        const nextPart = wordLayout[wordIdx + 1];
-        const hasTrailingSpace =
-          nextPart?.type === "separator" && nextPart.char === " ";
-
-        return (
-          <View
-            key={`word-${wordIdx}`}
-            className={`flex-row border-4 border-ink rounded-lg shadow-soft shadow-blue-400 bg-white overflow-hidden w-min ${hasTrailingSpace ? "mr-3" : "mr-1"}`}
-          >
-            {part.indices.map((index, i, arr) => {
-              const value = guess[index];
-              const isLast = i === arr.length - 1;
-              const cellBgClass =
-                status === "won"
-                  ? "bg-pastel-mint"
-                  : revealedSet.has(index)
-                    ? "bg-pastel-yellow"
-                    : activeIndex === index
-                      ? "bg-pastel-pink"
-                      : "bg-white";
-
-              return (
-                <View
-                  key={index}
-                  className={`
+                return (
+                  <View
+                    key={index}
+                    className={`
                     relative w-10 h-10 sm:w-12 sm:h-12
                     flex items-center justify-center 
                     pb-1 
                     ${isLast ? "" : "border-r-4 border-ink"}
                     ${cellBgClass}
                   `}
-                >
-                  {value ? (
-                    <Text className="font-sansita sm:text-4xl text-3xl font-extrabold text-ink">
-                      {value}
-                    </Text>
-                  ) : null}
-                </View>
-              );
-            })}
-          </View>
-        );
-      })}
+                  >
+                    {value ? (
+                      <Text className="font-sansita sm:text-4xl text-3xl font-extrabold text-ink">
+                        {value}
+                      </Text>
+                    ) : null}
+                  </View>
+                );
+              })}
+            </View>
+          );
+        })}
       </View>
     </Animated.View>
   );
