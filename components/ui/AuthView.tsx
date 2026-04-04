@@ -47,7 +47,12 @@ export default function AuthView({
       <View className="gap-6">
         <PageHeader
           left={
-            <Pressable onPress={onBack} className="flex-row items-center gap-1">
+            <Pressable
+              onPress={onBack}
+              accessibilityRole="button"
+              accessibilityLabel="Back"
+              className="flex-row items-center gap-1"
+            >
               <Feather name="chevron-left" size={18} color="#1f1f1f" />
               <Text className="font-mulish text-sm text-ink">Back</Text>
             </Pressable>
@@ -69,6 +74,7 @@ export default function AuthView({
               placeholder="you@example.com"
               autoCapitalize="none"
               keyboardType="email-address"
+              accessibilityLabel="Email"
               className="border-2 border-ink rounded-2xl px-4 py-3 font-mulish text-base"
             />
           </View>
@@ -79,6 +85,7 @@ export default function AuthView({
               onChangeText={onPasswordChange}
               placeholder="Password"
               secureTextEntry
+              accessibilityLabel="Password"
               className="border-2 border-ink rounded-2xl px-4 py-3 font-mulish text-base"
             />
           </View>
@@ -94,7 +101,12 @@ export default function AuthView({
           />
         </SectionCard>
 
-        <Pressable onPress={onFooterAction} className="self-center">
+        <Pressable
+          onPress={onFooterAction}
+          accessibilityRole="button"
+          accessibilityLabel={footerActionText}
+          className="self-center"
+        >
           <Text className="font-mulish text-sm text-ink/70">
             {footerText} {footerActionText}
           </Text>

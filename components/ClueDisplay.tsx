@@ -100,6 +100,8 @@ export default function ClueDisplay({
           return (
             <Pressable
               key={i}
+              accessibilityRole="button"
+              accessibilityLabel={`${title}: ${seg.text.trim()}`}
               onPress={() =>
                 onExplain(title, explanation || "No explanation provided.")
               }

@@ -102,6 +102,8 @@ export default function PlayView({
             left={
               <Pressable
                 onPress={onBack}
+                accessibilityRole="button"
+                accessibilityLabel="Back"
                 className="flex-row items-center gap-1"
               >
                 <Feather name="chevron-left" size={18} color="#1f1f1f" />

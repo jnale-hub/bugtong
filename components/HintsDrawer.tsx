@@ -19,6 +19,9 @@ function HintRow({ label, active = false, onClick, colorName }: HintRowProps) {
     <Pressable
       onPress={onClick}
       disabled={active}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityState={{ disabled: active }}
       className={`
         w-full py-3 flex-row justify-between items-center group
         ${active ? "opacity-80" : ""}
@@ -71,15 +74,31 @@ export default function HintsDrawer({
       visible={true}
       animationType="slide"
       onRequestClose={onClose}
+      accessibilityViewIsModal
     >
-      <Pressable onPress={onClose} className="flex-1">
-        <Pressable onPress={() => {}} className="absolute bottom-0 w-full p-4">
+      <Pressable
+        onPress={onClose}
+        accessibilityRole="button"
+        accessibilityLabel="Close hints"
+        className="flex-1"
+      >
+        <Pressable
+          onPress={() => {}}
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
+          className="absolute bottom-0 w-full p-4"
+        >
           <View className="bg-white rounded-2xl shadow-soft border-[3px] border-ink overflow-hidden p-6 pb-8 max-w-2xl mx-auto w-full">
             <View className="flex-row justify-between items-center mb-2">
               <Text id={titleId} className="font-light text-gray-900 text-lg">
                 Select a hint
               </Text>
-              <Pressable onPress={onClose} className="p-2 -mr-2">
+              <Pressable
+                onPress={onClose}
+                accessibilityRole="button"
+                accessibilityLabel="Close hints"
+                className="p-2 -mr-2"
+              >
                 <Text className="text-gray-800 text-2xl font-bold">✕</Text>
               </Pressable>
             </View>

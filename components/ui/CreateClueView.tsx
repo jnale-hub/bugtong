@@ -89,15 +89,18 @@ export default function CreateClueView({
     <PageShell>
       <PageHeader
         left={
-          <Pressable onPress={onBack} className="flex-row items-center gap-1">
+          <Pressable
+            onPress={onBack}
+            accessibilityRole="button"
+            accessibilityLabel="Back"
+            className="flex-row items-center gap-1"
+          >
             <Feather name="chevron-left" size={18} color="#1f1f1f" />
             <Text className="font-mulish text-sm text-ink">Back</Text>
           </Pressable>
         }
         center={
-          <Text className="font-mulish text-sm text-ink/70">
-            {dateLabel}
-          </Text>
+          <Text className="font-mulish text-sm text-ink/70">{dateLabel}</Text>
         }
         right={<Text className="font-sansita text-lg text-ink">Bugtong</Text>}
       />
@@ -109,7 +112,10 @@ export default function CreateClueView({
 
       {authLoading ? (
         <SectionCard className="mt-6">
-          <Text className="font-mulish text-sm text-ink/70">
+          <Text
+            className="font-mulish text-sm text-ink/70"
+            accessibilityLabel="Checking session"
+          >
             Checking session...
           </Text>
         </SectionCard>
@@ -126,11 +132,15 @@ export default function CreateClueView({
               value={playDate}
               placeholder="Loading..."
               editable={false}
+              accessibilityLabel="Play date"
               className="flex-1 border-2 border-ink rounded-2xl px-4 py-3 font-mulish text-base bg-white/80"
             />
             <Pressable
               onPress={onRefreshDate}
               disabled={dateLoading}
+              accessibilityRole="button"
+              accessibilityLabel="Refresh play date"
+              accessibilityState={{ disabled: dateLoading }}
               className="px-3 py-2 border-2 border-ink rounded-full bg-pastel-yellow/70"
             >
               <Text className="font-mulish text-sm text-ink">
@@ -149,6 +159,7 @@ export default function CreateClueView({
               onSelectionChange(nextSelection.start, nextSelection.end);
             }}
             placeholder="Enter the clue text"
+            accessibilityLabel="Clue text"
             className="border-2 border-ink rounded-2xl bg-white/90 shadow-soft px-4 py-3 font-mulish text-2xl leading-snug text-ink"
             multiline
           />
@@ -167,6 +178,8 @@ export default function CreateClueView({
           <View className="flex-row flex-wrap gap-2 mt-3">
             <Pressable
               onPress={onAddDefinition}
+              accessibilityRole="button"
+              accessibilityLabel="Add selection to definition"
               className="px-3 py-2 border-2 border-ink rounded-full bg-pastel-blue/70"
             >
               <Text className="font-mulish text-sm text-ink">
@@ -175,6 +188,8 @@ export default function CreateClueView({
             </Pressable>
             <Pressable
               onPress={onAddIndicator}
+              accessibilityRole="button"
+              accessibilityLabel="Add selection to indicator"
               className="px-3 py-2 border-2 border-ink rounded-full bg-emerald-300/70"
             >
               <Text className="font-mulish text-sm text-ink">
@@ -183,6 +198,8 @@ export default function CreateClueView({
             </Pressable>
             <Pressable
               onPress={onAddFodder}
+              accessibilityRole="button"
+              accessibilityLabel="Add selection to fodder"
               className="px-3 py-2 border-2 border-ink rounded-full bg-pastel-yellow/70"
             >
               <Text className="font-mulish text-sm text-ink">
@@ -197,6 +214,7 @@ export default function CreateClueView({
             value={answer}
             onChangeText={onAnswerChange}
             placeholder="ANSWER"
+            accessibilityLabel="Answer"
             className="border-2 border-ink rounded-2xl px-4 py-3 font-mulish text-base"
           />
         </FormField>
@@ -212,6 +230,7 @@ export default function CreateClueView({
             value={definitionExplanation}
             onChangeText={onDefinitionExplanationChange}
             placeholder="Explain the definition"
+            accessibilityLabel="Definition explanation"
             className="border-2 border-ink rounded-2xl px-4 py-3 font-mulish text-base"
             multiline
           />
@@ -228,6 +247,7 @@ export default function CreateClueView({
             value={indicatorExplanation}
             onChangeText={onIndicatorExplanationChange}
             placeholder="Explain the indicator"
+            accessibilityLabel="Indicator explanation"
             className="border-2 border-ink rounded-2xl px-4 py-3 font-mulish text-base"
             multiline
           />
@@ -244,6 +264,7 @@ export default function CreateClueView({
             value={fodderExplanation}
             onChangeText={onFodderExplanationChange}
             placeholder="Explain the fodder"
+            accessibilityLabel="Fodder explanation"
             className="border-2 border-ink rounded-2xl px-4 py-3 font-mulish text-base"
             multiline
           />

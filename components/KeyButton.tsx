@@ -11,7 +11,14 @@ export default function KeyButton({ char, onClickAction }: KeyButtonProps) {
   const textClass = "text-lg sm:text-xl text-ink uppercase";
 
   return (
-    <Pressable onPress={onClickAction} className={buttonClass}>
+    <Pressable
+      onPress={onClickAction}
+      accessibilityRole="button"
+      accessibilityLabel={
+        char.toLowerCase() === "del" ? "Delete" : `Letter ${char.toUpperCase()}`
+      }
+      className={buttonClass}
+    >
       <Text className={textClass}>{char}</Text>
     </Pressable>
   );
