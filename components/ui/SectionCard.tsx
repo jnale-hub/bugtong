@@ -12,7 +12,7 @@ export default function SectionCard({
 }: SectionCardProps) {
   return (
     <View
-      className={`border-4 border-ink rounded-3xl bg-white/90 shadow-soft p-4 ${className}`}
+      className={`border-4 border-ink rounded-xl bg-white/90 shadow-soft p-4 ${className}`}
     >
       {children}
     </View>
