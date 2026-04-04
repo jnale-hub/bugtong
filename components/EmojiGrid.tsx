@@ -12,12 +12,11 @@ export const EmojiGrid: React.FC<EmojiGridProps> = ({
   emoji,
   cellSize = 100,
   margin = 5,
-  opacity = 0.05,
+  opacity = 0.1,
 }) => {
   const SCREEN_DIMS = Dimensions.get("window");
 
   const gridContent = useMemo(() => {
-    // Highly efficient repeating background for Web
     if (Platform.OS === "web") {
       const effectiveSize = 60 + margin * 2;
       const innerOffset = effectiveSize / 2;
@@ -39,7 +38,6 @@ export const EmojiGrid: React.FC<EmojiGridProps> = ({
       };
     }
 
-    // Standard rendering for Native
     const numRows = Math.ceil(SCREEN_DIMS.height / cellSize) + 4;
     const numCols = Math.ceil(SCREEN_DIMS.width / cellSize) + 4;
 
