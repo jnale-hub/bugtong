@@ -36,7 +36,7 @@ function HintRow({ label, active = false, onClick, colorName }: HintRowProps) {
             `}
           />
         )}
-        <Text className="relative font-bold text-xl lowercase font-sansita text-gray-900">
+        <Text className="relative font-bold text-xl lowercase font-serif text-gray-900">
           {label}
         </Text>
       </View>

@@ -116,7 +116,7 @@ const AnswerGrid = ({ answer, guess, status, shake, revealed = [] }: Props) => {
                   `}
                   >
                     {value ? (
-                      <Text className="font-sansita sm:text-4xl text-3xl font-extrabold text-ink">
+                      <Text className="font-serif sm:text-4xl text-3xl font-extrabold text-ink">
                         {value}
                       </Text>
                     ) : null}

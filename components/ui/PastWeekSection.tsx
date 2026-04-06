@@ -37,10 +37,10 @@ export default function PastWeekSection({
     <View className="bg-white pt-6" style={{ paddingBottom: bottomInset + 32 }}>
       <View className="w-full max-w-2xl mx-auto px-4">
         <View className="flex-row items-center justify-between">
-          <Text className="font-sansita text-xl font-bold text-ink">
+          <Text className="font-serif text-xl font-bold text-ink">
             Solve more bugtong
           </Text>
-          <Text className="font-mulish text-xs text-ink/60">Tap to play</Text>
+          <Text className=" text-xs text-ink/60">Tap to play</Text>
         </View>
 
         {pastLoading ? (
@@ -65,7 +65,7 @@ export default function PastWeekSection({
                     <View className="h-9 w-9 items-center justify-center rounded-full bg-white">
                       <Feather name="calendar" size={16} color="#2D2D2D" />
                     </View>
-                    <Text className="font-sansita text-lg text-ink">
+                    <Text className="font-serif text-lg text-ink">
                       {dayLabel}
                     </Text>
                   </View>
@@ -74,9 +74,7 @@ export default function PastWeekSection({
             })}
           </View>
         ) : (
-          <Text className="mt-4 font-mulish text-sm text-ink/60">
-            No past clues yet.
-          </Text>
+          <Text className="mt-4  text-sm text-ink/60">No past clues yet.</Text>
         )}
       </View>
     </View>

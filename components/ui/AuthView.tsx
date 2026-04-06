@@ -54,20 +54,18 @@ export default function AuthView({
               className="flex-row items-center gap-1"
             >
               <Feather name="chevron-left" size={18} color="#1f1f1f" />
-              <Text className="font-mulish text-sm text-ink">Back</Text>
+              <Text className="text-sm text-ink">Back</Text>
             </Pressable>
           }
-          center={
-            <Text className="font-mulish text-sm text-ink/70">{dateLabel}</Text>
-          }
-          right={<Text className="font-sansita text-lg text-ink">Bugtong</Text>}
+          center={<Text className="text-sm text-ink/70">{dateLabel}</Text>}
+          right={<Text className="font-serif text-lg text-ink">Bugtong</Text>}
         />
 
-        <Text className="font-sansita text-2xl text-ink">{title}</Text>
+        <Text className="font-serif text-2xl text-ink">{title}</Text>
 
         <SectionCard className="gap-4">
           <View className="gap-2">
-            <Text className="font-mulish text-sm text-ink/70">Email</Text>
+            <Text className=" text-sm text-ink/70">Email</Text>
             <TextInput
               value={email}
               onChangeText={onEmailChange}
@@ -75,18 +73,18 @@ export default function AuthView({
               autoCapitalize="none"
               keyboardType="email-address"
               accessibilityLabel="Email"
-              className="border-2 border-ink rounded-2xl px-4 py-3 font-mulish text-base"
+              className="border-2 border-ink rounded-2xl px-4 py-3  text-base"
             />
           </View>
           <View className="gap-2">
-            <Text className="font-mulish text-sm text-ink/70">Password</Text>
+            <Text className=" text-sm text-ink/70">Password</Text>
             <TextInput
               value={password}
               onChangeText={onPasswordChange}
               placeholder="Password"
               secureTextEntry
               accessibilityLabel="Password"
-              className="border-2 border-ink rounded-2xl px-4 py-3 font-mulish text-base"
+              className="border-2 border-ink rounded-2xl px-4 py-3  text-base"
             />
           </View>
           {error ? <Text className="text-sm text-red-600">{error}</Text> : null}
@@ -107,7 +105,7 @@ export default function AuthView({
           accessibilityLabel={footerActionText}
           className="self-center"
         >
-          <Text className="font-mulish text-sm text-ink/70">
+          <Text className=" text-sm text-ink/70">
             {footerText} {footerActionText}
           </Text>
         </Pressable>

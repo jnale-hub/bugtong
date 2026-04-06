@@ -96,31 +96,29 @@ export default function CreateClueView({
             className="flex-row items-center gap-1"
           >
             <Feather name="chevron-left" size={18} color="#1f1f1f" />
-            <Text className="font-mulish text-sm text-ink">Back</Text>
+            <Text className=" text-sm text-ink">Back</Text>
           </Pressable>
         }
-        center={
-          <Text className="font-mulish text-sm text-ink/70">{dateLabel}</Text>
-        }
-        right={<Text className="font-sansita text-lg text-ink">Bugtong</Text>}
+        center={<Text className=" text-sm text-ink/70">{dateLabel}</Text>}
+        right={<Text className="font-serif text-lg text-ink">Bugtong</Text>}
       />
 
-      <Text className="font-sansita text-2xl text-ink mt-3">Create clue</Text>
-      <Text className="font-mulish text-sm text-ink/70 mt-1">
+      <Text className="font-serif text-2xl text-ink mt-3">Create clue</Text>
+      <Text className=" text-sm text-ink/70 mt-1">
         Highlight words in the clue text, then assign them to a clue part.
       </Text>
 
       {authLoading ? (
         <SectionCard className="mt-6">
           <Text
-            className="font-mulish text-sm text-ink/70"
+            className=" text-sm text-ink/70"
             accessibilityLabel="Checking session"
           >
             Checking session...
           </Text>
         </SectionCard>
       ) : isSignedIn ? (
-        <Text className="font-mulish text-sm text-ink/70 mt-2">
+        <Text className=" text-sm text-ink/70 mt-2">
           Signed in as {sessionEmail || "user"}.
         </Text>
       ) : null}
@@ -133,7 +131,7 @@ export default function CreateClueView({
               placeholder="Loading..."
               editable={false}
               accessibilityLabel="Play date"
-              className="flex-1 border-2 border-ink rounded-2xl px-4 py-3 font-mulish text-base bg-white/80"
+              className="flex-1 border-2 border-ink rounded-2xl px-4 py-3  text-base bg-white/80"
             />
             <Pressable
               onPress={onRefreshDate}
@@ -143,7 +141,7 @@ export default function CreateClueView({
               accessibilityState={{ disabled: dateLoading }}
               className="px-3 py-2 border-2 border-ink rounded-full bg-pastel-yellow/70"
             >
-              <Text className="font-mulish text-sm text-ink">
+              <Text className=" text-sm text-ink">
                 {dateLoading ? "..." : "Refresh"}
               </Text>
             </Pressable>
@@ -160,16 +158,16 @@ export default function CreateClueView({
             }}
             placeholder="Enter the clue text"
             accessibilityLabel="Clue text"
-            className="border-2 border-ink rounded-2xl bg-white/90 shadow-soft px-4 py-3 font-mulish text-2xl leading-snug text-ink"
+            className="border-2 border-ink rounded-2xl bg-white/90 shadow-soft px-4 py-3  text-2xl leading-snug text-ink"
             multiline
           />
         </FormField>
 
         <SectionCard>
-          <Text className="font-mulish text-sm text-ink/70">
+          <Text className=" text-sm text-ink/70">
             Highlight text above, then assign it to a clue component.
           </Text>
-          <Text className="font-mulish text-xs text-ink/60 mt-1">
+          <Text className=" text-xs text-ink/60 mt-1">
             Selected:{" "}
             {selection && selection.start !== selection.end
               ? `"${clueText.slice(selection.start, selection.end)}"`
@@ -182,9 +180,7 @@ export default function CreateClueView({
               accessibilityLabel="Add selection to definition"
               className="px-3 py-2 border-2 border-ink rounded-full bg-pastel-blue/70"
             >
-              <Text className="font-mulish text-sm text-ink">
-                Add to definition
-              </Text>
+              <Text className=" text-sm text-ink">Add to definition</Text>
             </Pressable>
             <Pressable
               onPress={onAddIndicator}
@@ -192,9 +188,7 @@ export default function CreateClueView({
               accessibilityLabel="Add selection to indicator"
               className="px-3 py-2 border-2 border-ink rounded-full bg-emerald-300/70"
             >
-              <Text className="font-mulish text-sm text-ink">
-                Add to indicator
-              </Text>
+              <Text className=" text-sm text-ink">Add to indicator</Text>
             </Pressable>
             <Pressable
               onPress={onAddFodder}
@@ -202,9 +196,7 @@ export default function CreateClueView({
               accessibilityLabel="Add selection to fodder"
               className="px-3 py-2 border-2 border-ink rounded-full bg-pastel-yellow/70"
             >
-              <Text className="font-mulish text-sm text-ink">
-                Add to fodder
-              </Text>
+              <Text className=" text-sm text-ink">Add to fodder</Text>
             </Pressable>
           </View>
         </SectionCard>
@@ -215,7 +207,7 @@ export default function CreateClueView({
             onChangeText={onAnswerChange}
             placeholder="ANSWER"
             accessibilityLabel="Answer"
-            className="border-2 border-ink rounded-2xl px-4 py-3 font-mulish text-base"
+            className="border-2 border-ink rounded-2xl px-4 py-3  text-base"
           />
         </FormField>
 
@@ -231,7 +223,7 @@ export default function CreateClueView({
             onChangeText={onDefinitionExplanationChange}
             placeholder="Explain the definition"
             accessibilityLabel="Definition explanation"
-            className="border-2 border-ink rounded-2xl px-4 py-3 font-mulish text-base"
+            className="border-2 border-ink rounded-2xl px-4 py-3  text-base"
             multiline
           />
         </FormField>
@@ -248,7 +240,7 @@ export default function CreateClueView({
             onChangeText={onIndicatorExplanationChange}
             placeholder="Explain the indicator"
             accessibilityLabel="Indicator explanation"
-            className="border-2 border-ink rounded-2xl px-4 py-3 font-mulish text-base"
+            className="border-2 border-ink rounded-2xl px-4 py-3  text-base"
             multiline
           />
         </FormField>
@@ -265,7 +257,7 @@ export default function CreateClueView({
             onChangeText={onFodderExplanationChange}
             placeholder="Explain the fodder"
             accessibilityLabel="Fodder explanation"
-            className="border-2 border-ink rounded-2xl px-4 py-3 font-mulish text-base"
+            className="border-2 border-ink rounded-2xl px-4 py-3  text-base"
             multiline
           />
         </FormField>
@@ -297,7 +289,7 @@ type DividerProps = {
 function Divider({ label }: DividerProps) {
   return (
     <View className="mt-4">
-      <Text className="font-sansita text-lg text-ink">{label}</Text>
+      <Text className="font-serif text-lg text-ink">{label}</Text>
     </View>
   );
 }

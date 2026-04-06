@@ -13,7 +13,7 @@ export default function SelectionChips({
   emptyText = "No text selected yet.",
 }: SelectionChipsProps) {
   if (!selections.length) {
-    return <Text className="font-mulish text-sm text-ink/60">{emptyText}</Text>;
+    return <Text className=" text-sm text-ink/60">{emptyText}</Text>;
   }
 
   return (
@@ -23,7 +23,7 @@ export default function SelectionChips({
           key={`${selection.start}-${selection.end}-${index}`}
           className="flex-row items-center px-3 py-1 border-2 border-ink rounded-full bg-white"
         >
-          <Text className="font-mulish text-sm text-ink">{selection.text}</Text>
+          <Text className=" text-sm text-ink">{selection.text}</Text>
           <Pressable
             onPress={() => onRemove(index)}
             className="ml-2 h-5 w-5 items-center justify-center rounded-full border border-ink/20 bg-ink/5"

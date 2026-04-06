@@ -54,18 +54,14 @@ export default function HomeView({
       ) : (
         <>
           <PageHeader
-            center={
-              <Text className="font-mulish text-sm text-ink/70">
-                {dateLabel}
-              </Text>
-            }
+            center={<Text className=" text-sm text-ink/70">{dateLabel}</Text>}
             right={
-              <Text className="font-sansita text-lg text-ink">Bugtong 🇵🇭</Text>
+              <Text className="font-serif text-lg text-ink">Bugtong 🇵🇭</Text>
             }
           />
 
           <SectionCard className="mt-6 flex-col gap-y-4 py-6 justify-center items-center">
-            <Text className="font-sansita text-3xl text-ink leading-tight text-center font-bold">
+            <Text className="text-3xl text-ink leading-tight text-center font-bold font-serif">
               Bugtong of the Day
             </Text>
             {loading || !clueText ? (
@@ -83,7 +79,7 @@ export default function HomeView({
               color="bg-emerald-300"
               onPress={onPlay}
             />
-            <Text className="font-mulish text-sm text-ink/70">{dateLabel}</Text>
+            <Text className=" text-sm text-ink/70">{dateLabel}</Text>
           </SectionCard>
         </>
       )}

@@ -21,7 +21,7 @@ export default function PageHeader({
           left
         ) : title ? (
           <View className="bg-ink px-4 py-1.5 border-2 shadow-soft rounded-2xl -rotate-1">
-            <Text className="text-white font-bold text-lg font-mulish">
+            <Text className="text-white font-bold text-lg font-serif">
               {title}
             </Text>
           </View>

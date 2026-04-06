@@ -107,16 +107,12 @@ export default function PlayView({
                 className="flex-row items-center gap-1"
               >
                 <Feather name="chevron-left" size={18} color="#1f1f1f" />
-                <Text className="font-mulish text-sm text-ink">Back</Text>
+                <Text className=" text-sm text-ink">Back</Text>
               </Pressable>
             }
-            center={
-              <Text className="font-mulish text-sm text-ink/70">
-                {dateLabel}
-              </Text>
-            }
+            center={<Text className=" text-sm text-ink/70">{dateLabel}</Text>}
             right={
-              <Text className="font-sansita text-lg text-ink">Bugtong 🇵🇭</Text>
+              <Text className="font-serif text-lg text-ink">Bugtong 🇵🇭</Text>
             }
           />
 
@@ -159,12 +155,12 @@ export default function PlayView({
               {status === "won" ? (
                 <Animated.View entering={SlideInDown} exiting={FadeOut}>
                   <SectionCard className="mt-6 max-w-lg w-full mx-auto">
-                    <Text className="font-sansita font-bold text-xl text-ink">
+                    <Text className="font-serif font-bold text-xl text-ink">
                       Explanation
                     </Text>
                     <View className="mt-4 gap-4">
                       <View className="gap-1">
-                        <Text className="font-mulish text-xs uppercase tracking-wide text-ink/70">
+                        <Text className=" text-xs uppercase tracking-wide text-ink/70">
                           Definition
                         </Text>
                         <Text className="text-sm leading-relaxed text-ink">
@@ -173,7 +169,7 @@ export default function PlayView({
                       </View>
                       {activeClue.indicator?.explanation ? (
                         <View className="gap-1">
-                          <Text className="font-mulish text-xs uppercase tracking-wide text-ink/70">
+                          <Text className=" text-xs uppercase tracking-wide text-ink/70">
                             Indicator
                           </Text>
                           <Text className="text-sm leading-relaxed text-ink">
@@ -183,7 +179,7 @@ export default function PlayView({
                       ) : null}
                       {activeClue.fodder?.explanation ? (
                         <View className="gap-1">
-                          <Text className="font-mulish text-xs uppercase tracking-wide text-ink/70">
+                          <Text className=" text-xs uppercase tracking-wide text-ink/70">
                             Fodder
                           </Text>
                           <Text className="text-sm leading-relaxed text-ink">
