@@ -1,6 +1,7 @@
 import ActionButton from "@/components/ActionButton";
 import PageHeader from "@/components/ui/PageHeader";
 import PageShell from "@/components/ui/PageShell";
+import PastWeekSection from "@/components/ui/PastWeekSection";
 import SectionCard from "@/components/ui/SectionCard";
 import { Text, View } from "react-native";
 
@@ -9,7 +10,15 @@ type HomeViewProps = {
   clueText: string | null;
   loading: boolean;
   error: string | null;
+  pastClues: {
+    id: string;
+    dateKey: string;
+    dateLabel: string;
+    clueText: string;
+  }[];
+  pastLoading: boolean;
   onPlay: () => void;
+  onPlayPast: (dateKey: string) => void;
   bottomInset: number;
 };
 
@@ -18,19 +27,24 @@ export default function HomeView({
   clueText,
   loading,
   error,
+  pastClues,
+  pastLoading,
   onPlay,
+  onPlayPast,
   bottomInset,
 }: HomeViewProps) {
+  const fullBleedSection = (
+    <PastWeekSection
+      pastClues={pastClues}
+      pastLoading={pastLoading}
+      onPlayPast={onPlayPast}
+      bottomInset={bottomInset}
+      show={!error || loading}
+    />
+  );
+
   return (
-    <PageShell
-      emoji="🧩"
-      footer={
-        <View
-          className="w-full max-w-2xl mx-auto"
-          style={{ paddingBottom: bottomInset }}
-        ></View>
-      }
-    >
+    <PageShell emoji="🧩" fullBleed={fullBleedSection}>
       {error && !loading ? (
         <View className="flex-1 items-center justify-center px-6">
           <Text className="text-xl font-bold text-ink text-center">
