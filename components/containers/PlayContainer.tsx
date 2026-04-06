@@ -1,7 +1,7 @@
 import PlayView from "@/components/ui/PlayView";
 import { useCrypticGame } from "@/hooks/useCrypticGame";
 import { useDailyClue } from "@/hooks/useDailyClue";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import { Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -9,7 +9,12 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 export default function PlayContainer() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { clue: activeClue, loading, error } = useDailyClue();
+  const { date } = useLocalSearchParams<{ date?: string }>();
+  const dateKey =
+    typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date)
+      ? date
+      : undefined;
+  const { clue: activeClue, loading, error } = useDailyClue(dateKey);
   const {
     guess,
     handleInput,
@@ -25,12 +30,13 @@ export default function PlayContainer() {
   const [isHintOpen, setIsHintOpen] = useState(false);
 
   const dateLabel = useMemo(() => {
-    return new Date().toLocaleDateString("en-US", {
+    const baseDate = dateKey ? new Date(`${dateKey}T00:00:00`) : new Date();
+    return baseDate.toLocaleDateString("en-US", {
       weekday: "long",
       month: "long",
       day: "numeric",
     });
-  }, []);
+  }, [dateKey]);
 
   useEffect(() => {
     if (Platform.OS !== "web" || typeof window === "undefined") {
