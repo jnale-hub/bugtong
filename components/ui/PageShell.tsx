@@ -10,6 +10,7 @@ type PageShellProps = {
   contentClassName?: string;
   scroll?: boolean;
   footer?: ReactNode;
+  fullBleed?: ReactNode;
 };
 
 export default function PageShell({
@@ -19,6 +20,7 @@ export default function PageShell({
   contentClassName = "pt-4 pb-8",
   scroll = true,
   footer,
+  fullBleed,
 }: PageShellProps) {
   return (
     <SafeAreaView
@@ -29,22 +31,28 @@ export default function PageShell({
 
       {scroll ? (
         <>
-          <ScrollView className="flex-1 px-4">
+          <ScrollView className="flex-1">
+            <View className="px-4">
+              <View
+                className={`w-full ${maxWidthClassName} mx-auto ${contentClassName}`}
+              >
+                {children}
+              </View>
+            </View>
+            {fullBleed ? <View className="w-full">{fullBleed}</View> : null}
+          </ScrollView>
+          {footer ? <View className="w-full px-4 pt-2">{footer}</View> : null}
+        </>
+      ) : (
+        <View className="flex-1">
+          <View className="px-4">
             <View
               className={`w-full ${maxWidthClassName} mx-auto ${contentClassName}`}
             >
               {children}
             </View>
-          </ScrollView>
-          {footer ? <View className="w-full px-4 pt-2">{footer}</View> : null}
-        </>
-      ) : (
-        <View className="flex-1 px-4">
-          <View
-            className={`w-full ${maxWidthClassName} mx-auto ${contentClassName}`}
-          >
-            {children}
           </View>
+          {fullBleed ? <View className="w-full">{fullBleed}</View> : null}
           {footer ? <View className="w-full pt-2">{footer}</View> : null}
         </View>
       )}
