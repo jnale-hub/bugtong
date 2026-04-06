@@ -5,8 +5,11 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
+      fontFamily: {
+        serif: ['DM Serif Display', 'Georgia', 'serif'],
+      },
       colors: {
-        'pastel-bg': '#add3ff',
+        'pastel-bg': '#cbcdfa',
         'pastel-pink': '#f5d1fd',
         'pastel-blue': '#add3ff',
         'pastel-mint': '#9FE2BF',
