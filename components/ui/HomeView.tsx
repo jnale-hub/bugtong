@@ -47,39 +47,39 @@ export default function HomeView({
     <PageShell emoji="🧩" fullBleed={fullBleedSection}>
       {error && !loading ? (
         <View className="flex-1 items-center justify-center px-6">
-          <Text className="text-xl font-bold text-ink text-center">
+          <Text className="text-xl font-bold text-center">
             {error || "No clue available today!"}
           </Text>
         </View>
       ) : (
         <>
           <PageHeader
-            center={<Text className=" text-sm text-ink/70">{dateLabel}</Text>}
+            center={<Text className=" text-sm/70">{dateLabel}</Text>}
             right={
-              <Text className="font-serif text-lg text-ink">Bugtong 🇵🇭</Text>
+              <Text className="font-serif text-lg font-bold">Bugtong 🇵🇭</Text>
             }
           />
 
           <SectionCard className="mt-6 flex-col gap-y-4 py-6 justify-center items-center">
-            <Text className="text-3xl text-ink leading-tight text-center font-bold font-serif">
+            <Text className="text-3xl leading-tight text-center font-bold font-serif">
               Bugtong of the Day
             </Text>
             {loading || !clueText ? (
               <View className="gap-2 w-full items-center py-6 animate-pulse">
-                <View className="bg-ink/10 h-6 w-full rounded" />
-                <View className="bg-ink/10 h-6 w-10/12 rounded" />
+                <View className="bg-stone-900/10 h-6 w-full rounded" />
+                <View className="bg-stone-900/10 h-6 w-10/12 rounded" />
               </View>
             ) : (
-              <Text className="text-2xl leading-snug text-ink text-center py-4">
+              <Text className="text-2xl leading-snug text-center py-4">
                 {clueText}
               </Text>
             )}
             <ActionButton
               label="Play today"
-              color="bg-emerald-300"
+              color="bg-yellow-300"
               onPress={onPlay}
             />
-            <Text className=" text-sm text-ink/70">{dateLabel}</Text>
+            <Text className=" text-sm/70">{dateLabel}</Text>
           </SectionCard>
         </>
       )}

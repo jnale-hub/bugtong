@@ -13,7 +13,7 @@ export default function SelectionChips({
   emptyText = "No text selected yet.",
 }: SelectionChipsProps) {
   if (!selections.length) {
-    return <Text className=" text-sm text-ink/60">{emptyText}</Text>;
+    return <Text className=" text-sm/60">{emptyText}</Text>;
   }
 
   return (
@@ -21,12 +21,12 @@ export default function SelectionChips({
       {selections.map((selection, index) => (
         <View
           key={`${selection.start}-${selection.end}-${index}`}
-          className="flex-row items-center px-3 py-1 border-2 border-ink rounded-full bg-white"
+          className="flex-row items-center px-3 py-1 border-2 border-stone-900 rounded-full bg-stone-50"
         >
-          <Text className=" text-sm text-ink">{selection.text}</Text>
+          <Text className=" text-sm">{selection.text}</Text>
           <Pressable
             onPress={() => onRemove(index)}
-            className="ml-2 h-5 w-5 items-center justify-center rounded-full border border-ink/20 bg-ink/5"
+            className="ml-2 h-5 w-5 items-center justify-center rounded-full border border-stone-900/20 bg-stone-900/5"
           >
             <Feather name="x" size={12} color="#1f1f1f" />
           </Pressable>

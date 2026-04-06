@@ -62,7 +62,7 @@ export default function SignUpContainer() {
       loading={loading}
       error={error}
       success={success}
-      submitColor="bg-emerald-300"
+      submitColor="bg-rose-300"
       onEmailChange={setEmail}
       onPasswordChange={setPassword}
       onSubmit={handleSignUp}

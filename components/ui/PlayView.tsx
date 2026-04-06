@@ -92,7 +92,7 @@ export default function PlayView({
     >
       {error || (!activeClue && !loading) ? (
         <View className="flex-1 items-center justify-center">
-          <Text className="text-xl font-bold text-ink">
+          <Text className="text-xl font-bold">
             {error || "No clue available today!"}
           </Text>
         </View>
@@ -107,13 +107,11 @@ export default function PlayView({
                 className="flex-row items-center gap-1"
               >
                 <Feather name="chevron-left" size={18} color="#1f1f1f" />
-                <Text className=" text-sm text-ink">Back</Text>
+                <Text className=" text-sm">Back</Text>
               </Pressable>
             }
-            center={<Text className=" text-sm text-ink/70">{dateLabel}</Text>}
-            right={
-              <Text className="font-serif text-lg text-ink">Bugtong 🇵🇭</Text>
-            }
+            center={<Text className=" text-sm/70">{dateLabel}</Text>}
+            right={<Text className="font-serif text-lg">Bugtong 🇵🇭</Text>}
           />
 
           <View className="mt-2 sm:mx-8">
@@ -140,7 +138,7 @@ export default function PlayView({
                   <View className="flex-row justify-center gap-3 w-full px-2">
                     <ActionButton
                       label="Hints"
-                      color="bg-pastel-yellow"
+                      color="bg-yellow-300"
                       onPress={onOpenHints}
                     />
                     <ActionButton
@@ -155,34 +153,34 @@ export default function PlayView({
               {status === "won" ? (
                 <Animated.View entering={SlideInDown} exiting={FadeOut}>
                   <SectionCard className="mt-6 max-w-lg w-full mx-auto">
-                    <Text className="font-serif font-bold text-xl text-ink">
+                    <Text className="font-serif font-bold text-xl">
                       Explanation
                     </Text>
                     <View className="mt-4 gap-4">
                       <View className="gap-1">
-                        <Text className=" text-xs uppercase tracking-wide text-ink/70">
+                        <Text className=" text-xs uppercase tracking-wide/70">
                           Definition
                         </Text>
-                        <Text className="text-sm leading-relaxed text-ink">
+                        <Text className="text-sm leading-relaxed">
                           {activeClue.definition.explanation}
                         </Text>
                       </View>
                       {activeClue.indicator?.explanation ? (
                         <View className="gap-1">
-                          <Text className=" text-xs uppercase tracking-wide text-ink/70">
+                          <Text className=" text-xs uppercase tracking-wide/70">
                             Indicator
                           </Text>
-                          <Text className="text-sm leading-relaxed text-ink">
+                          <Text className="text-sm leading-relaxed">
                             {activeClue.indicator.explanation}
                           </Text>
                         </View>
                       ) : null}
                       {activeClue.fodder?.explanation ? (
                         <View className="gap-1">
-                          <Text className=" text-xs uppercase tracking-wide text-ink/70">
+                          <Text className=" text-xs uppercase tracking-wide/70">
                             Fodder
                           </Text>
-                          <Text className="text-sm leading-relaxed text-ink">
+                          <Text className="text-sm leading-relaxed">
                             {activeClue.fodder.explanation}
                           </Text>
                         </View>

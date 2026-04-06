@@ -33,7 +33,7 @@ export default function HintExplanationModal({
           importantForAccessibility="no-hide-descendants"
           className="absolute top-1/2 w-full p-4"
         >
-          <View className="bg-white rounded-2xl shadow-soft border-[3px] border-ink overflow-hidden p-6 pb-8 max-w-md mx-auto w-full">
+          <View className="bg-stone-50 rounded-2xl shadow-soft border-[3px] border-stone-900 overflow-hidden p-6 pb-8 max-w-md mx-auto w-full">
             <View className="flex-row justify-between items-center mb-2">
               <Text className="font-light text-gray-900 text-lg">{title}</Text>
               <Pressable
@@ -45,9 +45,7 @@ export default function HintExplanationModal({
                 <Text className="text-gray-800 text-2xl font-bold">x</Text>
               </Pressable>
             </View>
-            <Text className="text-sm leading-relaxed text-ink mt-2">
-              {body}
-            </Text>
+            <Text className="text-sm leading-relaxed mt-2">{body}</Text>
           </View>
         </Pressable>
       </Pressable>

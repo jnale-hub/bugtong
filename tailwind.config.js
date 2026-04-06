@@ -8,14 +8,6 @@ module.exports = {
       fontFamily: {
         serif: ['DM Serif Display', 'Georgia', 'serif'],
       },
-      colors: {
-        'pastel-bg': '#cbcdfa',
-        'pastel-pink': '#f5d1fd',
-        'pastel-blue': '#add3ff',
-        'pastel-mint': '#9FE2BF',
-        'pastel-yellow': '#fff2b1',
-        'ink': '#2D2D2D',
-      },
       boxShadow: {
         'soft': '4px 4px 0px 0px #2D2D2d',
         'soft-sm': '2px 2px 0px 0px #2D2D2D',

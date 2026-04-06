@@ -55,7 +55,7 @@ export default function SignInContainer() {
       password={password}
       loading={loading}
       error={error}
-      submitColor="bg-pastel-blue"
+      submitColor="bg-blue-300/80"
       onEmailChange={setEmail}
       onPasswordChange={setPassword}
       onSubmit={handleSignIn}

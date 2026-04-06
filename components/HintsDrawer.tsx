@@ -88,7 +88,7 @@ export default function HintsDrawer({
           importantForAccessibility="no-hide-descendants"
           className="absolute bottom-0 w-full p-4"
         >
-          <View className="bg-white rounded-2xl shadow-soft border-[3px] border-ink overflow-hidden p-6 pb-8 max-w-2xl mx-auto w-full">
+          <View className="bg-stone-50 rounded-2xl shadow-soft border-[3px] border-stone-900 overflow-hidden p-6 pb-8 max-w-2xl mx-auto w-full">
             <View className="flex-row justify-between items-center mb-2">
               <Text id={titleId} className="font-light text-gray-900 text-lg">
                 Select a hint
@@ -106,7 +106,7 @@ export default function HintsDrawer({
             <View className="flex-col sm:gap-1">
               <HintRow
                 label="show indicators"
-                colorName="bg-emerald-300"
+                colorName="bg-rose-300"
                 active={hints.showIndicator}
                 onClick={() => {
                   toggleHint("indicator");
@@ -121,7 +121,7 @@ export default function HintsDrawer({
 
               <HintRow
                 label="show fodder"
-                colorName="bg-pastel-yellow"
+                colorName="bg-yellow-300/80"
                 active={hints.showFodder}
                 onClick={() => {
                   toggleHint("fodder");
@@ -135,7 +135,7 @@ export default function HintsDrawer({
 
               <HintRow
                 label="show definition"
-                colorName="bg-pastel-blue"
+                colorName="bg-blue-300/80"
                 active={hints.showDefinition}
                 onClick={() => {
                   toggleHint("definition");

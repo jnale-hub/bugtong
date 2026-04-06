@@ -34,19 +34,22 @@ export default function PastWeekSection({
   if (!show) return null;
 
   return (
-    <View className="bg-white pt-6" style={{ paddingBottom: bottomInset + 32 }}>
+    <View
+      className="bg-stone-50 pt-6"
+      style={{ paddingBottom: bottomInset + 32 }}
+    >
       <View className="w-full max-w-2xl mx-auto px-4">
         <View className="flex-row items-center justify-between">
-          <Text className="font-serif text-xl font-bold text-ink">
+          <Text className="font-serif text-xl font-bold">
             Solve more bugtong
           </Text>
-          <Text className=" text-xs text-ink/60">Tap to play</Text>
+          <Text className=" text-xs/60">Tap to play</Text>
         </View>
 
         {pastLoading ? (
           <View className="mt-4 gap-3">
-            <View className="bg-ink/10 h-20 rounded-2xl animate-pulse" />
-            <View className="bg-ink/10 h-20 rounded-2xl animate-pulse" />
+            <View className="bg-stone-900/10 h-20 rounded-2xl animate-pulse" />
+            <View className="bg-stone-900/10 h-20 rounded-2xl animate-pulse" />
           </View>
         ) : pastClues.length > 0 ? (
           <View className="mt-4 flex-row flex-wrap gap-4 max-md:justify-center">
@@ -59,22 +62,20 @@ export default function PastWeekSection({
                   onPress={() => onPlayPast(clue.dateKey)}
                   accessibilityRole="button"
                   accessibilityLabel={`Play ${dayLabel} clue`}
-                  className="rounded bg-stone-100 px-6 py-4 w-22"
+                  className="rounded bg-stone-200/50 px-6 py-4 w-22"
                 >
                   <View className="flex-col items-center justify-between gap-3">
-                    <View className="h-9 w-9 items-center justify-center rounded-full bg-white">
+                    <View className="h-9 w-9 items-center justify-center rounded-full bg-stone-50">
                       <Feather name="calendar" size={16} color="#2D2D2D" />
                     </View>
-                    <Text className="font-serif text-lg text-ink">
-                      {dayLabel}
-                    </Text>
+                    <Text className="text-lg">{dayLabel}</Text>
                   </View>
                 </Pressable>
               );
             })}
           </View>
         ) : (
-          <Text className="mt-4  text-sm text-ink/60">No past clues yet.</Text>
+          <Text className="mt-4  text-sm/60">No past clues yet.</Text>
         )}
       </View>
     </View>

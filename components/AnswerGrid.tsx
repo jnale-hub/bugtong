@@ -76,9 +76,7 @@ const AnswerGrid = ({ answer, guess, status, shake, revealed = [] }: Props) => {
                 key={`sep-${wordIdx}`}
                 className="w-6 h-12 items-center justify-center mb-4"
               >
-                <Text className="text-3xl font-extrabold text-ink">
-                  {part.char}
-                </Text>
+                <Text className="text-3xl font-extrabold">{part.char}</Text>
               </View>
             );
           }
@@ -90,19 +88,19 @@ const AnswerGrid = ({ answer, guess, status, shake, revealed = [] }: Props) => {
           return (
             <View
               key={`word-${wordIdx}`}
-              className={`flex-row border-4 border-ink rounded-lg shadow-soft shadow-blue-400 bg-white overflow-hidden w-min ${hasTrailingSpace ? "mr-3" : "mr-1"}`}
+              className={`flex-row border-4 border-stone-900 rounded-lg bg-stone-50 overflow-hidden w-min ${hasTrailingSpace ? "mr-3" : "mr-1"}`}
             >
               {part.indices.map((index, i, arr) => {
                 const value = guess[index];
                 const isLast = i === arr.length - 1;
                 const cellBgClass =
                   status === "won"
-                    ? "bg-pastel-mint"
+                    ? "bg-emerald-300/80"
                     : revealedSet.has(index)
-                      ? "bg-pastel-yellow"
+                      ? "bg-yellow-300/80"
                       : activeIndex === index
                         ? "bg-emerald-300"
-                        : "bg-white";
+                        : "bg-stone-50";
 
                 return (
                   <View
@@ -111,12 +109,12 @@ const AnswerGrid = ({ answer, guess, status, shake, revealed = [] }: Props) => {
                     relative w-10 h-10 sm:w-12 sm:h-12
                     flex items-center justify-center 
                     pb-1 
-                    ${isLast ? "" : "border-r-4 border-ink"}
+                    ${isLast ? "" : "border-r-4 border-stone-900"}
                     ${cellBgClass}
                   `}
                   >
                     {value ? (
-                      <Text className="font-serif sm:text-4xl text-3xl font-extrabold text-ink">
+                      <Text className="font-serif sm:text-4xl text-3xl font-extrabold">
                         {value}
                       </Text>
                     ) : null}

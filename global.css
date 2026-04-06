@@ -4,6 +4,6 @@
 
 @layer base {
   body {
-    background-color: #FDF1E1;
+    @apply antialiased text-stone-900 bg-stone-50;
   }
 }

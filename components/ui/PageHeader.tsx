@@ -20,8 +20,8 @@ export default function PageHeader({
         {left ? (
           left
         ) : title ? (
-          <View className="bg-ink px-4 py-1.5 border-2 shadow-soft rounded-2xl -rotate-1">
-            <Text className="text-white font-bold text-lg font-serif">
+          <View className="bg-stone-900 px-4 py-1.5 border-2 shadow-soft rounded-2xl -rotate-1">
+            <Text className="text-stone-50 font-bold text-lg font-serif">
               {title}
             </Text>
           </View>
