@@ -35,15 +35,47 @@ async function fetchDailyClue(dateKey: string): Promise<FetchResult> {
         .eq("play_date", dateKey)
         .single();
 
-      if (fetchError) {
-        if (fetchError.code === "PGRST116") {
-          cachedClue = null;
-          cachedError = "No clue found for today!";
-        } else {
-          console.error("Supabase Error:", fetchError);
-          cachedClue = null;
-          cachedError = "Failed to load today's clue.";
+      const shouldFallback =
+        fetchError?.code === "PGRST116" || (!fetchError && !data);
+
+      if (shouldFallback) {
+        const { data: fallbackData, error: fallbackError } = await supabase
+          .from("daily_clues")
+          .select("id, clue_text, answer, definition, indicator, fodder")
+          .lte("play_date", dateKey)
+          .order("play_date", { ascending: false })
+          .limit(1);
+
+        if (fallbackError) {
+          console.error("Supabase Error:", fallbackError);
         }
+
+        const latest = fallbackData?.[0];
+
+        if (latest) {
+          cachedClue = {
+            id: latest.id,
+            clueText: latest.clue_text,
+            answer: latest.answer,
+            definition: latest.definition,
+            indicator: latest.indicator,
+            fodder: latest.fodder,
+          };
+          cachedError = null;
+          cachedDate = dateKey;
+          return { clue: cachedClue, error: null };
+        }
+
+        cachedClue = null;
+        cachedError = null;
+        cachedDate = dateKey;
+        return { clue: null, error: null };
+      }
+
+      if (fetchError) {
+        console.error("Supabase Error:", fetchError);
+        cachedClue = null;
+        cachedError = "Failed to load today's clue.";
         cachedDate = dateKey;
         return { clue: null, error: cachedError };
       }
@@ -63,9 +95,9 @@ async function fetchDailyClue(dateKey: string): Promise<FetchResult> {
       }
 
       cachedClue = null;
-      cachedError = "No clue found for today!";
+      cachedError = null;
       cachedDate = dateKey;
-      return { clue: null, error: cachedError };
+      return { clue: null, error: null };
     } catch (err: any) {
       console.error(err);
       const message = err.message || "An unexpected error occurred";
@@ -82,8 +114,8 @@ async function fetchDailyClue(dateKey: string): Promise<FetchResult> {
   return inFlightRequest;
 }
 
-export function useDailyClue() {
-  const todayKey = useMemo(() => getTodayKey(), []);
+export function useDailyClue(dateKey?: string) {
+  const todayKey = useMemo(() => dateKey ?? getTodayKey(), [dateKey]);
   const [clue, setClue] = useState<ClueData | null>(() =>
     cachedDate === todayKey ? cachedClue : null,
   );
