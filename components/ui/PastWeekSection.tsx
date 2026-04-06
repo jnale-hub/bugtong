@@ -1,0 +1,84 @@
+import { Feather } from "@expo/vector-icons";
+import { Pressable, Text, View } from "react-native";
+
+type PastClue = {
+  id: string;
+  dateKey: string;
+  dateLabel: string;
+  clueText: string;
+};
+
+type PastWeekSectionProps = {
+  pastClues: PastClue[];
+  pastLoading: boolean;
+  onPlayPast: (dateKey: string) => void;
+  bottomInset: number;
+  show: boolean;
+};
+
+export default function PastWeekSection({
+  pastClues,
+  pastLoading,
+  onPlayPast,
+  bottomInset,
+  show,
+}: PastWeekSectionProps) {
+  const todayKey = new Date().toISOString().split("T")[0];
+  const getDayLabel = (dateKey: string) =>
+    dateKey === todayKey
+      ? "Today"
+      : new Date(`${dateKey}T00:00:00`).toLocaleDateString("en-US", {
+          weekday: "short",
+        });
+
+  if (!show) return null;
+
+  return (
+    <View className="bg-white pt-6" style={{ paddingBottom: bottomInset + 32 }}>
+      <View className="w-full max-w-2xl mx-auto px-4">
+        <View className="flex-row items-center justify-between">
+          <Text className="font-sansita text-xl font-bold text-ink">
+            Solve more bugtong
+          </Text>
+          <Text className="font-mulish text-xs text-ink/60">Tap to play</Text>
+        </View>
+
+        {pastLoading ? (
+          <View className="mt-4 gap-3">
+            <View className="bg-ink/10 h-20 rounded-2xl animate-pulse" />
+            <View className="bg-ink/10 h-20 rounded-2xl animate-pulse" />
+          </View>
+        ) : pastClues.length > 0 ? (
+          <View className="mt-4 flex-row flex-wrap gap-4 max-md:justify-center">
+            {pastClues.map((clue) => {
+              const dayLabel = getDayLabel(clue.dateKey);
+
+              return (
+                <Pressable
+                  key={clue.id}
+                  onPress={() => onPlayPast(clue.dateKey)}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Play ${dayLabel} clue`}
+                  className="rounded bg-stone-100 px-6 py-4 w-22"
+                >
+                  <View className="flex-col items-center justify-between gap-3">
+                    <View className="h-9 w-9 items-center justify-center rounded-full bg-white">
+                      <Feather name="calendar" size={16} color="#2D2D2D" />
+                    </View>
+                    <Text className="font-sansita text-lg text-ink">
+                      {dayLabel}
+                    </Text>
+                  </View>
+                </Pressable>
+              );
+            })}
+          </View>
+        ) : (
+          <Text className="mt-4 font-mulish text-sm text-ink/60">
+            No past clues yet.
+          </Text>
+        )}
+      </View>
+    </View>
+  );
+}
