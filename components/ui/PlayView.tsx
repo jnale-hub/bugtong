@@ -120,7 +120,7 @@ export default function PlayView({
             }
           />
 
-          <View className="w-full mt-2">
+          <View className="mt-2 sm:mx-8">
             <ClueDisplay
               clue={activeClue}
               loading={loading}
