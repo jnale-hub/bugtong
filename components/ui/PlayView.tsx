@@ -10,8 +10,9 @@ import SectionCard from "@/components/ui/SectionCard";
 import { ClueData } from "@/data/clues";
 import { GameStatus } from "@/hooks/useCrypticGame";
 import { Feather } from "@expo/vector-icons";
-import { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { Dimensions, Platform, Pressable, Text, View } from "react-native";
+import { PIConfetti, PIConfettiMethods } from "react-native-fast-confetti";
 import Animated, { FadeOut, SlideInDown } from "react-native-reanimated";
 
 type HintState = {
@@ -74,6 +75,27 @@ export default function PlayView({
     definition: activeClue?.definition?.explanation,
     letter: "A letter has been revealed.",
   };
+
+  const confettiRef = useRef<PIConfettiMethods>(null);
+
+  useEffect(() => {
+    if (status === "won") {
+      if (Platform.OS === "web") {
+        import("canvas-confetti").then((module) => {
+          const confetti = module.default;
+          confetti({
+            particleCount: 200,
+            spread: 100,
+            origin: { y: 0.2 },
+          });
+        });
+      } else {
+        confettiRef.current?.restart();
+      }
+    }
+  }, [status]);
+
+  const { width } = Dimensions.get("window");
 
   return (
     <PageShell
@@ -217,6 +239,19 @@ export default function PlayView({
           onClose={() => setHintExplanation(null)}
         />
       ) : null}
+
+      {status === "won" && Platform.OS !== "web" && (
+        <View
+          className="absolute top-0 left-0 right-0 z-50"
+          pointerEvents="none"
+        >
+          <PIConfetti
+            ref={confettiRef}
+            count={200}
+            blastPosition={{ x: width / 2, y: -20 }}
+          />
+        </View>
+      )}
     </PageShell>
   );
 }
