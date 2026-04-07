@@ -1,6 +1,6 @@
 import { ClueComponent, ClueData, TextRange } from "@/data/clues";
 import { useMemo } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 type ClueDisplayProps = {
   clue?: ClueData | null;
@@ -98,16 +98,16 @@ export default function ClueDisplay({
                 : "Fodder";
 
           return (
-            <Pressable
+            <Text
               key={i}
-              accessibilityRole="button"
+              accessibilityRole="link"
               accessibilityLabel={`${title}: ${seg.text.trim()}`}
               onPress={() =>
                 onExplain(title, explanation || "No explanation provided.")
               }
             >
               <Segment text={seg.text} type={type} />
-            </Pressable>
+            </Text>
           );
         })}
         <Text numberOfLines={1}>
