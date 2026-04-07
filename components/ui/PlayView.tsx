@@ -100,17 +100,19 @@ export default function PlayView({
           <PageHeader
             left={
               <View className="flex-row items-center gap-1 justify-center">
-              <Pressable
-                onPress={onBack}
-                accessibilityRole="button"
-                accessibilityLabel="Back"
-              >
-                <Feather name="arrow-left" size={20} className="font-bold" />
-              </Pressable>
-              <Text className=" text-sm/70">{dateLabel}</Text>
+                <Pressable
+                  onPress={onBack}
+                  accessibilityRole="button"
+                  accessibilityLabel="Back"
+                >
+                  <Feather name="arrow-left" size={20} className="font-bold" />
+                </Pressable>
+                <Text className=" text-sm/70">{dateLabel}</Text>
               </View>
             }
-            right={<Text className="font-serif text-lg font-bold">Bugtong 🇵🇭</Text>}
+            right={
+              <Text className="font-serif text-lg font-bold">Bugtong 🇵🇭</Text>
+            }
           />
 
           <View className="mt-2 sm:mx-8">
@@ -119,6 +121,7 @@ export default function PlayView({
               loading={loading}
               activeHints={hints}
               onExplain={(title, body) => setHintExplanation({ title, body })}
+              isSolved={status === "won"}
             />
           </View>
 

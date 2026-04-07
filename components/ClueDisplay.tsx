@@ -11,6 +11,7 @@ type ClueDisplayProps = {
     showDefinition: boolean;
   };
   onExplain?: (title: string, body: string) => void;
+  isSolved?: boolean;
 };
 
 export default function ClueDisplay({
@@ -18,6 +19,7 @@ export default function ClueDisplay({
   loading = false,
   activeHints,
   onExplain,
+  isSolved = false,
 }: ClueDisplayProps) {
   const segments = useMemo(() => {
     if (!clue) return [];
@@ -86,7 +88,7 @@ export default function ClueDisplay({
             explanation = clue.fodder?.explanation;
           }
 
-          if (!type || !onExplain) {
+          if (!type || !onExplain || isSolved) {
             return <Segment key={i} text={seg.text} type={type} />;
           }
 
