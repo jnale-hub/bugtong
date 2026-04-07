@@ -1,34 +1,26 @@
 import { ReactNode } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 type PageHeaderProps = {
-  title?: string;
   left?: ReactNode;
   center?: ReactNode;
   right?: ReactNode;
 };
 
 export default function PageHeader({
-  title,
   left,
   center,
   right,
 }: PageHeaderProps) {
+  if (!left && !center && !right) {
+    return null;
+  }
+
   return (
     <View className="flex-row items-center justify-between">
-      <View className="flex-1 items-start">
-        {left ? (
-          left
-        ) : title ? (
-          <View className="bg-stone-900 px-4 py-1.5 border-2 shadow-soft rounded-2xl -rotate-1">
-            <Text className="text-stone-50 font-bold text-lg font-serif">
-              {title}
-            </Text>
-          </View>
-        ) : null}
-      </View>
-      <View className="flex-1 items-center">{center ? center : null}</View>
-      <View className="flex-1 items-end">{right ? right : null}</View>
+      {left && <View className="flex-1 items-start">{left}</View>}
+      {center && <View className="flex-1 items-center">{center}</View>}
+      {right && <View className="flex-1 items-end">{right}</View>}
     </View>
   );
 }
