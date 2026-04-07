@@ -54,7 +54,7 @@ export default function HomeView({
       ) : (
         <>
           <PageHeader
-            center={<Text className=" text-sm/70">{dateLabel}</Text>}
+            left={<Text className="font-semibold">{dateLabel}</Text>}
             right={
               <Text className="font-serif text-lg font-bold">Bugtong 🇵🇭</Text>
             }
@@ -70,7 +70,7 @@ export default function HomeView({
                 <View className="bg-stone-900/10 h-6 w-10/12 rounded" />
               </View>
             ) : (
-              <Text className="text-2xl leading-snug text-center py-4">
+              <Text className="text-2xl leading-snug text-center min-h-24 place-content-center">
                 {clueText}
               </Text>
             )}
