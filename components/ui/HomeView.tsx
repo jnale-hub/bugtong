@@ -8,6 +8,7 @@ import { Text, View } from "react-native";
 type HomeViewProps = {
   dateLabel: string;
   clueText: string | null;
+  answer: string | null;
   loading: boolean;
   error: string | null;
   pastClues: {
@@ -25,6 +26,7 @@ type HomeViewProps = {
 export default function HomeView({
   dateLabel,
   clueText,
+  answer,
   loading,
   error,
   pastClues,
@@ -72,6 +74,17 @@ export default function HomeView({
             ) : (
               <Text className="text-2xl leading-snug text-center min-h-24 place-content-center">
                 {clueText}
+                {answer && (
+                  <Text numberOfLines={1}>
+                    {" "}
+                    (
+                    {answer
+                      .split(" ")
+                      .map((w) => w.length)
+                      .join(", ")}
+                    )
+                  </Text>
+                )}
               </Text>
             )}
             <ActionButton

@@ -23,6 +23,7 @@ export default function HomeContainer() {
     <HomeView
       dateLabel={todayLabel}
       clueText={clue?.clueText ?? null}
+      answer={clue?.answer ?? null}
       loading={loading}
       error={error}
       pastClues={recentClues.map((item) => ({
