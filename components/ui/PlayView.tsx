@@ -100,18 +100,18 @@ export default function PlayView({
         <>
           <PageHeader
             left={
+              <View className="flex-row items-center gap-1 justify-center">
               <Pressable
                 onPress={onBack}
                 accessibilityRole="button"
                 accessibilityLabel="Back"
-                className="flex-row items-center gap-1"
               >
-                <Feather name="chevron-left" size={18} color="#1f1f1f" />
-                <Text className=" text-sm">Back</Text>
+                <Feather name="arrow-left" size={20} className="font-bold" />
               </Pressable>
+              <Text className=" text-sm/70">{dateLabel}</Text>
+              </View>
             }
-            center={<Text className=" text-sm/70">{dateLabel}</Text>}
-            right={<Text className="font-serif text-lg">Bugtong 🇵🇭</Text>}
+            right={<Text className="font-serif text-lg font-bold">Bugtong 🇵🇭</Text>}
           />
 
           <View className="mt-2 sm:mx-8">
