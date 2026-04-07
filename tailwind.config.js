@@ -9,8 +9,8 @@ module.exports = {
         serif: ['DM Serif Display', 'Georgia', 'serif'],
       },
       boxShadow: {
-        'soft': '4px 4px 0px 0px #2D2D2d',
-        'soft-sm': '2px 2px 0px 0px #2D2D2D',
+        'soft': '4px 4px 0px 0px #1c1917',
+        'soft-sm': '2px 2px 0px 0px #1c1917',
       }
     },
   },
