@@ -77,7 +77,6 @@ export default function PlayView({
 
   return (
     <PageShell
-      emoji="💭"
       maxWidthClassName="max-w-2xl"
       footer={
         status !== "won" && activeClue ? (
