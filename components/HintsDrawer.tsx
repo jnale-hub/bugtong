@@ -104,49 +104,55 @@ export default function HintsDrawer({
             </View>
 
             <View className="flex-col sm:gap-1">
-              <HintRow
-                label="show indicators"
-                colorName="bg-rose-300"
-                active={hints.showIndicator}
-                onClick={() => {
-                  toggleHint("indicator");
-                  onClose();
-                  onExplain(
-                    "Indicator",
-                    explanations.indicator ||
-                      "No indicator explanation provided.",
-                  );
-                }}
-              />
+              {explanations.indicator && (
+                <HintRow
+                  label="show indicators"
+                  colorName="bg-rose-300"
+                  active={hints.showIndicator}
+                  onClick={() => {
+                    toggleHint("indicator");
+                    onClose();
+                    onExplain(
+                      "Indicator",
+                      explanations.indicator ||
+                        "No indicator explanation provided.",
+                    );
+                  }}
+                />
+              )}
 
-              <HintRow
-                label="show fodder"
-                colorName="bg-yellow-300/80"
-                active={hints.showFodder}
-                onClick={() => {
-                  toggleHint("fodder");
-                  onClose();
-                  onExplain(
-                    "Fodder",
-                    explanations.fodder || "No fodder explanation provided.",
-                  );
-                }}
-              />
+              {explanations.fodder && (
+                <HintRow
+                  label="show fodder"
+                  colorName="bg-yellow-300/80"
+                  active={hints.showFodder}
+                  onClick={() => {
+                    toggleHint("fodder");
+                    onClose();
+                    onExplain(
+                      "Fodder",
+                      explanations.fodder || "No fodder explanation provided.",
+                    );
+                  }}
+                />
+              )}
 
-              <HintRow
-                label="show definition"
-                colorName="bg-blue-300/80"
-                active={hints.showDefinition}
-                onClick={() => {
-                  toggleHint("definition");
-                  onClose();
-                  onExplain(
-                    "Definition",
-                    explanations.definition ||
-                      "No definition explanation provided.",
-                  );
-                }}
-              />
+              {explanations.definition && (
+                <HintRow
+                  label="show definition"
+                  colorName="bg-blue-300/80"
+                  active={hints.showDefinition}
+                  onClick={() => {
+                    toggleHint("definition");
+                    onClose();
+                    onExplain(
+                      "Definition",
+                      explanations.definition ||
+                        "No definition explanation provided.",
+                    );
+                  }}
+                />
+              )}
 
               <View className="h-2 sm:h-4" />
 
