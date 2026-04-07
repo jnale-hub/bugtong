@@ -47,12 +47,16 @@ export default function PastWeekSection({
         </View>
 
         {pastLoading ? (
-          <View className="mt-4 gap-3">
-            <View className="bg-stone-900/10 h-20 rounded-2xl animate-pulse" />
-            <View className="bg-stone-900/10 h-20 rounded-2xl animate-pulse" />
+          <View className="mt-4 gap-3 flex-wrap flex-row max-md:justify-center">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <View
+                key={i}
+                className="bg-stone-900/10 h-32 w-24 rounded-xl animate-pulse"
+              />
+            ))}
           </View>
         ) : pastClues.length > 0 ? (
-          <View className="mt-4 flex-row flex-wrap gap-4 max-md:justify-center">
+          <View className="mt-4 flex-row flex-wrap gap-3 max-md:justify-center">
             {pastClues.map((clue) => {
               const dayLabel = getDayLabel(clue.dateKey);
 
@@ -62,11 +66,11 @@ export default function PastWeekSection({
                   onPress={() => onPlayPast(clue.dateKey)}
                   accessibilityRole="button"
                   accessibilityLabel={`Play ${dayLabel} clue`}
-                  className="rounded bg-stone-200/50 px-6 py-4 w-22"
+                  className="rounded-xl bg-stone-200/50 px-6 py-4 w-22"
                 >
                   <View className="flex-col items-center justify-between gap-3">
-                    <View className="h-9 w-9 items-center justify-center rounded-full bg-stone-50">
-                      <Feather name="calendar" size={16} color="#2D2D2D" />
+                    <View className="h-12 w-12 items-center justify-center rounded-full bg-stone-50">
+                      <Feather name="calendar" size={24} color="#2D2D2D" />
                     </View>
                     <Text className="text-lg">{dayLabel}</Text>
                   </View>
