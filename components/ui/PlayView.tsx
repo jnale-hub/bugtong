@@ -217,7 +217,6 @@ export default function PlayView({
               {isHintOpen ? (
                 <HintsDrawer
                   onClose={onCloseHints}
-                  hints={hints}
                   toggleHint={onToggleHint}
                   revealLetter={onRevealLetter}
                   explanations={explanationText}

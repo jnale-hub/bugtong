@@ -1,31 +1,19 @@
 import { useId } from "react";
 import { Modal, Pressable, Text, View } from "react-native";
 
-type HintState = {
-  showIndicator: boolean;
-  showFodder: boolean;
-  showDefinition: boolean;
-};
-
 interface HintRowProps {
   label: string;
-  active?: boolean;
   onClick?: () => void;
   colorName?: string;
 }
 
-function HintRow({ label, active = false, onClick, colorName }: HintRowProps) {
+function HintRow({ label, onClick, colorName }: HintRowProps) {
   return (
     <Pressable
       onPress={onClick}
-      disabled={active}
       accessibilityRole="button"
       accessibilityLabel={label}
-      accessibilityState={{ disabled: active }}
-      className={`
-        w-full py-3 flex-row justify-between items-center group
-        ${active ? "opacity-80" : ""}
-      `}
+      className="w-full py-3 flex-row justify-between items-center group"
     >
       <View className="relative">
         {colorName && (
@@ -46,7 +34,6 @@ function HintRow({ label, active = false, onClick, colorName }: HintRowProps) {
 
 interface Props {
   onClose: () => void;
-  hints: HintState;
   toggleHint: (type: "indicator" | "fodder" | "definition") => void;
   revealLetter: () => void;
   onExplain: (title: string, body: string) => void;
@@ -60,13 +47,36 @@ interface Props {
 
 export default function HintsDrawer({
   onClose,
-  hints,
   toggleHint,
   revealLetter,
   onExplain,
   explanations,
 }: Props) {
   const titleId = useId();
+
+  const hintOptions = [
+    {
+      key: "indicator",
+      label: "show indicators",
+      colorName: "bg-rose-300/80",
+      title: "Indicator",
+      fallback: "No indicator explanation provided.",
+    },
+    {
+      key: "fodder",
+      label: "show fodder",
+      colorName: "bg-yellow-300/80",
+      title: "Fodder",
+      fallback: "No fodder explanation provided.",
+    },
+    {
+      key: "definition",
+      label: "show definition",
+      colorName: "bg-blue-300/80",
+      title: "Definition",
+      fallback: "No definition explanation provided.",
+    },
+  ] as const;
 
   return (
     <Modal
@@ -104,55 +114,23 @@ export default function HintsDrawer({
             </View>
 
             <View className="flex-col sm:gap-1">
-              {explanations.indicator && (
-                <HintRow
-                  label="show indicators"
-                  colorName="bg-rose-300"
-                  active={hints.showIndicator}
-                  onClick={() => {
-                    toggleHint("indicator");
-                    onClose();
-                    onExplain(
-                      "Indicator",
-                      explanations.indicator ||
-                        "No indicator explanation provided.",
-                    );
-                  }}
-                />
-              )}
+              {hintOptions.map(({ key, label, colorName, title, fallback }) => {
+                const explanation = explanations[key];
+                if (!explanation) return null;
 
-              {explanations.fodder && (
-                <HintRow
-                  label="show fodder"
-                  colorName="bg-yellow-300/80"
-                  active={hints.showFodder}
-                  onClick={() => {
-                    toggleHint("fodder");
-                    onClose();
-                    onExplain(
-                      "Fodder",
-                      explanations.fodder || "No fodder explanation provided.",
-                    );
-                  }}
-                />
-              )}
-
-              {explanations.definition && (
-                <HintRow
-                  label="show definition"
-                  colorName="bg-blue-300/80"
-                  active={hints.showDefinition}
-                  onClick={() => {
-                    toggleHint("definition");
-                    onClose();
-                    onExplain(
-                      "Definition",
-                      explanations.definition ||
-                        "No definition explanation provided.",
-                    );
-                  }}
-                />
-              )}
+                return (
+                  <HintRow
+                    key={key}
+                    label={label}
+                    colorName={colorName}
+                    onClick={() => {
+                      toggleHint(key);
+                      onClose();
+                      onExplain(title, explanation || fallback);
+                    }}
+                  />
+                );
+              })}
 
               <View className="h-2 sm:h-4" />
 
