@@ -1,9 +1,10 @@
 import ActionButton from "@/components/ActionButton";
+import BackButton from "@/components/ui/BackButton";
+import Logo from "@/components/ui/Logo";
 import PageHeader from "@/components/ui/PageHeader";
 import PageShell from "@/components/ui/PageShell";
 import SectionCard from "@/components/ui/SectionCard";
 import SelectionChips from "@/components/ui/SelectionChips";
-import { Feather } from "@expo/vector-icons";
 import { Pressable, Text, TextInput, View } from "react-native";
 
 type Range = { start: number; end: number };
@@ -74,22 +75,11 @@ export default function CreateClueView({
 }: CreateClueViewProps) {
   return (
     <PageShell>
-      <PageHeader
-        left={
-          <Pressable
-            onPress={onBack}
-            accessibilityRole="button"
-            accessibilityLabel="Back"
-            className="flex-row items-center gap-1"
-          >
-            <Feather name="chevron-left" size={18} color="#1f1f1f" />
-            <Text className=" text-sm">Back</Text>
-          </Pressable>
-        }
-        right={<Text className="font-serif text-lg">Bugtong</Text>}
-      />
+      <PageHeader left={<BackButton onPress={onBack} />} right={<Logo />} />
 
-      <Text className="font-serif text-2xl mt-3 text-center font-bold">Gumawa ng Bugtong</Text>
+      <Text className="font-serif text-2xl mt-3 text-center font-bold">
+        Gumawa ng Bugtong
+      </Text>
 
       {authLoading ? (
         <SectionCard className="mt-6">
@@ -99,7 +89,8 @@ export default function CreateClueView({
         </SectionCard>
       ) : isSignedIn ? (
         <Text className="text-sm/70 text-center">
-          Signed in as <span className="font-semibold">{sessionEmail || "user"}</span>.
+          Signed in as{" "}
+          <span className="font-semibold">{sessionEmail || "user"}</span>.
         </Text>
       ) : null}
 

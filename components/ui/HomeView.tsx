@@ -1,4 +1,5 @@
 import ActionButton from "@/components/ActionButton";
+import Logo from "@/components/ui/Logo";
 import PageHeader from "@/components/ui/PageHeader";
 import PageShell from "@/components/ui/PageShell";
 import PastWeekSection from "@/components/ui/PastWeekSection";
@@ -57,9 +58,7 @@ export default function HomeView({
         <>
           <PageHeader
             left={<Text className="font-semibold">{dateLabel}</Text>}
-            right={
-              <Text className="font-serif text-lg font-bold">Bugtong 🇵🇭</Text>
-            }
+            right={<Logo />}
           />
 
           <SectionCard className="mt-6 flex-col gap-y-4 py-6 justify-center items-center">

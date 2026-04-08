@@ -55,7 +55,7 @@ export default function SignUpContainer() {
   return (
     <AuthView
       dateLabel={dateLabel}
-      onBack={() => router.back()}
+      onBack={() => (router.canGoBack() ? router.back() : router.replace("/"))}
       title="Sign Up"
       email={email}
       password={password}

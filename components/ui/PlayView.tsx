@@ -5,6 +5,7 @@ import HintExplanationModal from "@/components/HintExplanationModal";
 import HintsDrawer from "@/components/HintsDrawer";
 import Keyboard from "@/components/Keyboard";
 import WonExplanation from "@/components/WonExplanation";
+import Logo from "@/components/ui/Logo";
 import PageHeader from "@/components/ui/PageHeader";
 import PageShell from "@/components/ui/PageShell";
 import { ClueData } from "@/data/clues";
@@ -135,9 +136,7 @@ export default function PlayView({
                 <Text className="font-semibold">{dateLabel}</Text>
               </View>
             }
-            right={
-              <Text className="font-serif text-lg font-bold">Bugtong 🇵🇭</Text>
-            }
+            right={<Logo />}
           />
 
           <View className="mt-2 sm:mx-8">

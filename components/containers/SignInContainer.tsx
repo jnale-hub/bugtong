@@ -49,7 +49,7 @@ export default function SignInContainer() {
   return (
     <AuthView
       dateLabel={dateLabel}
-      onBack={() => router.back()}
+      onBack={() => (router.canGoBack() ? router.back() : router.replace("/"))}
       title="Sign In"
       email={email}
       password={password}

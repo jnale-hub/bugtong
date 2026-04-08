@@ -40,7 +40,7 @@ export default function HomeContainer() {
       }))}
       pastLoading={recentLoading}
       onPlay={() => router.push("/play")}
-      onPlayPast={(dateKey) =>
+      onPlayPast={(dateKey: string) =>
         router.push({ pathname: "/play", params: { date: dateKey } })
       }
       bottomInset={Math.max(insets.bottom, 16)}

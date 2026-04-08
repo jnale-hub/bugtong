@@ -266,7 +266,7 @@ export default function CreateClueContainer() {
 
   return (
     <CreateClueView
-      onBack={() => router.back()}
+      onBack={() => (router.canGoBack() ? router.back() : router.replace("/"))}
       authLoading={authLoading}
       isSignedIn={Boolean(session)}
       sessionEmail={session?.user.email ?? null}

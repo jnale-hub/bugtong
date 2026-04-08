@@ -1,8 +1,9 @@
 import ActionButton from "@/components/ActionButton";
+import BackButton from "@/components/ui/BackButton";
+import Logo from "@/components/ui/Logo";
 import PageHeader from "@/components/ui/PageHeader";
 import PageShell from "@/components/ui/PageShell";
 import SectionCard from "@/components/ui/SectionCard";
-import { Feather } from "@expo/vector-icons";
 import { Pressable, Text, TextInput, View } from "react-native";
 
 type AuthViewProps = {
@@ -46,19 +47,8 @@ export default function AuthView({
     <PageShell maxWidthClassName="max-w-lg" contentClassName="pt-8 pb-8">
       <View className="gap-6">
         <PageHeader
-          left={
-            <Pressable
-              onPress={onBack}
-              accessibilityRole="button"
-              accessibilityLabel="Back"
-              className="flex-row items-center gap-1"
-            >
-              <Feather name="chevron-left" size={18} color="#1f1f1f" />
-              <Text className="text-sm">Back</Text>
-            </Pressable>
-          }
-          center={<Text className="text-sm/70">{dateLabel}</Text>}
-          right={<Text className="font-serif text-lg">Bugtong</Text>}
+          left={<BackButton onPress={onBack} />}
+          right={<Logo />}
         />
 
         <Text className="font-serif text-2xl">{title}</Text>
