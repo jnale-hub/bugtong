@@ -3,6 +3,7 @@ import { supabase } from "@/utils/supabase";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
 
 type ClueComponentPayload = {
   ranges: { start: number; end: number }[];
@@ -48,8 +49,6 @@ export default function CreateClueContainer() {
   const [fodderExplanation, setFodderExplanation] = useState("");
 
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -106,24 +105,35 @@ export default function CreateClueContainer() {
     label: string,
   ) => {
     if (!selection || selection.start === selection.end) {
-      setError(`Select some text before assigning ${label}.`);
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: `Select some text before assigning ${label}.`,
+      });
       return;
     }
 
     const start = Math.min(selection.start, selection.end);
     const end = Math.max(selection.start, selection.end);
     if (start < 0 || end <= start) {
-      setError(`Invalid selection for ${label}.`);
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: `Invalid selection for ${label}.`,
+      });
       return;
     }
 
     const text = clueText.slice(start, end);
     if (!text.trim()) {
-      setError(`Selection for ${label} is empty.`);
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: `Selection for ${label} is empty.`,
+      });
       return;
     }
 
-    setError(null);
     setter((prev) => {
       if (prev.some((item) => item.start === start && item.end === end)) {
         return prev;
@@ -133,34 +143,55 @@ export default function CreateClueContainer() {
   };
 
   const submit = async () => {
-    setError(null);
-    setSuccess(null);
-
     if (!session?.user) {
-      setError("You must be logged in to submit a clue.");
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "You must be logged in to submit a clue.",
+      });
       return;
     }
 
     if (!clueText.trim()) {
-      setError("Clue text is required.");
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Clue text is required.",
+      });
       return;
     }
     if (!answer.trim()) {
-      setError("Answer is required.");
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Answer is required.",
+      });
       return;
     }
     if (!definitionSelections.length || !definitionExplanation.trim()) {
-      setError("Definition selection and explanation are required.");
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Definition selection and explanation are required.",
+      });
       return;
     }
 
     if (indicatorSelections.length && !indicatorExplanation.trim()) {
-      setError("Indicator explanation is required when text is selected.");
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Indicator explanation is required when text is selected.",
+      });
       return;
     }
 
     if (fodderSelections.length && !fodderExplanation.trim()) {
-      setError("Fodder explanation is required when text is selected.");
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Fodder explanation is required when text is selected.",
+      });
       return;
     }
 
@@ -200,13 +231,19 @@ export default function CreateClueContainer() {
 
       if (insertError) {
         console.error("Supabase insert error:", insertError);
-        setError(insertError.message || "Failed to save clue.");
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: insertError.message || "Failed to save clue.",
+        });
         return;
       }
 
-      setSuccess(
-        "Clue submitted successfully! It will be reviewed by our team.",
-      );
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Clue submitted successfully! It will be reviewed by our team.",
+      });
       setClueText("");
       setAnswer("");
       setDefinitionSelections([]);
@@ -217,7 +254,11 @@ export default function CreateClueContainer() {
       setFodderExplanation("");
     } catch (err: any) {
       console.error(err);
-      setError(err.message || "Unexpected error while saving.");
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: err.message || "Unexpected error while saving.",
+      });
     } finally {
       setSaving(false);
     }
@@ -239,8 +280,6 @@ export default function CreateClueContainer() {
       indicatorExplanation={indicatorExplanation}
       fodderExplanation={fodderExplanation}
       saving={saving}
-      error={error}
-      success={success}
       bottomInset={Math.max(insets.bottom, 16)}
       onSignOut={handleSignOut}
       onClueTextChange={setClueText}
