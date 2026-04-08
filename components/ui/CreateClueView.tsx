@@ -1,5 +1,4 @@
 import ActionButton from "@/components/ActionButton";
-import FormField from "@/components/ui/FormField";
 import PageHeader from "@/components/ui/PageHeader";
 import PageShell from "@/components/ui/PageShell";
 import SectionCard from "@/components/ui/SectionCard";
@@ -25,8 +24,6 @@ type CreateClueViewProps = {
   indicatorExplanation: string;
   fodderExplanation: string;
   saving: boolean;
-  error: string | null;
-  success: string | null;
   bottomInset: number;
   onSignOut: () => void;
   onClueTextChange: (value: string) => void;
@@ -59,8 +56,6 @@ export default function CreateClueView({
   indicatorExplanation,
   fodderExplanation,
   saving,
-  error,
-  success,
   bottomInset,
   onSignOut,
   onClueTextChange,
@@ -94,7 +89,7 @@ export default function CreateClueView({
         right={<Text className="font-serif text-lg">Bugtong</Text>}
       />
 
-      <Text className="font-serif text-2xl mt-3">Create clue</Text>
+      <Text className="font-serif text-2xl mt-3 text-center font-bold">Gumawa ng Bugtong</Text>
 
       {authLoading ? (
         <SectionCard className="mt-6">
@@ -103,137 +98,110 @@ export default function CreateClueView({
           </Text>
         </SectionCard>
       ) : isSignedIn ? (
-        <Text className=" text-sm/70 mt-2">
-          Signed in as {sessionEmail || "user"}.
+        <Text className="text-sm/70 text-center">
+          Signed in as <span className="font-semibold">{sessionEmail || "user"}</span>.
         </Text>
       ) : null}
 
-      <View className="mt-6 gap-4">
-        <FormField label="Clue text">
-          <TextInput
-            value={clueText}
-            onChangeText={onClueTextChange}
-            onSelectionChange={(event) => {
-              const nextSelection = event.nativeEvent.selection;
-              onSelectionChange(nextSelection.start, nextSelection.end);
-            }}
-            placeholder="Enter the clue text"
-            accessibilityLabel="Clue text"
-            className="border-2 border-stone-900 rounded-2xl bg-stone-50/90 shadow-soft px-4 py-3  text-2xl leading-snug"
-            multiline
-          />
-        </FormField>
-
-        <SectionCard>
-          <Text className=" text-sm/70">
-            Highlight text above, then assign it to a clue component.
+      <View className="mt-6 gap-8">
+        <View className="gap-2">
+          <Text className="font-bold text-stone-700 ml-1 uppercase tracking-widest text-xs">
+            1. Write & Tag the Clue
           </Text>
-          <Text className=" text-xs/60 mt-1">
-            Selected:{" "}
-            {selection && selection.start !== selection.end
-              ? `"${clueText.slice(selection.start, selection.end)}"`
-              : "none"}
-          </Text>
-          <View className="flex-row flex-wrap gap-2 mt-3">
-            <Pressable
-              onPress={onAddDefinition}
-              accessibilityRole="button"
-              accessibilityLabel="Add selection to definition"
-              className="px-3 py-2 border-2 border-stone-900 rounded-full bg-blue-300/80"
-            >
-              <Text className=" text-sm">Add to definition</Text>
-            </Pressable>
-            <Pressable
-              onPress={onAddIndicator}
-              accessibilityRole="button"
-              accessibilityLabel="Add selection to indicator"
-              className="px-3 py-2 border-2 border-stone-900 rounded-full bg-emerald-300/70"
-            >
-              <Text className=" text-sm">Add to indicator</Text>
-            </Pressable>
-            <Pressable
-              onPress={onAddFodder}
-              accessibilityRole="button"
-              accessibilityLabel="Add selection to fodder"
-              className="px-3 py-2 border-2 border-stone-900 rounded-full bg-yellow-300/80"
-            >
-              <Text className=" text-sm">Add to fodder</Text>
-            </Pressable>
+          <View className="border-[3px] border-stone-900 rounded-xl bg-stone-50/90 shadow-soft-sm overflow-hidden flex-col">
+            <TextInput
+              value={clueText}
+              onChangeText={onClueTextChange}
+              onSelectionChange={(event) => {
+                const nextSelection = event.nativeEvent.selection;
+                onSelectionChange(nextSelection.start, nextSelection.end);
+              }}
+              placeholder="Enter the clue text..."
+              accessibilityLabel="Clue text"
+              className="px-4 py-5 text-xl sm:text-2xl leading-snug"
+              multiline
+            />
+            <View className="bg-stone-200/80 border-t-[3px] border-stone-900 p-3">
+              <Text className="text-xs/60 mb-2 font-bold uppercase tracking-wider text-stone-600">
+                {selection && selection.start !== selection.end
+                  ? `Selected: "${clueText.slice(selection.start, selection.end)}"`
+                  : "Highlight words above to tag them:"}
+              </Text>
+              <View className="flex-row flex-wrap gap-2">
+                <TagButton
+                  label="Definition"
+                  color="bg-blue-300"
+                  onPress={onAddDefinition}
+                />
+                <TagButton
+                  label="Indicator"
+                  color="bg-rose-300"
+                  onPress={onAddIndicator}
+                />
+                <TagButton
+                  label="Fodder"
+                  color="bg-yellow-300"
+                  onPress={onAddFodder}
+                />
+              </View>
+            </View>
           </View>
-        </SectionCard>
+        </View>
 
-        <FormField label="Answer">
+        <View className="gap-2">
+          <Text className="font-bold text-stone-700 ml-1 uppercase tracking-widest text-xs">
+            2. Answer
+          </Text>
           <TextInput
             value={answer}
             onChangeText={onAnswerChange}
-            placeholder="ANSWER"
+            placeholder="Type answer here..."
             accessibilityLabel="Answer"
-            className="border-2 border-stone-900 rounded-2xl px-4 py-3  text-base"
+            className="border-[3px] border-stone-900 rounded-xl px-4 py-4 text-xl bg-stone-50/90 shadow-soft-sm-sm font-bold uppercase tracking-widest"
           />
-        </FormField>
+        </View>
 
-        <Divider label="Definition" />
-        <SelectionChips
-          selections={definitionSelections}
-          onRemove={onRemoveDefinition}
-        />
+        <View className="gap-4">
+          <Text className="font-bold text-stone-700 ml-1 uppercase tracking-widest text-xs">
+            3. Explanations
+          </Text>
 
-        <FormField label="Definition explanation">
-          <TextInput
-            value={definitionExplanation}
-            onChangeText={onDefinitionExplanationChange}
-            placeholder="Explain the definition"
-            accessibilityLabel="Definition explanation"
-            className="border-2 border-stone-900 rounded-2xl px-4 py-3  text-base"
-            multiline
+          <CluePartCard
+            title="Definition"
+            badgeColor="bg-blue-300"
+            selections={definitionSelections}
+            explanation={definitionExplanation}
+            onExplanationChange={onDefinitionExplanationChange}
+            onRemove={onRemoveDefinition}
+            placeholder="Why is this the definition?"
+            required
           />
-        </FormField>
 
-        <Divider label="Indicator (optional)" />
-        <SelectionChips
-          selections={indicatorSelections}
-          onRemove={onRemoveIndicator}
-        />
-
-        <FormField label="Indicator explanation">
-          <TextInput
-            value={indicatorExplanation}
-            onChangeText={onIndicatorExplanationChange}
-            placeholder="Explain the indicator"
-            accessibilityLabel="Indicator explanation"
-            className="border-2 border-stone-900 rounded-2xl px-4 py-3  text-base"
-            multiline
+          <CluePartCard
+            title="Indicator"
+            badgeColor="bg-rose-300"
+            selections={indicatorSelections}
+            explanation={indicatorExplanation}
+            onExplanationChange={onIndicatorExplanationChange}
+            onRemove={onRemoveIndicator}
+            placeholder="How does this indicate the operation?"
           />
-        </FormField>
 
-        <Divider label="Fodder (optional)" />
-        <SelectionChips
-          selections={fodderSelections}
-          onRemove={onRemoveFodder}
-        />
-
-        <FormField label="Fodder explanation">
-          <TextInput
-            value={fodderExplanation}
-            onChangeText={onFodderExplanationChange}
-            placeholder="Explain the fodder"
-            accessibilityLabel="Fodder explanation"
-            className="border-2 border-stone-900 rounded-2xl px-4 py-3  text-base"
-            multiline
+          <CluePartCard
+            title="Fodder"
+            badgeColor="bg-yellow-300"
+            selections={fodderSelections}
+            explanation={fodderExplanation}
+            onExplanationChange={onFodderExplanationChange}
+            onRemove={onRemoveFodder}
+            placeholder="What is being operated on?"
           />
-        </FormField>
+        </View>
       </View>
 
-      {error ? (
-        <Text className="text-sm text-red-600 mt-4">{error}</Text>
-      ) : null}
-      {success ? (
-        <Text className="text-sm text-green-700 mt-4">{success}</Text>
-      ) : null}
-
-      <View className="mt-6" style={{ paddingBottom: bottomInset }}>
+      <View className="mt-8" style={{ paddingBottom: bottomInset }}>
         <ActionButton
-          label={saving ? "Saving..." : "Save clue"}
+          label={saving ? "Submitting..." : "Submit Clue"}
           color="bg-emerald-300"
           onPress={onSubmit}
           disabled={saving || !isSignedIn}
@@ -243,14 +211,72 @@ export default function CreateClueView({
   );
 }
 
-type DividerProps = {
+function TagButton({
+  label,
+  color,
+  onPress,
+}: {
   label: string;
+  color: string;
+  onPress: () => void;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      className={`px-3 py-1.5 border-2 border-stone-900 rounded-full ${color}`}
+    >
+      <Text className="text-sm font-bold text-stone-900">{label}</Text>
+    </Pressable>
+  );
+}
+
+type CluePartCardProps = {
+  title: string;
+  badgeColor: string;
+  selections: SelectionRange[];
+  explanation: string;
+  placeholder: string;
+  onRemove: (index: number) => void;
+  onExplanationChange: (val: string) => void;
+  required?: boolean;
 };
 
-function Divider({ label }: DividerProps) {
+function CluePartCard({
+  title,
+  badgeColor,
+  selections,
+  explanation,
+  placeholder,
+  onRemove,
+  onExplanationChange,
+  required,
+}: CluePartCardProps) {
   return (
-    <View className="mt-4">
-      <Text className="font-serif text-lg">{label}</Text>
+    <View className="border-[3px] border-stone-900 rounded-xl p-4 bg-stone-50/90 shadow-soft-sm">
+      <View className="flex-row items-center gap-2 mb-3">
+        <View
+          className={`w-4 h-4 rounded-full border-2 border-stone-900 ${badgeColor}`}
+        />
+        <Text className="font-serif text-xl">{title}</Text>
+        {!required && (
+          <Text className="text-sm opacity-50 ml-auto font-medium">
+            (Optional)
+          </Text>
+        )}
+      </View>
+      {selections.length > 0 && (
+        <View className="mb-3">
+          <SelectionChips selections={selections} onRemove={onRemove} />
+        </View>
+      )}
+      <TextInput
+        value={explanation}
+        onChangeText={onExplanationChange}
+        placeholder={placeholder}
+        multiline
+        className="border-2 border-stone-900/10 rounded-xl px-3 py-3 text-base bg-stone-200/50"
+      />
     </View>
   );
 }
