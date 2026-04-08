@@ -4,16 +4,15 @@ import ClueDisplay from "@/components/ClueDisplay";
 import HintExplanationModal from "@/components/HintExplanationModal";
 import HintsDrawer from "@/components/HintsDrawer";
 import Keyboard from "@/components/Keyboard";
+import WonExplanation from "@/components/WonExplanation";
 import PageHeader from "@/components/ui/PageHeader";
 import PageShell from "@/components/ui/PageShell";
-import SectionCard from "@/components/ui/SectionCard";
 import { ClueData } from "@/data/clues";
 import { GameStatus } from "@/hooks/useCrypticGame";
 import { Feather } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
 import { Dimensions, Platform, Pressable, Text, View } from "react-native";
 import { PIConfetti, PIConfettiMethods } from "react-native-fast-confetti";
-import Animated, { FadeOut, SlideInDown } from "react-native-reanimated";
 
 type HintState = {
   showIndicator: boolean;
@@ -174,45 +173,7 @@ export default function PlayView({
                 ) : null}
               </View>
 
-              {status === "won" ? (
-                <Animated.View entering={SlideInDown} exiting={FadeOut}>
-                  <SectionCard className="mt-6 max-w-lg w-full mx-auto">
-                    <Text className="font-serif font-bold text-xl">
-                      Explanation
-                    </Text>
-                    <View className="mt-4 gap-4">
-                      <View className="gap-1">
-                        <Text className=" text-xs uppercase tracking-wide/70">
-                          Definition
-                        </Text>
-                        <Text className="text-sm leading-relaxed">
-                          {activeClue.definition.explanation}
-                        </Text>
-                      </View>
-                      {activeClue.indicator?.explanation ? (
-                        <View className="gap-1">
-                          <Text className=" text-xs uppercase tracking-wide/70">
-                            Indicator
-                          </Text>
-                          <Text className="text-sm leading-relaxed">
-                            {activeClue.indicator.explanation}
-                          </Text>
-                        </View>
-                      ) : null}
-                      {activeClue.fodder?.explanation ? (
-                        <View className="gap-1">
-                          <Text className=" text-xs uppercase tracking-wide/70">
-                            Fodder
-                          </Text>
-                          <Text className="text-sm leading-relaxed">
-                            {activeClue.fodder.explanation}
-                          </Text>
-                        </View>
-                      ) : null}
-                    </View>
-                  </SectionCard>
-                </Animated.View>
-              ) : null}
+              {status === "won" ? <WonExplanation clue={activeClue} /> : null}
 
               {isHintOpen ? (
                 <HintsDrawer
