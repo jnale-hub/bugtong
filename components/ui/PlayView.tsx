@@ -168,6 +168,7 @@ export default function PlayView({
                       label="Check"
                       color="bg-green-300"
                       onPress={onCheck}
+                      disabled={guess.includes("")}
                     />
                   </View>
                 ) : null}
