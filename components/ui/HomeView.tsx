@@ -89,7 +89,7 @@ export default function HomeView({
             )}
             <ActionButton
               label="Play today"
-              color="bg-yellow-300"
+              color="bg-emerald-300"
               onPress={onPlay}
             />
             <Text className=" text-sm/70">{dateLabel}</Text>
