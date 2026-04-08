@@ -1,5 +1,5 @@
 import { ClueData } from "@/data/clues";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export type GameStatus = "playing" | "won";
 
@@ -10,9 +10,14 @@ const getAnswerLength = (answer: string) => {
 export const useCrypticGame = (clue: ClueData | null) => {
   const totalLength = clue ? getAnswerLength(clue.answer) : 0;
 
+  const correctAnswer = useMemo(() => {
+    return clue ? clue.answer.replace(/[^A-Za-z]/g, "").toLowerCase() : "";
+  }, [clue]);
+
   const [guess, setGuess] = useState<string[]>(Array(totalLength).fill(""));
   const [status, setStatus] = useState<GameStatus>("playing");
   const [shake, setShake] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const [revealed, setRevealed] = useState<number[]>([]);
 
@@ -35,41 +40,78 @@ export const useCrypticGame = (clue: ClueData | null) => {
         showDefinition: false,
       });
       setRevealed([]);
+      setActiveIndex(0);
     });
   }, [clue]);
 
   const handleInput = useCallback(
     (char: string) => {
       if (status !== "playing") return;
-      const firstEmpty = guess.findIndex((l) => l === "");
-      if (firstEmpty !== -1) {
-        const newGuess = [...guess];
-        newGuess[firstEmpty] = char.toLowerCase();
+
+      const newGuess = [...guess];
+      const revealedSet = new Set(revealed);
+
+      // Insert at activeIndex if it's not revealed
+      if (!revealedSet.has(activeIndex)) {
+        newGuess[activeIndex] = char.toLowerCase();
         setGuess(newGuess);
       }
+
+      const len = newGuess.length;
+
+      const findNextEmpty = (start: number, end: number) => {
+        for (let i = start; i < end; i++) {
+          if (!revealedSet.has(i) && newGuess[i] === "") return i;
+        }
+        return -1;
+      };
+
+      // Look for the next empty cell
+      let foundIndex = findNextEmpty(activeIndex + 1, len);
+
+      // Loop back to the beginning if we hit the end
+      if (foundIndex === -1) {
+        foundIndex = findNextEmpty(0, activeIndex);
+      }
+
+      if (foundIndex !== -1) {
+        setActiveIndex(foundIndex);
+      } else {
+        // If everything is completely filled, advance to next or stay at end
+        setActiveIndex(activeIndex + 1 < len ? activeIndex + 1 : len - 1);
+      }
     },
-    [guess, status],
+    [guess, status, activeIndex, revealed],
   );
 
   const handleBackspace = useCallback(() => {
     if (status !== "playing") return;
     const revealedSet = new Set(revealed);
-    const lastFilled = guess
-      .map((_, i) => i)
-      .reverse()
-      .find((i) => guess[i] !== "" && !revealedSet.has(i));
 
-    if (lastFilled !== undefined) {
+    // If the current cell is not empty, clear it.
+    if (guess[activeIndex] !== "" && !revealedSet.has(activeIndex)) {
       const newGuess = [...guess];
-      newGuess[lastFilled] = "";
+      newGuess[activeIndex] = "";
       setGuess(newGuess);
+    } else {
+      // Find the first unfilled, unrevealed cell backwards to jump to
+      let prevIndex = activeIndex - 1;
+      while (prevIndex >= 0 && revealedSet.has(prevIndex)) {
+        prevIndex--;
+      }
+
+      if (prevIndex >= 0) {
+        const newGuess = [...guess];
+        newGuess[prevIndex] = "";
+        setGuess(newGuess);
+        setActiveIndex(prevIndex);
+      }
     }
-  }, [guess, status, revealed]);
+  }, [guess, status, activeIndex, revealed]);
 
   const checkAnswer = useCallback(() => {
-    if (!clue) return false;
+    if (!clue || !correctAnswer) return false;
     const currentGuess = guess.join("").toLowerCase();
-    const correctAnswer = clue.answer.replace(/[^A-Za-z]/g, "").toLowerCase();
 
     if (currentGuess === correctAnswer) {
       setStatus("won");
@@ -77,11 +119,10 @@ export const useCrypticGame = (clue: ClueData | null) => {
     }
     setShake((prev) => prev + 1);
     return false;
-  }, [guess, clue]);
+  }, [guess, clue, correctAnswer]);
 
   const revealLetter = useCallback(() => {
-    if (status !== "playing" || !clue) return;
-    const correctAnswer = clue.answer.replace(/[^A-Za-z]/g, "").toLowerCase();
+    if (status !== "playing" || !clue || !correctAnswer) return;
 
     const wrongIndices = guess
       .map((char, i) => (char !== correctAnswer[i] ? i : -1))
@@ -99,7 +140,7 @@ export const useCrypticGame = (clue: ClueData | null) => {
 
       if (newGuess.join("") === correctAnswer) setStatus("won");
     }
-  }, [guess, clue, status, revealed]);
+  }, [guess, clue, status, revealed, correctAnswer]);
 
   const toggleHint = useCallback(
     (type: "indicator" | "fodder" | "definition") => {
@@ -126,5 +167,7 @@ export const useCrypticGame = (clue: ClueData | null) => {
     status,
     shake,
     revealed,
+    activeIndex,
+    setActiveIndex,
   };
 };

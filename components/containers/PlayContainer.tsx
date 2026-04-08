@@ -26,6 +26,8 @@ export default function PlayContainer() {
     status,
     shake,
     revealed,
+    activeIndex,
+    setActiveIndex,
   } = useCrypticGame(activeClue);
   const [isHintOpen, setIsHintOpen] = useState(false);
 
@@ -87,6 +89,8 @@ export default function PlayContainer() {
       guess={guess}
       shake={shake}
       revealed={revealed}
+      activeIndex={activeIndex}
+      onSelectIndex={setActiveIndex}
       isHintOpen={isHintOpen}
       onOpenHints={() => setIsHintOpen(true)}
       onCloseHints={() => setIsHintOpen(false)}

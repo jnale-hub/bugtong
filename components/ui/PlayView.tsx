@@ -31,6 +31,8 @@ type PlayViewProps = {
   guess: string[];
   shake: number;
   revealed: number[];
+  activeIndex: number;
+  onSelectIndex: (index: number) => void;
   isHintOpen: boolean;
   onOpenHints: () => void;
   onCloseHints: () => void;
@@ -53,6 +55,8 @@ export default function PlayView({
   guess,
   shake,
   revealed,
+  activeIndex,
+  onSelectIndex,
   isHintOpen,
   onOpenHints,
   onCloseHints,
@@ -155,6 +159,8 @@ export default function PlayView({
                   status={status}
                   shake={shake}
                   revealed={revealed}
+                  activeIndex={activeIndex}
+                  onSelectIndex={onSelectIndex}
                 />
 
                 {status !== "won" ? (

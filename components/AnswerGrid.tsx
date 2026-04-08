@@ -1,5 +1,5 @@
 import { memo, useEffect, useMemo } from "react";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -13,13 +13,23 @@ type Props = {
   status: "playing" | "won";
   shake: number;
   revealed?: number[];
+  activeIndex?: number;
+  onSelectIndex?: (index: number) => void;
 };
 
 type LayoutPart =
   | { type: "separator"; char: string }
   | { type: "word"; indices: number[] };
 
-const AnswerGrid = ({ answer, guess, status, shake, revealed = [] }: Props) => {
+const AnswerGrid = ({
+  answer,
+  guess,
+  status,
+  shake,
+  revealed = [],
+  activeIndex,
+  onSelectIndex,
+}: Props) => {
   const wordLayout = useMemo<LayoutPart[]>(() => {
     let charCounter = 0;
     return answer.split(/([\s-])/).map((part) => {
@@ -31,11 +41,12 @@ const AnswerGrid = ({ answer, guess, status, shake, revealed = [] }: Props) => {
     });
   }, [answer]);
 
-  const activeIndex = useMemo(() => {
+  const currentActiveIndex = useMemo(() => {
     if (status !== "playing") return -1;
+    if (activeIndex !== undefined) return activeIndex;
     const firstEmpty = guess.findIndex((c) => c === "");
     return firstEmpty !== -1 ? firstEmpty : guess.length - 1;
-  }, [guess, status]);
+  }, [guess, status, activeIndex]);
 
   const revealedSet = useMemo(() => new Set(revealed), [revealed]);
 
@@ -98,13 +109,14 @@ const AnswerGrid = ({ answer, guess, status, shake, revealed = [] }: Props) => {
                     ? "bg-emerald-300/80"
                     : revealedSet.has(index)
                       ? "bg-yellow-300/80"
-                      : activeIndex === index
+                      : currentActiveIndex === index
                         ? "bg-emerald-300"
                         : "bg-stone-50";
 
                 return (
-                  <View
+                  <Pressable
                     key={index}
+                    onPress={() => onSelectIndex?.(index)}
                     className={`
                     relative w-10 h-10 sm:w-12 sm:h-12
                     flex items-center justify-center 
@@ -114,11 +126,11 @@ const AnswerGrid = ({ answer, guess, status, shake, revealed = [] }: Props) => {
                   `}
                   >
                     {value ? (
-                      <Text className="font-serif sm:text-4xl text-3xl font-extrabold">
+                      <Text className="font-serif sm:text-4xl text-3xl font-extrabold flex-row text-center my-auto">
                         {value}
                       </Text>
                     ) : null}
-                  </View>
+                  </Pressable>
                 );
               })}
             </View>
