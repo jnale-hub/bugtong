@@ -1,3 +1,4 @@
+import { Feather } from "@expo/vector-icons";
 import { Modal, Pressable, Text, View } from "react-native";
 
 type HintExplanationModalProps = {
@@ -5,6 +6,7 @@ type HintExplanationModalProps = {
   title: string;
   body: string;
   onClose: () => void;
+  onBack?: () => void;
 };
 
 export default function HintExplanationModal({
@@ -12,6 +14,7 @@ export default function HintExplanationModal({
   title,
   body,
   onClose,
+  onBack,
 }: HintExplanationModalProps) {
   return (
     <Modal
@@ -33,9 +36,20 @@ export default function HintExplanationModal({
           importantForAccessibility="no-hide-descendants"
           className="absolute top-1/2 w-full p-4"
         >
-          <View className="bg-stone-50 rounded-2xl shadow-soft border-[3px] border-stone-900 overflow-hidden p-6 pb-8 max-w-md mx-auto w-full">
-            <View className="flex-row justify-between items-center mb-2">
-              <Text className="font-light text-gray-900 text-lg">{title}</Text>
+          <View className="bg-stone-50 rounded-2xl shadow-soft border-[3px] border-stone-900 overflow-hidden py-4 px-6 pb-6 max-w-md mx-auto w-full">
+            <View className="items-center justify-between flex-row mb-2">
+              {onBack ? (
+                <Pressable
+                  onPress={onBack}
+                  accessibilityRole="button"
+                  accessibilityLabel="Back to hints"
+                  className="p-2 -ml-2"
+                >
+                  <Feather name="arrow-left" size={28} color="#2D2D2D" />
+                </Pressable>
+              ) : (
+                <View className="w-10" />
+              )}
               <Pressable
                 onPress={onClose}
                 accessibilityRole="button"

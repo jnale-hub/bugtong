@@ -237,6 +237,10 @@ export default function PlayView({
           title={hintExplanation.title}
           body={hintExplanation.body}
           onClose={() => setHintExplanation(null)}
+          onBack={() => {
+            setHintExplanation(null);
+            onOpenHints();
+          }}
         />
       ) : null}
 
