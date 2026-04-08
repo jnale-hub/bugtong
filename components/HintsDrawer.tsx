@@ -36,7 +36,7 @@ function HintRow({ label, active = false, onClick, colorName }: HintRowProps) {
             `}
           />
         )}
-        <Text className="relative font-bold text-xl lowercase font-serif text-gray-900">
+        <Text className="relative font-bold text-xl lowercase font-serif text-stone-900">
           {label}
         </Text>
       </View>
@@ -90,7 +90,7 @@ export default function HintsDrawer({
         >
           <View className="bg-stone-50 rounded-2xl shadow-soft border-[3px] border-stone-900 overflow-hidden p-6 pb-8 max-w-2xl mx-auto w-full">
             <View className="flex-row justify-between items-center mb-2">
-              <Text id={titleId} className="font-light text-gray-900 text-lg">
+              <Text id={titleId} className="font-light text-stone-900 text-lg">
                 Select a hint
               </Text>
               <Pressable
@@ -99,7 +99,7 @@ export default function HintsDrawer({
                 accessibilityLabel="Close hints"
                 className="p-2 -mr-2"
               >
-                <Text className="text-gray-800 text-2xl font-bold">✕</Text>
+                <Text className="text-stone-800 text-2xl font-bold">✕</Text>
               </Pressable>
             </View>
 
