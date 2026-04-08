@@ -129,7 +129,7 @@ export default function PlayView({
                 >
                   <Feather name="arrow-left" size={20} className="font-bold" />
                 </Pressable>
-                <Text className=" text-sm/70">{dateLabel}</Text>
+                <Text className="font-semibold">{dateLabel}</Text>
               </View>
             }
             right={
@@ -167,7 +167,7 @@ export default function PlayView({
                     />
                     <ActionButton
                       label="Check"
-                      color="bg-emerald-300"
+                      color="bg-green-300"
                       onPress={onCheck}
                     />
                   </View>
