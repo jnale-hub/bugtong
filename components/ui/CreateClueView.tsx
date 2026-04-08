@@ -11,13 +11,10 @@ type Range = { start: number; end: number };
 export type SelectionRange = Range & { text: string };
 
 type CreateClueViewProps = {
-  dateLabel: string;
   onBack: () => void;
   authLoading: boolean;
   isSignedIn: boolean;
   sessionEmail: string | null;
-  playDate: string;
-  dateLoading: boolean;
   clueText: string;
   answer: string;
   selection: { start: number; end: number } | null;
@@ -32,7 +29,6 @@ type CreateClueViewProps = {
   success: string | null;
   bottomInset: number;
   onSignOut: () => void;
-  onRefreshDate: () => void;
   onClueTextChange: (value: string) => void;
   onAnswerChange: (value: string) => void;
   onSelectionChange: (start: number, end: number) => void;
@@ -49,13 +45,10 @@ type CreateClueViewProps = {
 };
 
 export default function CreateClueView({
-  dateLabel,
   onBack,
   authLoading,
   isSignedIn,
   sessionEmail,
-  playDate,
-  dateLoading,
   clueText,
   answer,
   selection,
@@ -70,7 +63,6 @@ export default function CreateClueView({
   success,
   bottomInset,
   onSignOut,
-  onRefreshDate,
   onClueTextChange,
   onAnswerChange,
   onSelectionChange,
@@ -99,14 +91,10 @@ export default function CreateClueView({
             <Text className=" text-sm">Back</Text>
           </Pressable>
         }
-        center={<Text className=" text-sm/70">{dateLabel}</Text>}
         right={<Text className="font-serif text-lg">Bugtong</Text>}
       />
 
       <Text className="font-serif text-2xl mt-3">Create clue</Text>
-      <Text className=" text-sm/70 mt-1">
-        Highlight words in the clue text, then assign them to a clue part.
-      </Text>
 
       {authLoading ? (
         <SectionCard className="mt-6">
@@ -121,30 +109,6 @@ export default function CreateClueView({
       ) : null}
 
       <View className="mt-6 gap-4">
-        <FormField label="Play date (YYYY-MM-DD)">
-          <View className="flex-row items-center gap-3">
-            <TextInput
-              value={playDate}
-              placeholder="Loading..."
-              editable={false}
-              accessibilityLabel="Play date"
-              className="flex-1 border-2 border-stone-900 rounded-2xl px-4 py-3  text-base bg-stone-50/80"
-            />
-            <Pressable
-              onPress={onRefreshDate}
-              disabled={dateLoading}
-              accessibilityRole="button"
-              accessibilityLabel="Refresh play date"
-              accessibilityState={{ disabled: dateLoading }}
-              className="px-3 py-2 border-2 border-stone-900 rounded-full bg-yellow-300=80"
-            >
-              <Text className=" text-sm">
-                {dateLoading ? "..." : "Refresh"}
-              </Text>
-            </Pressable>
-          </View>
-        </FormField>
-
         <FormField label="Clue text">
           <TextInput
             value={clueText}

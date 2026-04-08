@@ -1,7 +1,7 @@
 import CreateClueView, { SelectionRange } from "@/components/ui/CreateClueView";
 import { supabase } from "@/utils/supabase";
 import { useRouter } from "expo-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type ClueComponentPayload = {
@@ -10,7 +10,7 @@ type ClueComponentPayload = {
 };
 
 type ClueInsertPayload = {
-  play_date: string;
+  user_id: string;
   clue_text: string;
   answer: string;
   definition: ClueComponentPayload;
@@ -18,32 +18,13 @@ type ClueInsertPayload = {
   fodder?: ClueComponentPayload | null;
 };
 
-function toDateKey(value: Date) {
-  return value.toISOString().split("T")[0];
-}
-
-function nextDateFrom(value?: string | null) {
-  if (!value) {
-    return toDateKey(new Date());
-  }
-
-  const parsed = new Date(`${value}T00:00:00Z`);
-  if (Number.isNaN(parsed.getTime())) {
-    return toDateKey(new Date());
-  }
-
-  parsed.setUTCDate(parsed.getUTCDate() + 1);
-  return toDateKey(parsed);
-}
-
 export default function CreateClueContainer() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const [session, setSession] = useState<{
-    user: { email?: string | null };
+    user: { id: string; email?: string | null };
   } | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
-  const [playDate, setPlayDate] = useState("");
   const [clueText, setClueText] = useState("");
   const [answer, setAnswer] = useState("");
   const [selection, setSelection] = useState<{
@@ -69,40 +50,6 @@ export default function CreateClueContainer() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [dateLoading, setDateLoading] = useState(false);
-
-  const dateLabel = useMemo(() => {
-    return new Date().toLocaleDateString("en-US", {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-    });
-  }, []);
-
-  const fetchNextDate = async () => {
-    try {
-      setDateLoading(true);
-      const { data, error: fetchError } = await supabase
-        .from("daily_clues")
-        .select("play_date")
-        .order("play_date", { ascending: false })
-        .limit(1)
-        .maybeSingle();
-
-      if (fetchError) {
-        console.error("Supabase date error:", fetchError);
-        setPlayDate(nextDateFrom(null));
-        return;
-      }
-
-      setPlayDate(nextDateFrom(data?.play_date ?? null));
-    } catch (err) {
-      console.error(err);
-      setPlayDate(nextDateFrom(null));
-    } finally {
-      setDateLoading(false);
-    }
-  };
 
   useEffect(() => {
     let isMounted = true;
@@ -133,7 +80,6 @@ export default function CreateClueContainer() {
     );
 
     initAuth();
-    fetchNextDate();
 
     return () => {
       isMounted = false;
@@ -190,10 +136,11 @@ export default function CreateClueContainer() {
     setError(null);
     setSuccess(null);
 
-    if (!playDate.trim()) {
-      setError("Play date is required (YYYY-MM-DD).");
+    if (!session?.user) {
+      setError("You must be logged in to submit a clue.");
       return;
     }
+
     if (!clueText.trim()) {
       setError("Clue text is required.");
       return;
@@ -237,7 +184,7 @@ export default function CreateClueContainer() {
       : null;
 
     const payload: ClueInsertPayload = {
-      play_date: playDate.trim(),
+      user_id: session.user.id,
       clue_text: clueText.trim(),
       answer: answer.trim(),
       definition,
@@ -248,9 +195,8 @@ export default function CreateClueContainer() {
     try {
       setSaving(true);
       const { error: insertError } = await supabase
-        .from("daily_clues")
-        .insert(payload)
-        .single();
+        .from("submitted_clues")
+        .insert(payload);
 
       if (insertError) {
         console.error("Supabase insert error:", insertError);
@@ -258,8 +204,9 @@ export default function CreateClueContainer() {
         return;
       }
 
-      setSuccess("Clue saved to Supabase.");
-      setPlayDate("");
+      setSuccess(
+        "Clue submitted successfully! It will be reviewed by our team.",
+      );
       setClueText("");
       setAnswer("");
       setDefinitionSelections([]);
@@ -278,13 +225,10 @@ export default function CreateClueContainer() {
 
   return (
     <CreateClueView
-      dateLabel={dateLabel}
       onBack={() => router.back()}
       authLoading={authLoading}
       isSignedIn={Boolean(session)}
       sessionEmail={session?.user.email ?? null}
-      playDate={playDate}
-      dateLoading={dateLoading}
       clueText={clueText}
       answer={answer}
       selection={selection}
@@ -299,7 +243,6 @@ export default function CreateClueContainer() {
       success={success}
       bottomInset={Math.max(insets.bottom, 16)}
       onSignOut={handleSignOut}
-      onRefreshDate={fetchNextDate}
       onClueTextChange={setClueText}
       onAnswerChange={setAnswer}
       onSelectionChange={(start, end) => setSelection({ start, end })}
