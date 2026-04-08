@@ -56,10 +56,10 @@ export default function HintExplanationModal({
                 accessibilityLabel="Close explanation"
                 className="p-2 -mr-2"
               >
-                <Text className="text-gray-800 text-2xl font-bold">x</Text>
+                <Text className="text-stone-800 text-2xl font-bold">✕</Text>
               </Pressable>
             </View>
-            <Text className="text-sm leading-relaxed mt-2">{body}</Text>
+            <Text className="text-pretty text-lg leading-relaxed">{body}</Text>
           </View>
         </Pressable>
       </Pressable>
