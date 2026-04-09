@@ -5,8 +5,14 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
+      screens: {
+        xs: "375px",
+      },
       fontFamily: {
-        serif: ['DM Serif Display', 'Georgia', 'serif'],
+        sans: ["Montserrat-Regular", "sans-serif"],
+        "sans-semibold": ["Montserrat-SemiBold", "sans-serif"],
+        serif: ["Sansita-ExtraBoldItalic", "serif"],
+        montserrat: ["Montserrat-Regular", "sans-serif"],
       },
       boxShadow: {
         'soft': '4px 4px 0px 0px #1c1917',
