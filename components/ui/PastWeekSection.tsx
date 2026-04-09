@@ -72,7 +72,7 @@ export default function PastWeekSection({
                     <View className="h-12 w-12 items-center justify-center rounded-full bg-stone-50">
                       <Feather name="calendar" size={24} color="#2D2D2D" />
                     </View>
-                    <Text className="text-lg">{dayLabel}</Text>
+                    <Text className="text-lg font-semibold">{dayLabel}</Text>
                   </View>
                 </Pressable>
               );
