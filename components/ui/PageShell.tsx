@@ -24,7 +24,7 @@ export default function PageShell({
 }: PageShellProps) {
   return (
     <SafeAreaView
-      className="flex-1 from-violet-300 to-indigo-300 bg-gradient-to-br"
+      className="flex-1 bg-violet-300"
       edges={["top", "left", "right"]}
     >
       {emoji ? <EmojiGrid emoji={emoji} /> : null}
