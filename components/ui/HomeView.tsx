@@ -62,7 +62,7 @@ export default function HomeView({
           />
 
           <SectionCard className="mt-6 flex-col gap-y-4 py-6 justify-center items-center">
-            <Text className="text-3xl leading-tight text-center font-bold font-serif">
+            <Text className="text-xl text-center font-semibold font-serif opacity-80">
               Bugtong of the Day
             </Text>
             {loading || !clueText ? (
