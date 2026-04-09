@@ -99,7 +99,7 @@ export default function PlayContainer() {
       onCheck={checkAnswer}
       onToggleHint={toggleHint}
       onRevealLetter={revealLetter}
-      bottomInset={Math.max(insets.bottom, 8)}
+      bottomInset={Math.max(insets.bottom, 12)}
     />
   );
 }
