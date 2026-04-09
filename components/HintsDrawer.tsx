@@ -9,24 +9,25 @@ interface HintRowProps {
 
 function HintRow({ label, onClick, colorName }: HintRowProps) {
   return (
-    <Pressable
-      onPress={onClick}
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      className="w-full py-3 flex-row justify-between items-center group"
-    >
-      <View className="relative">
-        {colorName && (
-          <View
-            className={`
-              absolute inset-x-0 top-1/2 -translate-y-1/2 h-5
-              ${colorName}
-            `}
-          />
-        )}
-        <Text className="relative font-bold text-xl lowercase font-serif text-stone-900">
-          {label}
-        </Text>
+    <Pressable onPress={onClick}>
+      <View
+        accessibilityRole="button"
+        accessibilityLabel={label}
+        className="w-full py-3 flex-row justify-between items-center group"
+      >
+        <View className="relative">
+          {colorName && (
+            <View
+              className={`
+                absolute inset-x-0 top-1/2 -translate-y-1/2 h-5
+                ${colorName}
+              `}
+            />
+          )}
+          <Text className="relative text-2xl lowercase font-serif text-stone-900">
+            {label}
+          </Text>
+        </View>
       </View>
     </Pressable>
   );
@@ -96,11 +97,11 @@ export default function HintsDrawer({
           onPress={() => {}}
           accessibilityElementsHidden
           importantForAccessibility="no-hide-descendants"
-          className="absolute bottom-0 w-full p-4"
+          className="absolute bottom-4 w-full p-4"
         >
           <View className="bg-stone-50 rounded-2xl shadow-soft border-[3px] border-stone-900 overflow-hidden p-6 pb-8 max-w-2xl mx-auto w-full">
             <View className="flex-row justify-between items-center mb-2">
-              <Text id={titleId} className="font-light text-stone-900 text-lg">
+              <Text id={titleId} className="body-muted text-lg">
                 Select a hint
               </Text>
               <Pressable

@@ -63,7 +63,7 @@ export default function ClueDisplay({
 
   return (
     <View className="bg-stone-50 rounded-lg p-4 pb-3 mb-8 min-h-24">
-      <Text className="text-2xl leading-snug flex-row flex-wrap my-auto">
+      <Text className="font-sans text-2xl leading-snug flex-row flex-wrap my-auto">
         {segments.map((seg, i) => {
           let type: "indicator" | "fodder" | "definition" | null = null;
           let explanation: string | undefined;

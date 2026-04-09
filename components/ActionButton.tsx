@@ -22,12 +22,12 @@ const ActionButton = ({
       accessibilityLabel={label}
       accessibilityState={{ disabled }}
       className={`
-      sm:px-8 px-4 py-2 min-w-24 border-[3px] border-stone-900 rounded-full shadow-soft-sm items-center justify-center
+      sm:px-8 px-6 py-2 min-w-24 border-[3px] sm:border-4 border-stone-900 rounded-full shadow-soft-sm items-center justify-center
       active:translate-y-px active:shadow-none transition-all 
       ${disabled ? "opacity-50" : color}
     `}
     >
-      <Text className="font-extrabold text-lg sm:text-xl lowercase font-serif">
+      <Text className="text-2xl lowercase font-serif tracking-wide mb-1">
         {label}
       </Text>
     </Pressable>

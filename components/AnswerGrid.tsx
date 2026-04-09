@@ -21,61 +21,62 @@ type LayoutPart =
   | { type: "separator"; char: string }
   | { type: "word"; indices: number[] };
 
-const AnswerCell = memo(
-  function AnswerCell({
-    index,
-    value,
-    isLast,
-    status,
-    isRevealed,
-    isActive,
-    cellSize,
-    onPress,
-  }: {
-    index: number;
-    value: string;
-    isLast: boolean;
-    status: "playing" | "won";
-    isRevealed: boolean;
-    isActive: boolean;
-    cellSize: number;
-    onPress: (index: number) => void;
-  }) {
-    const cellBgClass =
-      status === "won"
-        ? "bg-emerald-300/80"
-        : isRevealed
-          ? "bg-yellow-300/80"
-          : isActive
-            ? "bg-emerald-300"
-            : "bg-stone-50";
+const AnswerCell = memo(function AnswerCell({
+  index,
+  value,
+  status,
+  isRevealed,
+  isActive,
+  cellSize,
+  onPress,
+}: {
+  index: number;
+  value: string;
+  isLast: boolean;
+  status: "playing" | "won";
+  isRevealed: boolean;
+  isActive: boolean;
+  cellSize: number;
+  onPress: (index: number) => void;
+}) {
+  const cellBgClass =
+    status === "won"
+      ? "bg-emerald-300"
+      : isRevealed
+        ? "bg-rose-300/80"
+        : isActive
+          ? "bg-emerald-300"
+          : "bg-stone-50";
 
-    const fontSize = Math.floor(cellSize * 0.6);
+  const fontSize = Math.floor(cellSize * 0.75);
 
-    return (
+  return (
+    <View className="bg-stone-50">
       <Pressable
         onPress={() => onPress(index)}
         style={{ width: cellSize, height: cellSize }}
         className={`
         relative
         flex items-center justify-center 
-        pb-1 
-        ${isLast ? "" : "border-r-4 sm:border-6 border-stone-900"}
         ${cellBgClass}
       `}
       >
         {value ? (
           <Text
-            style={{ fontSize }}
-            className="font-serif font-extrabold flex-row text-center my-auto"
+            style={{
+              fontSize,
+              includeFontPadding: true,
+              paddingHorizontal: 6,
+            }}
+            className="font-serif text-center pb-1.5 rounded"
           >
             {value}
           </Text>
         ) : null}
       </Pressable>
-    );
-  },
-);
+    </View>
+  );
+});
 
 const AnswerGrid = ({
   answer,
@@ -116,14 +117,15 @@ const AnswerGrid = ({
       }
     });
 
-    // Approximate available width per word row. 
+    // Approximate available width per word row.
     // Account for 32px standard margins (16px left + 16px right).
     // And approximate 6px border space per cell + 12px outer border space.
     const availableWidth = screenWidth - 32 - 12;
     const paddingAndBorders = maxWordLength * 6;
-    
-    const maxPossibleCellSize = (availableWidth - paddingAndBorders) / Math.max(1, maxWordLength);
-    
+
+    const maxPossibleCellSize =
+      (availableWidth - paddingAndBorders) / Math.max(1, maxWordLength);
+
     // Scale the cell size between 20px and 48px depending on length.
     return Math.max(20, Math.floor(Math.min(48, maxPossibleCellSize)));
   }, [wordLayout, screenWidth]);
@@ -154,9 +156,12 @@ const AnswerGrid = ({
     }
   }, [shake, translateX]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateX.value }],
-  }));
+  const animatedStyle = useAnimatedStyle(() => {
+    "worklet";
+    return {
+      transform: [{ translateX: translateX.value }],
+    };
+  });
 
   return (
     <Animated.View style={[animatedStyle]}>
@@ -170,9 +175,9 @@ const AnswerGrid = ({
             return (
               <View
                 key={`sep-${wordIdx}`}
-                className="w-6 h-12 items-center justify-center mb-4"
+                className="w-6 h-12 items-center justify-center mb-4 overflow-visible"
               >
-                <Text className="text-3xl font-extrabold">{part.char}</Text>
+                <Text className="title-1">{part.char}</Text>
               </View>
             );
           }
@@ -180,7 +185,7 @@ const AnswerGrid = ({
           return (
             <View
               key={`word-${wordIdx}`}
-              className={`flex-row border-4 sm:border-6 border-stone-900 rounded-lg bg-stone-50 overflow-hidden w-min`}
+              className={`flex-row gap-1 sm:gap-[5px] border-4 sm:border-[5px] border-stone-900 rounded-lg bg-stone-900 w-min overflow-hidden`}
             >
               {part.indices.map((index, i, arr) => (
                 <AnswerCell

@@ -10,33 +10,23 @@ type WonExplanationProps = {
 export default function WonExplanation({ clue }: WonExplanationProps) {
   return (
     <Animated.View entering={SlideInDown} exiting={FadeOut}>
-      <SectionCard className="mt-6 max-w-lg w-full mx-auto">
+      <SectionCard className="mt-6 max-w-lg w-full mx-auto px-6">
         <Text className="font-serif font-bold text-xl">Explanation</Text>
         <View className="mt-4 gap-4">
           <View className="gap-1">
-            <Text className=" text-xs uppercase tracking-wide/70">
-              Definition
-            </Text>
-            <Text className="leading-relaxed">
-              {clue.definition.explanation}
-            </Text>
+            <Text className="body-title uppercase">Definition</Text>
+            <Text className="body-base">{clue.definition.explanation}</Text>
           </View>
           {clue.indicator?.explanation ? (
             <View className="gap-1">
-              <Text className=" text-xs uppercase tracking-wide/70">
-                Indicator
-              </Text>
-              <Text className="leading-relaxed">
-                {clue.indicator.explanation}
-              </Text>
+              <Text className="body-title uppercase">Indicator</Text>
+              <Text className="body-base">{clue.indicator.explanation}</Text>
             </View>
           ) : null}
           {clue.fodder?.explanation ? (
             <View className="gap-1">
-              <Text className=" text-xs uppercase tracking-wide/70">
-                Fodder
-              </Text>
-              <Text className="leading-relaxed">{clue.fodder.explanation}</Text>
+              <Text className="body-title uppercase">Fodder</Text>
+              <Text className="body-base">{clue.fodder.explanation}</Text>
             </View>
           ) : null}
         </View>
