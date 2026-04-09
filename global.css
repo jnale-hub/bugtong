@@ -7,3 +7,21 @@
     @apply antialiased text-stone-900 bg-stone-50;
   }
 }
+
+@layer components {
+  .body-title {
+    @apply font-sans text-lg text-stone-800;
+  }
+
+  .body-base {
+    @apply font-sans text-pretty leading-relaxed text-stone-900;
+  }
+
+  .body-title {
+    @apply font-sans-semibold text-xs tracking-wide text-stone-700;
+  }
+  
+  .body-muted {
+    @apply font-sans text-stone-500 tracking-wider;
+  }
+}
