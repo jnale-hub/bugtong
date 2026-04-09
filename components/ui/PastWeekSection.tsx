@@ -40,10 +40,10 @@ export default function PastWeekSection({
     >
       <View className="w-full max-w-2xl mx-auto px-4">
         <View className="flex-row items-center justify-between">
-          <Text className="font-serif text-xl font-bold">
+          <Text className="font-serif text-xl">
             Solve more bugtong
           </Text>
-          <Text className=" text-xs/60">Tap to play</Text>
+          <Text className="body-muted">Tap to play</Text>
         </View>
 
         {pastLoading ? (
@@ -72,7 +72,7 @@ export default function PastWeekSection({
                     <View className="h-12 w-12 items-center justify-center rounded-full bg-stone-50">
                       <Feather name="calendar" size={24} color="#2D2D2D" />
                     </View>
-                    <Text className="text-lg font-semibold">{dayLabel}</Text>
+                    <Text className="text-lg font-sans-semibold">{dayLabel}</Text>
                   </View>
                 </Pressable>
               );

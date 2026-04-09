@@ -17,10 +17,10 @@ export default function PageHeader({
   }
 
   return (
-    <View className="flex-row items-center justify-between">
+    <View className="flex-row items-center justify-between py-2">
       {left && <View className="flex-1 items-start">{left}</View>}
       {center && <View className="flex-1 items-center">{center}</View>}
-      {right && <View className="flex-1 items-end">{right}</View>}
+      {right && <View className="items-end">{right}</View>}
     </View>
   );
 }

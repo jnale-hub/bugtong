@@ -1,5 +1,5 @@
 import { Feather } from "@expo/vector-icons";
-import { Pressable, Text } from "react-native";
+import { Text,  Pressable } from "react-native";
 
 type BackButtonProps = {
   onPress: () => void;

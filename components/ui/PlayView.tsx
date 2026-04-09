@@ -12,7 +12,7 @@ import { ClueData } from "@/data/clues";
 import { GameStatus } from "@/hooks/useCrypticGame";
 import { Feather } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
-import { Dimensions, Platform, Pressable, Text, View } from "react-native";
+import { Text,  Dimensions, Platform, Pressable, View } from "react-native";
 import { PIConfetti, PIConfettiMethods } from "react-native-fast-confetti";
 
 type HintState = {
@@ -131,15 +131,15 @@ export default function PlayView({
                   accessibilityRole="button"
                   accessibilityLabel="Back"
                 >
-                  <Feather name="arrow-left" size={20} className="font-bold" />
+                  <Feather name="arrow-left" size={28} className="font-bold" />
                 </Pressable>
-                <Text className="font-semibold">{dateLabel}</Text>
+                <Text className="font-sans-semibold xs:text-lg">{dateLabel}</Text>
               </View>
             }
             right={<Logo />}
           />
 
-          <View className="mt-2 sm:mx-8">
+          <View className="mt-8 sm:mx-8">
             <ClueDisplay
               clue={activeClue}
               loading={loading}

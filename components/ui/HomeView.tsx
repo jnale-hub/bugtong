@@ -57,12 +57,14 @@ export default function HomeView({
       ) : (
         <>
           <PageHeader
-            left={<Text className="font-semibold">{dateLabel}</Text>}
+            left={
+              <Text className="font-sans-semibold xs:text-lg">{dateLabel}</Text>
+            }
             right={<Logo />}
           />
 
           <SectionCard className="mt-6 flex-col gap-y-4 py-6 justify-center items-center">
-            <Text className="text-xl text-center font-semibold font-serif opacity-80">
+            <Text className="text-lg text-center body-muted uppercase tracking-tight">
               Bugtong of the Day
             </Text>
             {loading || !clueText ? (
@@ -71,27 +73,29 @@ export default function HomeView({
                 <View className="bg-stone-900/10 h-6 w-10/12 rounded" />
               </View>
             ) : (
-              <Text className="text-2xl leading-snug text-center min-h-24 place-content-center">
-                {clueText}
-                {answer && (
-                  <Text numberOfLines={1}>
-                    {" "}
-                    (
-                    {answer
-                      .split(" ")
-                      .map((w) => w.length)
-                      .join(", ")}
-                    )
-                  </Text>
-                )}
-              </Text>
+              <View className="min-h-24 justify-center items-center w-full">
+                <Text className="font-sans text-2xl leading-snug text-center">
+                  {clueText}
+                  {answer && (
+                    <Text numberOfLines={1}>
+                      {" "}
+                      (
+                      {answer
+                        .split(" ")
+                        .map((w) => w.length)
+                        .join(", ")}
+                      )
+                    </Text>
+                  )}
+                </Text>
+              </View>
             )}
             <ActionButton
               label="Play today"
               color="bg-emerald-300"
               onPress={onPlay}
             />
-            <Text className=" text-sm/70">{dateLabel}</Text>
+            <Text className="body-muted">{dateLabel}</Text>
           </SectionCard>
         </>
       )}

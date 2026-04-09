@@ -1,4 +1,3 @@
-import { EmojiGrid } from "@/components/EmojiGrid";
 import { ReactNode } from "react";
 import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -27,7 +26,6 @@ export default function PageShell({
       className="flex-1 bg-violet-300"
       edges={["top", "left", "right"]}
     >
-      {emoji ? <EmojiGrid emoji={emoji} /> : null}
 
       {scroll ? (
         <>

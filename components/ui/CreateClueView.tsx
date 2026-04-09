@@ -5,7 +5,7 @@ import PageHeader from "@/components/ui/PageHeader";
 import PageShell from "@/components/ui/PageShell";
 import SectionCard from "@/components/ui/SectionCard";
 import SelectionChips from "@/components/ui/SelectionChips";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Text,  Pressable, TextInput, View } from "react-native";
 
 type Range = { start: number; end: number };
 export type SelectionRange = Range & { text: string };
