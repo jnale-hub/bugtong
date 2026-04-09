@@ -1,5 +1,5 @@
-import { memo, useEffect, useMemo } from "react";
-import { Pressable, Text, View } from "react-native";
+import { memo, useCallback, useEffect, useMemo } from "react";
+import { Pressable, Text, View, useWindowDimensions } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -20,6 +20,62 @@ type Props = {
 type LayoutPart =
   | { type: "separator"; char: string }
   | { type: "word"; indices: number[] };
+
+const AnswerCell = memo(
+  function AnswerCell({
+    index,
+    value,
+    isLast,
+    status,
+    isRevealed,
+    isActive,
+    cellSize,
+    onPress,
+  }: {
+    index: number;
+    value: string;
+    isLast: boolean;
+    status: "playing" | "won";
+    isRevealed: boolean;
+    isActive: boolean;
+    cellSize: number;
+    onPress: (index: number) => void;
+  }) {
+    const cellBgClass =
+      status === "won"
+        ? "bg-emerald-300/80"
+        : isRevealed
+          ? "bg-yellow-300/80"
+          : isActive
+            ? "bg-emerald-300"
+            : "bg-stone-50";
+
+    const fontSize = Math.floor(cellSize * 0.6);
+
+    return (
+      <Pressable
+        onPress={() => onPress(index)}
+        style={{ width: cellSize, height: cellSize }}
+        className={`
+        relative
+        flex items-center justify-center 
+        pb-1 
+        ${isLast ? "" : "border-r-4 sm:border-6 border-stone-900"}
+        ${cellBgClass}
+      `}
+      >
+        {value ? (
+          <Text
+            style={{ fontSize }}
+            className="font-serif font-extrabold flex-row text-center my-auto"
+          >
+            {value}
+          </Text>
+        ) : null}
+      </Pressable>
+    );
+  },
+);
 
 const AnswerGrid = ({
   answer,
@@ -50,8 +106,37 @@ const AnswerGrid = ({
 
   const revealedSet = useMemo(() => new Set(revealed), [revealed]);
 
+  const { width: screenWidth } = useWindowDimensions();
+
+  const cellSize = useMemo(() => {
+    let maxWordLength = 0;
+    wordLayout.forEach((part) => {
+      if (part.type === "word" && part.indices.length > maxWordLength) {
+        maxWordLength = part.indices.length;
+      }
+    });
+
+    // Approximate available width per word row. 
+    // Account for 32px standard margins (16px left + 16px right).
+    // And approximate 6px border space per cell + 12px outer border space.
+    const availableWidth = screenWidth - 32 - 12;
+    const paddingAndBorders = maxWordLength * 6;
+    
+    const maxPossibleCellSize = (availableWidth - paddingAndBorders) / Math.max(1, maxWordLength);
+    
+    // Scale the cell size between 20px and 48px depending on length.
+    return Math.max(20, Math.floor(Math.min(48, maxPossibleCellSize)));
+  }, [wordLayout, screenWidth]);
+
   // Shake animation
   const translateX = useSharedValue(0);
+
+  const handleSelectIndex = useCallback(
+    (idx: number) => {
+      onSelectIndex?.(idx);
+    },
+    [onSelectIndex],
+  );
 
   useEffect(() => {
     if (shake > 0) {
@@ -75,7 +160,7 @@ const AnswerGrid = ({
 
   return (
     <Animated.View style={[animatedStyle]}>
-      <View className="flex-row flex-wrap gap-y-4 justify-center items-center">
+      <View className="flex-row flex-wrap gap-y-3 gap-x-2 justify-center items-center">
         {wordLayout.map((part, wordIdx) => {
           if (part.type === "separator") {
             if (part.char === " ") {
@@ -92,47 +177,24 @@ const AnswerGrid = ({
             );
           }
 
-          const nextPart = wordLayout[wordIdx + 1];
-          const hasTrailingSpace =
-            nextPart?.type === "separator" && nextPart.char === " ";
-
           return (
             <View
               key={`word-${wordIdx}`}
-              className={`flex-row border-4 border-stone-900 rounded-lg bg-stone-50 overflow-hidden w-min ${hasTrailingSpace ? "mr-3" : "mr-1"}`}
+              className={`flex-row border-4 sm:border-6 border-stone-900 rounded-lg bg-stone-50 overflow-hidden w-min`}
             >
-              {part.indices.map((index, i, arr) => {
-                const value = guess[index];
-                const isLast = i === arr.length - 1;
-                const cellBgClass =
-                  status === "won"
-                    ? "bg-emerald-300/80"
-                    : revealedSet.has(index)
-                      ? "bg-yellow-300/80"
-                      : currentActiveIndex === index
-                        ? "bg-emerald-300"
-                        : "bg-stone-50";
-
-                return (
-                  <Pressable
-                    key={index}
-                    onPress={() => onSelectIndex?.(index)}
-                    className={`
-                    relative w-10 h-10 sm:w-12 sm:h-12
-                    flex items-center justify-center 
-                    pb-1 
-                    ${isLast ? "" : "border-r-4 border-stone-900"}
-                    ${cellBgClass}
-                  `}
-                  >
-                    {value ? (
-                      <Text className="font-serif sm:text-4xl text-3xl font-extrabold flex-row text-center my-auto">
-                        {value}
-                      </Text>
-                    ) : null}
-                  </Pressable>
-                );
-              })}
+              {part.indices.map((index, i, arr) => (
+                <AnswerCell
+                  key={index}
+                  index={index}
+                  value={guess[index]}
+                  isLast={i === arr.length - 1}
+                  status={status}
+                  isRevealed={revealedSet.has(index)}
+                  isActive={currentActiveIndex === index}
+                  cellSize={cellSize}
+                  onPress={handleSelectIndex}
+                />
+              ))}
             </View>
           );
         })}
