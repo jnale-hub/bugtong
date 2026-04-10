@@ -26,10 +26,13 @@ export default function PageShell({
       className="flex-1 bg-violet-300"
       edges={["top", "left", "right"]}
     >
-
       {scroll ? (
         <>
-          <ScrollView className="flex-1">
+          <ScrollView
+            className="flex-1"
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+          >
             <View className="px-4">
               <View
                 className={`w-full ${maxWidthClassName} mx-auto ${contentClassName}`}
