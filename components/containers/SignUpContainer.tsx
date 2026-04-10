@@ -64,7 +64,7 @@ export default function SignUpContainer() {
     <AuthView
       dateLabel={dateLabel}
       onBack={() => (router.canGoBack() ? router.back() : router.replace("/"))}
-      title="Sign Up"
+      title="Gumawa ng account!"
       name={name}
       email={email}
       password={password}
