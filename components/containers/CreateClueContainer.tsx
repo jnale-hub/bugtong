@@ -23,7 +23,11 @@ export default function CreateClueContainer() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const [session, setSession] = useState<{
-    user: { id: string; email?: string | null };
+    user: {
+      id: string;
+      email?: string | null;
+      user_metadata?: { [key: string]: unknown } | null;
+    };
   } | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [clueText, setClueText] = useState("");
@@ -53,6 +57,20 @@ export default function CreateClueContainer() {
   useEffect(() => {
     let isMounted = true;
 
+    const withFreshUser = async (
+      baseSession: { user: { id: string; email?: string | null } } | null,
+    ) => {
+      if (!baseSession) return null;
+
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError) {
+        console.error("Auth user error:", userError);
+        return baseSession;
+      }
+
+      return userData.user ? { user: userData.user } : baseSession;
+    };
+
     const initAuth = async () => {
       try {
         const { data, error: sessionError } = await supabase.auth.getSession();
@@ -61,7 +79,11 @@ export default function CreateClueContainer() {
         }
 
         if (isMounted) {
-          setSession(data.session ? { user: data.session.user } : null);
+          const nextSession = data.session ? { user: data.session.user } : null;
+          const sessionWithUser = await withFreshUser(nextSession);
+          if (!isMounted) return;
+
+          setSession(sessionWithUser);
           setAuthLoading(false);
         }
       } catch (err) {
@@ -73,8 +95,12 @@ export default function CreateClueContainer() {
     };
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      (_event, nextSession) => {
-        setSession(nextSession ? { user: nextSession.user } : null);
+      async (_event, nextSession) => {
+        const rawSession = nextSession ? { user: nextSession.user } : null;
+        const sessionWithUser = await withFreshUser(rawSession);
+        if (!isMounted) return;
+
+        setSession(sessionWithUser);
       },
     );
 
@@ -269,6 +295,11 @@ export default function CreateClueContainer() {
       onBack={() => (router.canGoBack() ? router.back() : router.replace("/"))}
       authLoading={authLoading}
       isSignedIn={Boolean(session)}
+      sessionDisplayName={
+        typeof session?.user.user_metadata?.display_name === "string"
+          ? session.user.user_metadata.display_name
+          : null
+      }
       sessionEmail={session?.user.email ?? null}
       clueText={clueText}
       answer={answer}
