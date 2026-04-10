@@ -4,13 +4,11 @@ import { BaseToastProps } from "react-native-toast-message";
 
 export const toastConfig = {
   success: ({ text1, text2 }: BaseToastProps) => (
-    <View className="max-w-lg flex-row items-start w-[90%] bg-emerald-200 border-sm rounded-2xl p-4">
-      <View className="mt-0.5 mr-3">
-        <Feather name="check-circle" size={20} color="#1c1917" />
-      </View>
+    <View className="max-w-lg flex-row items-center w-[90%] bg-emerald-200 border-sm rounded-2xl p-4 justify-center gap-4">
+      <Feather name="check-circle" size={32} color="#1c1917" />
       <View className="flex-col flex-1">
         {text1 ? (
-          <Text className="font-serif text-xl tracking-tight text-stone-900">
+          <Text className="font-serif tracking-wide text-xl text-stone-900">
             {text1}
           </Text>
         ) : null}
@@ -23,13 +21,11 @@ export const toastConfig = {
     </View>
   ),
   error: ({ text1, text2 }: BaseToastProps) => (
-    <View className="max-w-lg flex-row items-start w-[90%] bg-red-300 border-sm rounded-2xl p-4-sm">
-      <View className="mt-0.5 mr-3">
-        <Feather name="alert-circle" size={20} color="#1c1917" />
-      </View>
+    <View className="max-w-lg flex-row w-[90%] bg-red-300 border-sm rounded-2xl p-4 justify-center gap-4 items-center">
+      <Feather name="alert-circle" size={32} color="#1c1917" />
       <View className="flex-col flex-1">
         {text1 ? (
-          <Text className="font-serif text-xl tracking-tight text-stone-900">
+          <Text className="font-serif tracking-wide text-xl text-stone-900">
             {text1}
           </Text>
         ) : null}
