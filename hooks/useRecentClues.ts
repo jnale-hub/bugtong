@@ -1,4 +1,4 @@
-import { supabase } from "@/utils/supabase";
+import { getSupabase } from "@/utils/supabase";
 import { useEffect, useMemo, useState } from "react";
 
 type RecentClue = {
@@ -30,6 +30,7 @@ export function useRecentClues(): RecentClueResult {
       setLoading(true);
       setError(null);
 
+      const supabase = await getSupabase();
       const { data, error: fetchError } = await supabase
         .from("daily_clues")
         .select("id, clue_text, play_date")

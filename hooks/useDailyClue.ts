@@ -1,5 +1,5 @@
 import { ClueData } from "@/data/clues";
-import { supabase } from "@/utils/supabase";
+import { getSupabase } from "@/utils/supabase";
 import { useEffect, useMemo, useState } from "react";
 
 type FetchResult = {
@@ -29,6 +29,7 @@ async function fetchDailyClue(dateKey: string): Promise<FetchResult> {
   inFlightDate = dateKey;
   inFlightRequest = (async () => {
     try {
+      const supabase = await getSupabase();
       const { data, error: fetchError } = await supabase
         .from("daily_clues")
         .select("id, clue_text, answer, definition, indicator, fodder")
