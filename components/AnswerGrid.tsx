@@ -1,10 +1,5 @@
 import { memo, useCallback, useEffect, useMemo } from "react";
-import {
-  Pressable,
-  Text,
-  View,
-  useWindowDimensions,
-} from "react-native";
+import { Pressable, Text, View, useWindowDimensions } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,

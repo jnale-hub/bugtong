@@ -99,7 +99,7 @@ export default function HintsDrawer({
           importantForAccessibility="no-hide-descendants"
           className="absolute bottom-4 w-full p-4"
         >
-          <View className="bg-stone-50 rounded-2xl shadow-soft border-[3px] border-stone-900 overflow-hidden p-6 pb-8 max-w-2xl mx-auto w-full">
+          <View className="bg-stone-50 rounded-2xl border-sm overflow-hidden p-6 pb-8 max-w-2xl mx-auto w-full">
             <View className="flex-row justify-between items-center mb-2">
               <Text id={titleId} className="body-muted text-lg">
                 Select a hint

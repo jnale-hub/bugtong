@@ -7,7 +7,7 @@ type KeyButtonProps = {
 
 export default function KeyButton({ char, onClickAction }: KeyButtonProps) {
   const buttonClass =
-    "flex-1 h-14 flex items-center justify-center pb-1 bg-stone-50 rounded active:translate-y-0.5 active:shadow-none transition-all shadow-sm";
+    "flex-1 h-14 flex items-center justify-center pb-1 bg-stone-50 rounded active:translate-y-0.5 active:shadow-none transition-all shadow-sm elevation-sm";
   const textClass = "text-lg sm:text-xl uppercase font-sans";
 
   return (

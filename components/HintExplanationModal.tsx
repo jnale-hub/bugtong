@@ -1,5 +1,5 @@
 import { Feather } from "@expo/vector-icons";
-import { Text,  Modal, Pressable, View } from "react-native";
+import { Modal, Pressable, Text, View } from "react-native";
 
 type HintExplanationModalProps = {
   visible: boolean;
@@ -36,7 +36,7 @@ export default function HintExplanationModal({
           importantForAccessibility="no-hide-descendants"
           className="absolute top-1/2 w-full p-4"
         >
-          <View className="bg-stone-50 rounded-2xl shadow-soft border-[3px] border-stone-900 overflow-hidden py-4 px-6 pb-6 max-w-md mx-auto w-full">
+          <View className="bg-stone-50 rounded-2xl border-sm overflow-hidden py-4 px-6 pb-6 max-w-md mx-auto w-full">
             <View className="items-center justify-between flex-row mb-2">
               {onBack ? (
                 <Pressable

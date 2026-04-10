@@ -4,7 +4,7 @@ import { BaseToastProps } from "react-native-toast-message";
 
 export const toastConfig = {
   success: ({ text1, text2 }: BaseToastProps) => (
-    <View className="max-w-lg flex-row items-start w-[90%] bg-emerald-200 border-[3px] border-stone-900 rounded-2xl p-4 shadow-soft">
+    <View className="max-w-lg flex-row items-start w-[90%] bg-emerald-200 border-sm rounded-2xl p-4">
       <View className="mt-0.5 mr-3">
         <Feather name="check-circle" size={20} color="#1c1917" />
       </View>
@@ -23,7 +23,7 @@ export const toastConfig = {
     </View>
   ),
   error: ({ text1, text2 }: BaseToastProps) => (
-    <View className="max-w-lg flex-row items-start w-[90%] bg-red-300 border-[3px] border-stone-900 rounded-2xl p-4 shadow-soft-sm">
+    <View className="max-w-lg flex-row items-start w-[90%] bg-red-300 border-sm rounded-2xl p-4-sm">
       <View className="mt-0.5 mr-3">
         <Feather name="alert-circle" size={20} color="#1c1917" />
       </View>
