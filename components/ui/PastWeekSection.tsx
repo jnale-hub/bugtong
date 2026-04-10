@@ -12,16 +12,12 @@ type PastWeekSectionProps = {
   pastClues: PastClue[];
   pastLoading: boolean;
   onPlayPast: (dateKey: string) => void;
-  bottomInset: number;
-  show: boolean;
 };
 
 export default function PastWeekSection({
   pastClues,
   pastLoading,
   onPlayPast,
-  bottomInset,
-  show,
 }: PastWeekSectionProps) {
   const todayKey = new Date().toISOString().split("T")[0];
   const getDayLabel = (dateKey: string) =>
@@ -31,19 +27,17 @@ export default function PastWeekSection({
           weekday: "short",
         });
 
-  if (!show) return null;
-
   return (
-    <View
-      className="bg-stone-50 pt-6"
-      style={{ paddingBottom: bottomInset + 32 }}
-    >
+    <View className="bg-stone-50 pt-6 pb-8">
       <View className="w-full max-w-2xl mx-auto px-4">
         <View className="flex-row items-center justify-between">
-          <Text className="font-serif text-xl">
-            Solve more bugtong
-          </Text>
-          <Text className="body-muted">Tap to play</Text>
+          <View className="flex-row items-center gap-1 justify-center">
+            <Text className="font-serif -translate-y-1 tracking-wide text-2xl">
+              {`Solve more `}
+            </Text>
+            <Feather name="chevron-right" size={28} color="#2D2D2D" />
+          </View>
+          <Text className="body-muted max-sm:hidden">Tap to play</Text>
         </View>
 
         {pastLoading ? (
