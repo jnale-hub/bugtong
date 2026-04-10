@@ -25,7 +25,7 @@ function HintRow({ label, onClick, colorName }: HintRowProps) {
             />
           )}
           <Text className="relative text-2xl lowercase font-serif text-stone-900">
-            {label}
+            {`${label} `}
           </Text>
         </View>
       </View>

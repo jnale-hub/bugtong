@@ -28,7 +28,7 @@ const ActionButton = ({
     `}
     >
       <Text className="text-2xl lowercase font-serif tracking-wide mb-1">
-        {label}
+        {`${label} `}
       </Text>
     </Pressable>
   );
