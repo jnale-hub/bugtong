@@ -3,7 +3,7 @@ import BackButton from "@/components/ui/BackButton";
 import Logo from "@/components/ui/Logo";
 import PageHeader from "@/components/ui/PageHeader";
 import PageShell from "@/components/ui/PageShell";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Platform, Pressable, Text, TextInput, View } from "react-native";
 
 type AuthViewProps = {
   dateLabel: string;
@@ -46,6 +46,16 @@ export default function AuthView({
   footerActionText,
   onFooterAction,
 }: AuthViewProps) {
+  const inputStyle = {
+    minHeight: 52,
+    paddingHorizontal: 16,
+    paddingVertical: Platform.OS === "ios" ? 12 : 10,
+    lineHeight: 20,
+    ...(Platform.OS === "android"
+      ? { textAlignVertical: "center" as const }
+      : null),
+  };
+
   return (
     <PageShell maxWidthClassName="max-w-lg" contentClassName="pt-8 pb-8">
       <PageHeader left={<BackButton onPress={onBack} />} right={<Logo />} />
@@ -65,7 +75,8 @@ export default function AuthView({
               autoCapitalize="none"
               autoCorrect={false}
               accessibilityLabel="Name or username"
-              className="border rounded-2xl px-4 py-3 body-base"
+              className="border rounded-2xl body-base"
+              style={inputStyle}
             />
           </View>
         ) : null}
@@ -78,7 +89,8 @@ export default function AuthView({
             autoCapitalize="none"
             keyboardType="email-address"
             accessibilityLabel="Email"
-            className="border rounded-2xl px-4 py-3 body-base"
+            className="border rounded-2xl body-base"
+            style={inputStyle}
           />
         </View>
         <View className="gap-2 mb-4">
@@ -89,7 +101,8 @@ export default function AuthView({
             placeholder="Password"
             secureTextEntry
             accessibilityLabel="Password"
-            className="border rounded-2xl px-4 py-3 body-base"
+            className="border rounded-2xl body-base"
+            style={inputStyle}
           />
         </View>
         {error ? (
