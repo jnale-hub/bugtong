@@ -88,7 +88,7 @@ export default function CreateClueView({
           </Text>
         </SectionCard>
       ) : isSignedIn ? (
-        <Text className="text-sm/70 text-center">
+        <Text className="body-base text-center">
           Signed in as{" "}
           <span className="font-semibold">{sessionEmail || "user"}</span>.
         </Text>
