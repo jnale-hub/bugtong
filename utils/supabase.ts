@@ -1,5 +1,5 @@
-import { Platform } from "react-native";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { Platform } from "react-native";
 
 let supabaseClientPromise: Promise<SupabaseClient> | null = null;
 
