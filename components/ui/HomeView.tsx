@@ -21,7 +21,8 @@ type HomeViewProps = {
   pastLoading: boolean;
   onPlay: () => void;
   onPlayPast: (dateKey: string) => void;
-  bottomInset: number;
+  onCreateYourOwn: () => void;
+  onSignIn: () => void;
 };
 
 export default function HomeView({
@@ -34,20 +35,42 @@ export default function HomeView({
   pastLoading,
   onPlay,
   onPlayPast,
-  bottomInset,
+  onCreateYourOwn,
+  onSignIn,
 }: HomeViewProps) {
   const fullBleedSection = (
-    <PastWeekSection
-      pastClues={pastClues}
-      pastLoading={pastLoading}
-      onPlayPast={onPlayPast}
-      bottomInset={bottomInset}
-      show={!error || loading}
-    />
+    <View className="gap-y-4">
+      <PastWeekSection
+        pastClues={pastClues}
+        pastLoading={pastLoading}
+        onPlayPast={onPlayPast}
+      />
+
+      <View className="px-4 pb-16 pt-6 items-center gap-y-4 max-w-lg mx-auto">
+        <Text className="text-2xl font-sans-semibold text-center text-stone-900">
+          Have a bugtong of your own?
+        </Text>
+        <Text className="body-base text-lg text-center leading-snug">
+          Sign in and create your own bugtong for others to solve!
+        </Text>
+        <View className="flex-row gap-3 justify-center flex-wrap">
+          <ActionButton
+            label="Create yours"
+            color="bg-emerald-300"
+            onPress={onCreateYourOwn}
+          />
+          <ActionButton
+            label="Sign in"
+            color="bg-rose-200"
+            onPress={onSignIn}
+          />
+        </View>
+      </View>
+    </View>
   );
 
   return (
-    <PageShell emoji="🧩" fullBleed={fullBleedSection}>
+    <PageShell fullBleed={fullBleedSection}>
       {error && !loading ? (
         <View className="flex-1 items-center justify-center px-6">
           <Text className="text-xl font-bold text-center">
