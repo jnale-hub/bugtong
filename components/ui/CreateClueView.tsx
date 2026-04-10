@@ -3,7 +3,6 @@ import BackButton from "@/components/ui/BackButton";
 import Logo from "@/components/ui/Logo";
 import PageHeader from "@/components/ui/PageHeader";
 import PageShell from "@/components/ui/PageShell";
-import SectionCard from "@/components/ui/SectionCard";
 import SelectionChips from "@/components/ui/SelectionChips";
 import { Pressable, Text, TextInput, View } from "react-native";
 
@@ -14,6 +13,7 @@ type CreateClueViewProps = {
   onBack: () => void;
   authLoading: boolean;
   isSignedIn: boolean;
+  sessionDisplayName: string | null;
   sessionEmail: string | null;
   clueText: string;
   answer: string;
@@ -46,6 +46,7 @@ export default function CreateClueView({
   onBack,
   authLoading,
   isSignedIn,
+  sessionDisplayName,
   sessionEmail,
   clueText,
   answer,
@@ -73,24 +74,24 @@ export default function CreateClueView({
   onFodderExplanationChange,
   onSubmit,
 }: CreateClueViewProps) {
+  const signedInLabel = sessionDisplayName || sessionEmail || "user";
+
   return (
     <PageShell>
       <PageHeader left={<BackButton onPress={onBack} />} right={<Logo />} />
 
-      <Text className="font-serif text-2xl mt-3 text-center tracking-wide">
+      <Text className="font-serif text-2xl mt-3 mb-1 text-center tracking-wide">
         Gumawa ng Bugtong
       </Text>
 
       {authLoading ? (
-        <SectionCard className="mt-6">
-          <Text className="font-sans text-sm/70" accessibilityLabel="Checking session">
-            Checking session...
-          </Text>
-        </SectionCard>
+        <Text className="body-base text-center" accessibilityLabel="Checking session">
+          Checking session...
+        </Text>
       ) : isSignedIn ? (
         <Text className="body-base text-center">
           Signed in as{" "}
-          <span className="font-semibold">{sessionEmail || "user"}</span>.
+          <Text className="font-semibold">{signedInLabel}</Text>.
         </Text>
       ) : null}
 
