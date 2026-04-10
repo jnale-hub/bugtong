@@ -1,0 +1,7 @@
+[build]
+  command = "expo export -p web"
+  publish = "dist"
+
+[build.environment]
+  # EXPO_PUBLIC_* variables are client-exposed by design in Expo web builds.
+  SECRETS_SCAN_OMIT_KEYS = "EXPO_PUBLIC_SUPABASE_KEY,EXPO_PUBLIC_SUPABASE_URL"
