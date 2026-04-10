@@ -12,7 +12,13 @@ import { ClueData } from "@/data/clues";
 import { GameStatus } from "@/hooks/useCrypticGame";
 import { Feather } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
-import { Text,  Dimensions, Platform, Pressable, View } from "react-native";
+import {
+  Platform,
+  Pressable,
+  Text,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import { PIConfetti, PIConfettiMethods } from "react-native-fast-confetti";
 
 type HintState = {
@@ -94,16 +100,31 @@ export default function PlayView({
           });
         });
       } else {
-        confettiRef.current?.restart();
+        requestAnimationFrame(() => {
+          confettiRef.current?.restart();
+        });
       }
     }
   }, [status]);
 
-  const { width } = Dimensions.get("window");
+  const { width, height } = useWindowDimensions();
 
   return (
     <PageShell
       maxWidthClassName="max-w-2xl"
+      overlay={
+        status === "won" && Platform.OS !== "web" ? (
+          <View className="absolute inset-0 z-50" pointerEvents="none">
+            <PIConfetti
+              ref={confettiRef}
+              count={100}
+              width={width}
+              height={height}
+              blastPosition={{ x: width / 2, y: -20 }}
+            />
+          </View>
+        ) : null
+      }
       footer={
         status !== "won" && activeClue ? (
           <View
@@ -133,7 +154,9 @@ export default function PlayView({
                 >
                   <Feather name="arrow-left" size={28} className="font-bold" />
                 </Pressable>
-                <Text className="font-sans-semibold xs:text-lg">{dateLabel}</Text>
+                <Text className="font-sans-semibold xs:text-lg">
+                  {dateLabel}
+                </Text>
               </View>
             }
             right={<Logo />}
@@ -209,19 +232,6 @@ export default function PlayView({
           }}
         />
       ) : null}
-
-      {status === "won" && Platform.OS !== "web" && (
-        <View
-          className="absolute top-0 left-0 right-0 z-50"
-          pointerEvents="none"
-        >
-          <PIConfetti
-            ref={confettiRef}
-            count={200}
-            blastPosition={{ x: width / 2, y: -20 }}
-          />
-        </View>
-      )}
     </PageShell>
   );
 }
