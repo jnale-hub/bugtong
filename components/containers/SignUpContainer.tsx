@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 
 export default function SignUpContainer() {
   const router = useRouter();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -22,8 +23,8 @@ export default function SignUpContainer() {
   const handleSignUp = async () => {
     setError(null);
     setSuccess(null);
-    if (!email.trim() || !password.trim()) {
-      setError("Email and password are required.");
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      setError("Name, email, and password are required.");
       return;
     }
 
@@ -32,6 +33,13 @@ export default function SignUpContainer() {
       const { data, error: signUpError } = await supabase.auth.signUp({
         email: email.trim(),
         password,
+        options: {
+          data: {
+            name: name.trim(),
+            display_name: name.trim(),
+            username: name.trim(),
+          },
+        },
       });
 
       if (signUpError) {
@@ -57,12 +65,14 @@ export default function SignUpContainer() {
       dateLabel={dateLabel}
       onBack={() => (router.canGoBack() ? router.back() : router.replace("/"))}
       title="Sign Up"
+      name={name}
       email={email}
       password={password}
       loading={loading}
       error={error}
       success={success}
       submitColor="bg-rose-300"
+      onNameChange={setName}
       onEmailChange={setEmail}
       onPasswordChange={setPassword}
       onSubmit={handleSignUp}
