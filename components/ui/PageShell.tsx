@@ -9,6 +9,7 @@ type PageShellProps = {
   scroll?: boolean;
   footer?: ReactNode;
   fullBleed?: ReactNode;
+  overlay?: ReactNode;
 };
 
 export default function PageShell({
@@ -18,10 +19,11 @@ export default function PageShell({
   scroll = true,
   footer,
   fullBleed,
+  overlay,
 }: PageShellProps) {
   return (
     <SafeAreaView
-      className="flex-1 bg-violet-300"
+      className="relative flex-1 bg-violet-300"
       edges={["top", "left", "right"]}
     >
       {scroll ? (
@@ -55,6 +57,12 @@ export default function PageShell({
           {footer ? <View className="w-full pt-2">{footer}</View> : null}
         </View>
       )}
+
+      {overlay ? (
+        <View className="absolute inset-0" pointerEvents="box-none">
+          {overlay}
+        </View>
+      ) : null}
     </SafeAreaView>
   );
 }
