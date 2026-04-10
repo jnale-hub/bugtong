@@ -6,6 +6,7 @@ type PastClue = {
   dateKey: string;
   dateLabel: string;
   clueText: string;
+  isSolved: boolean;
 };
 
 type PastWeekSectionProps = {
@@ -53,20 +54,37 @@ export default function PastWeekSection({
           <View className="mt-4 flex-row flex-wrap gap-3 max-md:justify-center">
             {pastClues.map((clue) => {
               const dayLabel = getDayLabel(clue.dateKey);
+              const isSolved = clue.isSolved;
 
               return (
                 <Pressable
                   key={clue.id}
                   onPress={() => onPlayPast(clue.dateKey)}
                   accessibilityRole="button"
-                  accessibilityLabel={`Play ${dayLabel} clue`}
-                  className="rounded-xl bg-stone-200/50 px-6 py-4 w-22"
+                  accessibilityLabel={`${isSolved ? "Replay solved" : "Play"} ${dayLabel} clue`}
+                  className={`rounded-xl px-6 py-4 min-w-24 ${
+                    isSolved
+                      ? "bg-emerald-100/50"
+                      : "bg-stone-200/50"
+                  }`}
                 >
                   <View className="flex-col items-center justify-between gap-3">
-                    <View className="h-12 w-12 items-center justify-center rounded-full bg-stone-50">
-                      <Feather name="calendar" size={24} color="#2D2D2D" />
+                    <View
+                      className={`h-12 w-12 items-center justify-center rounded-full ${
+                        isSolved ? "bg-emerald-200" : "bg-stone-50"
+                      }`}
+                    >
+                      <Feather
+                        name={isSolved ? "check-circle" : "calendar"}
+                        size={24}
+                        color={isSolved ? "#065F46" : "#2D2D2D"}
+                      />
                     </View>
-                    <Text className="text-lg font-sans-semibold">
+                    <Text
+                      className={`text-lg font-sans-semibold ${
+                        isSolved ? "text-emerald-900" : "text-stone-900"
+                      }`}
+                    >
                       {dayLabel}
                     </Text>
                   </View>

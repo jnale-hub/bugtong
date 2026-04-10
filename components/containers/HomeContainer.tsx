@@ -2,13 +2,16 @@ import HomeView from "@/components/ui/HomeView";
 import { useDailyClue } from "@/hooks/useDailyClue";
 import { useRecentClues } from "@/hooks/useRecentClues";
 import { supabase } from "@/utils/supabase";
-import { useRouter } from "expo-router";
-import { useEffect, useMemo, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type HomeUser = {
   isSignedIn: boolean;
   displayName: string | null;
 };
+
+const SOLVED_STORAGE_PREFIX = "bugtong:solved-clue:";
 
 export default function HomeContainer() {
   const router = useRouter();
@@ -18,6 +21,38 @@ export default function HomeContainer() {
   });
   const { clue, loading, error } = useDailyClue();
   const { clues: recentClues, loading: recentLoading } = useRecentClues();
+  const [solvedByDate, setSolvedByDate] = useState<Record<string, boolean>>({});
+
+  const loadSolvedByDate = useCallback(async () => {
+    if (recentClues.length === 0) {
+      setSolvedByDate({});
+      return;
+    }
+
+    try {
+      const keys = recentClues.map(
+        (clueItem) => `${SOLVED_STORAGE_PREFIX}${clueItem.playDate}`,
+      );
+      const values = await AsyncStorage.multiGet(keys);
+
+      const map = recentClues.reduce<Record<string, boolean>>(
+        (acc, clueItem, index) => {
+          const stored = values[index]?.[1];
+          acc[clueItem.playDate] = Boolean(stored);
+          return acc;
+        },
+        {},
+      );
+
+      setSolvedByDate(map);
+    } catch (readError) {
+      console.error(
+        "Failed to load solved states for recent clues:",
+        readError,
+      );
+      setSolvedByDate({});
+    }
+  }, [recentClues]);
 
   useEffect(() => {
     let isMounted = true;
@@ -96,6 +131,16 @@ export default function HomeContainer() {
     };
   }, []);
 
+  useEffect(() => {
+    void loadSolvedByDate();
+  }, [loadSolvedByDate]);
+
+  useFocusEffect(
+    useCallback(() => {
+      void loadSolvedByDate();
+    }, [loadSolvedByDate]),
+  );
+
   const todayLabel = useMemo(() => {
     return new Date().toLocaleDateString("en-US", {
       weekday: "long",
@@ -122,6 +167,7 @@ export default function HomeContainer() {
           },
         ),
         clueText: item.clueText,
+        isSolved: Boolean(solvedByDate[item.playDate]),
       }))}
       pastLoading={recentLoading}
       onPlay={() => router.push("/play")}

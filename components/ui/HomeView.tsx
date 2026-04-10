@@ -17,6 +17,7 @@ type HomeViewProps = {
     dateKey: string;
     dateLabel: string;
     clueText: string;
+    isSolved: boolean;
   }[];
   pastLoading: boolean;
   onPlay: () => void;
