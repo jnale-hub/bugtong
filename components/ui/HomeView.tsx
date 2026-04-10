@@ -93,7 +93,9 @@ export default function HomeView({
               )}
             </Text>
             <Pressable onPress={onSignOut} accessibilityRole="button">
-              <Text className="font-sans-semibold underline text-stone-900">Sign out</Text>
+              <Text className="font-sans-semibold underline text-stone-900">
+                Sign out
+              </Text>
             </Pressable>
           </View>
         ) : null}
@@ -103,40 +105,36 @@ export default function HomeView({
 
   return (
     <PageShell fullBleed={fullBleedSection}>
-      {error && !loading ? (
-        <View className="flex-1 items-center justify-center px-6">
-          <Text className="text-xl font-sans-semibold text-center">
-            {error || "No clue available today!"}
-          </Text>
-        </View>
-      ) : (
-        <>
-          <PageHeader
-            left={
-              <View>
-                <Text className="font-sans-semibold xs:text-lg">
-                  {dateLabel}
-                </Text>
-                {isSignedIn ? (
-                  <Text className="body-base">
-                    {signedInLabel ? (
-                      <>
-                        Signed in as{" "}
-                        <Text className="font-sans-semibold">
-                          {signedInLabel}
-                        </Text>
-                      </>
-                    ) : (
-                      "Signed in"
-                    )}
-                  </Text>
-                ) : null}
-              </View>
-            }
-            right={<Logo />}
-          />
+      <PageHeader
+        left={
+          <View>
+            <Text className="font-sans-semibold xs:text-lg">{dateLabel}</Text>
+            {isSignedIn ? (
+              <Text className="body-base">
+                {signedInLabel ? (
+                  <>
+                    Signed in as{" "}
+                    <Text className="font-sans-semibold">{signedInLabel}</Text>
+                  </>
+                ) : (
+                  "Signed in"
+                )}
+              </Text>
+            ) : null}
+          </View>
+        }
+        right={<Logo />}
+      />
 
-          <SectionCard className="mt-6 flex-col gap-y-4 py-6 justify-center items-center">
+      <SectionCard className="mt-6 flex-col gap-y-4 py-6 justify-center items-center">
+        {error && !loading ? (
+          <View className="flex-1 items-center justify-center px-6 py-12">
+            <Text className="text-xl font-sans text-center">
+              {error || "No clue available today!"}
+            </Text>
+          </View>
+        ) : (
+          <>
             <Text className="text-lg text-center body-muted uppercase tracking-tight">
               Bugtong of the Day
             </Text>
@@ -169,9 +167,9 @@ export default function HomeView({
               onPress={onPlay}
             />
             <Text className="body-muted">{dateLabel}</Text>
-          </SectionCard>
-        </>
-      )}
+          </>
+        )}
+      </SectionCard>
     </PageShell>
   );
 }
