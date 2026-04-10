@@ -11,7 +11,7 @@ export default function WonExplanation({ clue }: WonExplanationProps) {
   return (
     <Animated.View entering={SlideInDown} exiting={FadeOut}>
       <SectionCard className="mt-6 max-w-lg w-full mx-auto px-6">
-        <Text className="font-serif font-bold text-xl">Explanation</Text>
+        <Text className="font-serif tracking-wide font-bold text-xl">Explanation</Text>
         <View className="mt-4 gap-4">
           <View className="gap-1">
             <Text className="title-sm uppercase">Definition</Text>
