@@ -11,15 +11,9 @@ import PageShell from "@/components/ui/PageShell";
 import { ClueData } from "@/data/clues";
 import { GameStatus } from "@/hooks/useCrypticGame";
 import { Feather } from "@expo/vector-icons";
-import { useEffect, useRef, useState } from "react";
-import {
-  Platform,
-  Pressable,
-  Text,
-  View,
-  useWindowDimensions,
-} from "react-native";
-import { PIConfetti, PIConfettiMethods } from "react-native-fast-confetti";
+import { useEffect, useState } from "react";
+import { Platform, Pressable, Text, View } from "react-native";
+import NativeConfettiOverlay from "../NativeConfettiOverlay";
 
 type HintState = {
   showIndicator: boolean;
@@ -92,44 +86,24 @@ export default function PlayView({
     letter: "A letter has been revealed.",
   };
 
-  const confettiRef = useRef<PIConfettiMethods>(null);
-
   useEffect(() => {
-    if (status === "won") {
-      if (Platform.OS === "web") {
-        import("canvas-confetti").then((module) => {
-          const confetti = module.default;
-          confetti({
-            particleCount: 200,
-            spread: 100,
-            origin: { y: 0.2 },
-          });
+    if (status === "won" && Platform.OS === "web") {
+      import("canvas-confetti").then((module) => {
+        const confetti = module.default;
+        confetti({
+          particleCount: 200,
+          spread: 100,
+          origin: { y: 0.2 },
         });
-      } else {
-        requestAnimationFrame(() => {
-          confettiRef.current?.restart();
-        });
-      }
+      });
     }
   }, [status]);
-
-  const { width, height } = useWindowDimensions();
 
   return (
     <PageShell
       maxWidthClassName="max-w-2xl"
       overlay={
-        status === "won" && Platform.OS !== "web" ? (
-          <View className="absolute inset-0 z-50" pointerEvents="none">
-            <PIConfetti
-              ref={confettiRef}
-              count={100}
-              width={width}
-              height={height}
-              blastPosition={{ x: width / 2, y: -20 }}
-            />
-          </View>
-        ) : null
+        status === "won" ? <NativeConfettiOverlay shouldCelebrate /> : null
       }
       footer={
         status !== "won" && activeClue ? (
