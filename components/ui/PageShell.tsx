@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 type PageShellProps = {
   children: ReactNode;
-  emoji?: string;
   maxWidthClassName?: string;
   contentClassName?: string;
   scroll?: boolean;
@@ -14,7 +13,6 @@ type PageShellProps = {
 
 export default function PageShell({
   children,
-  emoji,
   maxWidthClassName = "max-w-2xl",
   contentClassName = "pt-4 pb-8",
   scroll = true,
