@@ -14,10 +14,6 @@ module.exports = {
         serif: ["Sansita-ExtraBoldItalic", "serif"],
         montserrat: ["Montserrat-Regular", "sans-serif"],
       },
-      boxShadow: {
-        'soft': '4px 4px 0px 0px #1c1917',
-        'soft-sm': '2px 2px 0px 0px #1c1917',
-      }
     },
   },
   plugins: [],

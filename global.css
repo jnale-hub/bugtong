@@ -24,4 +24,12 @@
   .body-muted {
     @apply font-sans text-stone-500 tracking-wider;
   }
+
+  .border-sm {
+    @apply border-[3px] border-b-[4px] border-r-[4px] border-stone-900;
+  }
+
+  .border-lg {
+    @apply border-4 border-b-[6px] border-r-[6px] border-stone-900;
+  }
 }
