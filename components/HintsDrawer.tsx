@@ -5,15 +5,17 @@ interface HintRowProps {
   label: string;
   onClick?: () => void;
   colorName?: string;
+  disabled?: boolean;
+  rightText?: string;
 }
 
-function HintRow({ label, onClick, colorName }: HintRowProps) {
+function HintRow({ label, onClick, colorName, disabled, rightText }: HintRowProps) {
   return (
-    <Pressable onPress={onClick}>
+    <Pressable onPress={onClick} disabled={disabled}>
       <View
         accessibilityRole="button"
         accessibilityLabel={label}
-        className="w-full py-3 flex-row justify-between items-center group"
+        className={`w-full py-3 flex-row justify-between items-center group ${disabled ? "opacity-40" : ""}`}
       >
         <View className="relative">
           {colorName && (
@@ -28,6 +30,8 @@ function HintRow({ label, onClick, colorName }: HintRowProps) {
             {`${label} `}
           </Text>
         </View>
+
+        {rightText ? <Text className="body-muted text-sm">{rightText}</Text> : null}
       </View>
     </Pressable>
   );
@@ -37,6 +41,9 @@ interface Props {
   onClose: () => void;
   toggleHint: (type: "indicator" | "fodder" | "definition") => void;
   revealLetter: () => void;
+  revealLetterHintsUsed: number;
+  revealLetterHintsRemaining: number;
+  maxRevealLetterHints: number;
   onExplain: (title: string, body: string) => void;
   explanations: {
     indicator?: string;
@@ -50,6 +57,9 @@ export default function HintsDrawer({
   onClose,
   toggleHint,
   revealLetter,
+  revealLetterHintsUsed,
+  revealLetterHintsRemaining,
+  maxRevealLetterHints,
   onExplain,
   explanations,
 }: Props) {
@@ -137,11 +147,15 @@ export default function HintsDrawer({
 
               <HintRow
                 label="show letter"
+                rightText={`${revealLetterHintsUsed}/${maxRevealLetterHints}`}
+                disabled={revealLetterHintsRemaining <= 0}
                 onClick={() => {
+                  if (revealLetterHintsRemaining <= 0) return;
                   revealLetter();
                   onClose();
                 }}
               />
+
             </View>
           </View>
         </Pressable>

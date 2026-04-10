@@ -33,6 +33,9 @@ export default function PlayContainer() {
     status,
     shake,
     revealed,
+    revealLetterHintsUsed,
+    revealLetterHintsRemaining,
+    maxRevealLetterHints,
     activeIndex,
     setActiveIndex,
   } = useCrypticGame(activeClue, isSolved ? "won" : "playing");
@@ -112,6 +115,9 @@ export default function PlayContainer() {
       onCheck={checkAnswer}
       onToggleHint={toggleHint}
       onRevealLetter={revealLetter}
+      revealLetterHintsUsed={revealLetterHintsUsed}
+      revealLetterHintsRemaining={revealLetterHintsRemaining}
+      maxRevealLetterHints={maxRevealLetterHints}
       bottomInset={Math.max(insets.bottom, 12)}
     />
   );

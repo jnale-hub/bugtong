@@ -2,6 +2,7 @@ import { ClueData } from "@/data/clues";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 export type GameStatus = "playing" | "won";
+export const MAX_REVEAL_LETTER_HINTS = 3;
 
 const getAnswerLength = (answer: string) => {
   return answer.replace(/[^A-Za-z]/g, "").length;
@@ -130,6 +131,7 @@ export const useCrypticGame = (
 
   const revealLetter = useCallback(() => {
     if (status !== "playing" || !clue || !correctAnswer) return;
+    if (revealed.length >= MAX_REVEAL_LETTER_HINTS) return;
 
     const wrongIndices = guess
       .map((char, i) => (char !== correctAnswer[i] ? i : -1))
@@ -174,6 +176,12 @@ export const useCrypticGame = (
     status,
     shake,
     revealed,
+    revealLetterHintsUsed: revealed.length,
+    revealLetterHintsRemaining: Math.max(
+      MAX_REVEAL_LETTER_HINTS - revealed.length,
+      0,
+    ),
+    maxRevealLetterHints: MAX_REVEAL_LETTER_HINTS,
     activeIndex,
     setActiveIndex,
   };

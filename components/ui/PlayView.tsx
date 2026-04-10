@@ -48,6 +48,9 @@ type PlayViewProps = {
   onCheck: () => void;
   onToggleHint: (type: "indicator" | "fodder" | "definition") => void;
   onRevealLetter: () => void;
+  revealLetterHintsUsed: number;
+  revealLetterHintsRemaining: number;
+  maxRevealLetterHints: number;
   bottomInset: number;
 };
 
@@ -72,6 +75,9 @@ export default function PlayView({
   onCheck,
   onToggleHint,
   onRevealLetter,
+  revealLetterHintsUsed,
+  revealLetterHintsRemaining,
+  maxRevealLetterHints,
   bottomInset,
 }: PlayViewProps) {
   const [hintExplanation, setHintExplanation] = useState<{
@@ -209,6 +215,9 @@ export default function PlayView({
                   onClose={onCloseHints}
                   toggleHint={onToggleHint}
                   revealLetter={onRevealLetter}
+                  revealLetterHintsUsed={revealLetterHintsUsed}
+                  revealLetterHintsRemaining={revealLetterHintsRemaining}
+                  maxRevealLetterHints={maxRevealLetterHints}
                   explanations={explanationText}
                   onExplain={(title, body) =>
                     setHintExplanation({ title, body })
