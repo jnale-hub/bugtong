@@ -7,7 +7,10 @@ const getAnswerLength = (answer: string) => {
   return answer.replace(/[^A-Za-z]/g, "").length;
 };
 
-export const useCrypticGame = (clue: ClueData | null) => {
+export const useCrypticGame = (
+  clue: ClueData | null,
+  initialStatus: GameStatus = "playing",
+) => {
   const totalLength = clue ? getAnswerLength(clue.answer) : 0;
 
   const correctAnswer = useMemo(() => {
@@ -30,10 +33,14 @@ export const useCrypticGame = (clue: ClueData | null) => {
   useEffect(() => {
     if (!clue) return;
     const len = getAnswerLength(clue.answer);
+    const solvedGuess = clue.answer
+      .replace(/[^A-Za-z]/g, "")
+      .toLowerCase()
+      .split("");
     // Defer state updates to avoid synchronous setState inside an effect (prevents cascading renders)
     Promise.resolve().then(() => {
-      setGuess(Array(len).fill(""));
-      setStatus("playing");
+      setGuess(initialStatus === "won" ? solvedGuess : Array(len).fill(""));
+      setStatus(initialStatus);
       setHints({
         showIndicator: false,
         showFodder: false,
@@ -42,7 +49,7 @@ export const useCrypticGame = (clue: ClueData | null) => {
       setRevealed([]);
       setActiveIndex(0);
     });
-  }, [clue]);
+  }, [clue, initialStatus]);
 
   const handleInput = useCallback(
     (char: string) => {

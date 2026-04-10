@@ -1,6 +1,7 @@
 import PlayView from "@/components/ui/PlayView";
 import { useCrypticGame } from "@/hooks/useCrypticGame";
 import { useDailyClue } from "@/hooks/useDailyClue";
+import { useSolvedClueSession } from "@/hooks/useSolvedClueSession";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import { Platform } from "react-native";
@@ -14,7 +15,13 @@ export default function PlayContainer() {
     typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date)
       ? date
       : undefined;
+  const sessionDateKey = dateKey ?? new Date().toISOString().split("T")[0];
   const { clue: activeClue, loading, error } = useDailyClue(dateKey);
+  const {
+    isLoaded: sessionLoaded,
+    isSolved,
+    markSolved,
+  } = useSolvedClueSession(sessionDateKey);
   const {
     guess,
     handleInput,
@@ -28,7 +35,7 @@ export default function PlayContainer() {
     revealed,
     activeIndex,
     setActiveIndex,
-  } = useCrypticGame(activeClue);
+  } = useCrypticGame(activeClue, isSolved ? "won" : "playing");
   const [isHintOpen, setIsHintOpen] = useState(false);
 
   const dateLabel = useMemo(() => {
@@ -76,6 +83,12 @@ export default function PlayContainer() {
       (window as any).removeEventListener("keydown", handleKeyDown);
     };
   }, [handleInput, handleBackspace, checkAnswer]);
+
+  useEffect(() => {
+    if (status === "won" && activeClue && sessionLoaded && !isSolved) {
+      void markSolved(activeClue.id);
+    }
+  }, [activeClue, isSolved, markSolved, sessionLoaded, status]);
 
   return (
     <PlayView
