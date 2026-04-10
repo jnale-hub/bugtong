@@ -45,17 +45,17 @@ export default function AuthView({
 }: AuthViewProps) {
   return (
     <PageShell maxWidthClassName="max-w-lg" contentClassName="pt-8 pb-8">
-      <View className="gap-6">
         <PageHeader
           left={<BackButton onPress={onBack} />}
           right={<Logo />}
         />
+        
 
-        <Text className="font-serif text-2xl">{title}</Text>
+        <Text className="font-serif text-center text-2xl tracking-wide mb-6">{title}</Text>
 
-        <SectionCard className="gap-4">
+        <View className="border-sm rounded-xl bg-stone-50 px-4 py-6 gap-4 mb-6">
           <View className="gap-2">
-            <Text className=" text-sm/70">Email</Text>
+            <Text className="body-title">Email</Text>
             <TextInput
               value={email}
               onChangeText={onEmailChange}
@@ -63,21 +63,21 @@ export default function AuthView({
               autoCapitalize="none"
               keyboardType="email-address"
               accessibilityLabel="Email"
-              className="border-2 border-stone-900 rounded-2xl px-4 py-3  text-base"
+              className="border rounded-2xl px-4 py-3 body-base"
             />
           </View>
-          <View className="gap-2">
-            <Text className=" text-sm/70">Password</Text>
+          <View className="gap-2 mb-4">
+            <Text className="body-title">Password</Text>
             <TextInput
               value={password}
               onChangeText={onPasswordChange}
               placeholder="Password"
               secureTextEntry
               accessibilityLabel="Password"
-              className="border-2 border-stone-900 rounded-2xl px-4 py-3  text-base"
+              className="border rounded-2xl px-4 py-3 body-base"
             />
           </View>
-          {error ? <Text className="text-sm text-red-600">{error}</Text> : null}
+          {error ? <Text className="text-red-600 font-sans-semibold">{error}</Text> : null}
           {success ? (
             <Text className="text-sm text-green-700">{success}</Text>
           ) : null}
@@ -87,7 +87,7 @@ export default function AuthView({
             onPress={onSubmit}
             disabled={loading}
           />
-        </SectionCard>
+        </View>
 
         <Pressable
           onPress={onFooterAction}
@@ -95,11 +95,10 @@ export default function AuthView({
           accessibilityLabel={footerActionText}
           className="self-center"
         >
-          <Text className=" text-sm/70">
-            {footerText} {footerActionText}
+          <Text className="body-base">
+            {footerText} <Text className="font-sans-semibold">{footerActionText}</Text>
           </Text>
         </Pressable>
-      </View>
     </PageShell>
   );
 }
