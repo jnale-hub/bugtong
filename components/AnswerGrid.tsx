@@ -1,5 +1,10 @@
 import { memo, useCallback, useEffect, useMemo } from "react";
-import { Pressable, Text, View, useWindowDimensions } from "react-native";
+import {
+  Pressable,
+  Text,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -48,7 +53,7 @@ const AnswerCell = memo(function AnswerCell({
           ? "bg-emerald-300"
           : "bg-stone-50";
 
-  const fontSize = Math.floor(cellSize * 0.75);
+  const fontSize = Math.floor(cellSize * 0.8);
 
   return (
     <View className="bg-stone-50">
@@ -65,10 +70,11 @@ const AnswerCell = memo(function AnswerCell({
           <Text
             style={{
               fontSize,
-              includeFontPadding: true,
-              paddingHorizontal: 6,
+              lineHeight: cellSize,
+              includeFontPadding: false,
+              transform: [{ translateY: -5 }]
             }}
-            className="font-serif text-center pb-1.5 rounded"
+            className="font-serif text-center text-stone-900 w-full"
           >
             {value}
           </Text>
