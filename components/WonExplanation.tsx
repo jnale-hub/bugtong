@@ -14,18 +14,18 @@ export default function WonExplanation({ clue }: WonExplanationProps) {
         <Text className="font-serif font-bold text-xl">Explanation</Text>
         <View className="mt-4 gap-4">
           <View className="gap-1">
-            <Text className="body-title uppercase">Definition</Text>
+            <Text className="title-sm uppercase">Definition</Text>
             <Text className="body-base">{clue.definition.explanation}</Text>
           </View>
           {clue.indicator?.explanation ? (
             <View className="gap-1">
-              <Text className="body-title uppercase">Indicator</Text>
+              <Text className="title-sm uppercase">Indicator</Text>
               <Text className="body-base">{clue.indicator.explanation}</Text>
             </View>
           ) : null}
           {clue.fodder?.explanation ? (
             <View className="gap-1">
-              <Text className="body-title uppercase">Fodder</Text>
+              <Text className="title-sm uppercase">Fodder</Text>
               <Text className="body-base">{clue.fodder.explanation}</Text>
             </View>
           ) : null}
