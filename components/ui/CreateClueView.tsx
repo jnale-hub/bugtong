@@ -5,7 +5,7 @@ import PageHeader from "@/components/ui/PageHeader";
 import PageShell from "@/components/ui/PageShell";
 import SectionCard from "@/components/ui/SectionCard";
 import SelectionChips from "@/components/ui/SelectionChips";
-import { Text,  Pressable, TextInput, View } from "react-native";
+import { Pressable, Text, TextInput, View } from "react-native";
 
 type Range = { start: number; end: number };
 export type SelectionRange = Range & { text: string };
@@ -77,13 +77,13 @@ export default function CreateClueView({
     <PageShell>
       <PageHeader left={<BackButton onPress={onBack} />} right={<Logo />} />
 
-      <Text className="font-serif text-2xl mt-3 text-center font-bold">
+      <Text className="font-serif text-2xl mt-3 text-center tracking-wide">
         Gumawa ng Bugtong
       </Text>
 
       {authLoading ? (
         <SectionCard className="mt-6">
-          <Text className=" text-sm/70" accessibilityLabel="Checking session">
+          <Text className="font-sans text-sm/70" accessibilityLabel="Checking session">
             Checking session...
           </Text>
         </SectionCard>
@@ -96,10 +96,10 @@ export default function CreateClueView({
 
       <View className="mt-6 gap-8">
         <View className="gap-2">
-          <Text className="font-bold text-stone-700 ml-1 uppercase tracking-widest text-xs">
+          <Text className="font-sans-semibold text-stone-700 ml-1 uppercase tracking-wide text-xs">
             1. Write & Tag the Clue
           </Text>
-          <View className="border-[3px] border-stone-900 rounded-xl bg-stone-50/90 shadow-soft-sm overflow-hidden flex-col">
+          <View className="border-sm rounded-xl bg-stone-50 overflow-hidden flex-col">
             <TextInput
               value={clueText}
               onChangeText={onClueTextChange}
@@ -109,11 +109,11 @@ export default function CreateClueView({
               }}
               placeholder="Enter the clue text..."
               accessibilityLabel="Clue text"
-              className="px-4 py-5 text-xl sm:text-2xl leading-snug"
+              className="font-sans px-4 py-5 text-xl sm:text-2xl leading-snug"
               multiline
             />
             <View className="bg-stone-200/80 border-t-[3px] border-stone-900 p-3">
-              <Text className="text-xs/60 mb-2 font-bold uppercase tracking-wider text-stone-600">
+              <Text className="text-xs/60 mb-2 font-sans-semibold tracking-wider text-stone-600">
                 {selection && selection.start !== selection.end
                   ? `Selected: "${clueText.slice(selection.start, selection.end)}"`
                   : "Highlight words above to tag them:"}
@@ -140,7 +140,7 @@ export default function CreateClueView({
         </View>
 
         <View className="gap-2">
-          <Text className="font-bold text-stone-700 ml-1 uppercase tracking-widest text-xs">
+          <Text className="font-sans-semibold text-stone-700 ml-1 uppercase tracking-wide text-xs">
             2. Answer
           </Text>
           <TextInput
@@ -148,12 +148,12 @@ export default function CreateClueView({
             onChangeText={onAnswerChange}
             placeholder="Type answer here..."
             accessibilityLabel="Answer"
-            className="border-[3px] border-stone-900 rounded-xl px-4 py-4 text-xl bg-stone-50/90 shadow-soft-sm-sm font-bold uppercase tracking-widest"
+            className="border-sm rounded-xl px-4 py-4 text-xl bg-stone-50 font-sans-semibold tracking-wide"
           />
         </View>
 
         <View className="gap-4">
-          <Text className="font-bold text-stone-700 ml-1 uppercase tracking-widest text-xs">
+          <Text className="font-sans-semibold text-stone-700 ml-1 uppercase tracking-wide text-xs">
             3. Explanations
           </Text>
 
@@ -217,7 +217,7 @@ function TagButton({
       accessibilityRole="button"
       className={`px-3 py-1.5 border-2 border-stone-900 rounded-full ${color}`}
     >
-      <Text className="text-sm font-bold text-stone-900">{label}</Text>
+      <Text className="text-sm font-sans-semibold text-stone-900">{label}</Text>
     </Pressable>
   );
 }
@@ -244,12 +244,12 @@ function CluePartCard({
   required,
 }: CluePartCardProps) {
   return (
-    <View className="border-[3px] border-stone-900 rounded-xl p-4 bg-stone-50/90 shadow-soft-sm">
+    <View className="border-sm rounded-xl p-4 bg-stone-50">
       <View className="flex-row items-center gap-2 mb-3">
         <View
           className={`w-4 h-4 rounded-full border-2 border-stone-900 ${badgeColor}`}
         />
-        <Text className="font-serif text-xl">{title}</Text>
+        <Text className="font-serif text-xl tracking-wide">{title}</Text>
         {!required && (
           <Text className="text-sm opacity-50 ml-auto font-medium">
             (Optional)
@@ -266,7 +266,7 @@ function CluePartCard({
         onChangeText={onExplanationChange}
         placeholder={placeholder}
         multiline
-        className="border-2 border-stone-900/10 rounded-xl px-3 py-3 text-base bg-stone-200/50"
+        className="font-sans border-2 border-stone-900/10 rounded-xl px-3 py-3 text-base bg-stone-100"
       />
     </View>
   );
