@@ -3,10 +3,8 @@ import { useDailyClue } from "@/hooks/useDailyClue";
 import { useRecentClues } from "@/hooks/useRecentClues";
 import { useRouter } from "expo-router";
 import { useMemo } from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function HomeContainer() {
-  const insets = useSafeAreaInsets();
   const router = useRouter();
   const { clue, loading, error } = useDailyClue();
   const { clues: recentClues, loading: recentLoading } = useRecentClues();
@@ -43,7 +41,8 @@ export default function HomeContainer() {
       onPlayPast={(dateKey: string) =>
         router.push({ pathname: "/play", params: { date: dateKey } })
       }
-      bottomInset={Math.max(insets.bottom, 16)}
+      onCreateYourOwn={() => router.push("/create")}
+      onSignIn={() => router.push("/sign-in")}
     />
   );
 }
