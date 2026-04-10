@@ -1,7 +1,7 @@
 import HomeView from "@/components/ui/HomeView";
 import { useDailyClue } from "@/hooks/useDailyClue";
 import { useRecentClues } from "@/hooks/useRecentClues";
-import { supabase } from "@/utils/supabase";
+import { getSupabase } from "@/utils/supabase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -56,6 +56,7 @@ export default function HomeContainer() {
 
   useEffect(() => {
     let isMounted = true;
+    let unsubscribe: (() => void) | null = null;
 
     const deriveDisplayName = (user: any): string | null => {
       const metadata = user?.user_metadata ?? {};
@@ -66,6 +67,7 @@ export default function HomeContainer() {
     };
 
     const syncCurrentUser = async () => {
+      const supabase = await getSupabase();
       const { data, error: sessionError } = await supabase.auth.getSession();
       if (sessionError) {
         console.error("Failed to read auth session:", sessionError);
@@ -97,37 +99,47 @@ export default function HomeContainer() {
       }
     };
 
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        if (session?.user) {
-          setCurrentUser({
-            isSignedIn: true,
-            displayName: deriveDisplayName(session.user),
-          });
+    const initAuth = async () => {
+      const supabase = await getSupabase();
 
-          const { data: userData, error: userError } =
-            await supabase.auth.getUser();
-          if (userError) {
-            console.error("Failed to refresh auth user:", userError);
-            return;
+      const { data: authListener } = supabase.auth.onAuthStateChange(
+        async (_event, session) => {
+          if (session?.user) {
+            setCurrentUser({
+              isSignedIn: true,
+              displayName: deriveDisplayName(session.user),
+            });
+
+            const { data: userData, error: userError } =
+              await supabase.auth.getUser();
+            if (userError) {
+              console.error("Failed to refresh auth user:", userError);
+              return;
+            }
+            if (!isMounted || !userData.user) return;
+
+            setCurrentUser((prev) => ({
+              ...prev,
+              displayName: deriveDisplayName(userData.user),
+            }));
+          } else {
+            setCurrentUser({ isSignedIn: false, displayName: null });
           }
-          if (!isMounted || !userData.user) return;
+        },
+      );
 
-          setCurrentUser((prev) => ({
-            ...prev,
-            displayName: deriveDisplayName(userData.user),
-          }));
-        } else {
-          setCurrentUser({ isSignedIn: false, displayName: null });
-        }
-      },
-    );
+      unsubscribe = () => {
+        authListener.subscription.unsubscribe();
+      };
 
-    syncCurrentUser();
+      await syncCurrentUser();
+    };
+
+    void initAuth();
 
     return () => {
       isMounted = false;
-      authListener.subscription.unsubscribe();
+      unsubscribe?.();
     };
   }, []);
 
@@ -177,7 +189,7 @@ export default function HomeContainer() {
       onCreateYourOwn={() => router.push("/create")}
       onSignIn={() => router.push("/sign-in")}
       onSignOut={() => {
-        void supabase.auth.signOut();
+        void getSupabase().then((supabase) => supabase.auth.signOut());
       }}
       isSignedIn={currentUser.isSignedIn}
       signedInDisplayName={currentUser.displayName}

@@ -1,5 +1,5 @@
 import AuthView from "@/components/ui/AuthView";
-import { supabase } from "@/utils/supabase";
+import { getSupabase } from "@/utils/supabase";
 import { useRouter } from "expo-router";
 import { useMemo, useState } from "react";
 
@@ -27,6 +27,7 @@ export default function SignInContainer() {
 
     try {
       setLoading(true);
+      const supabase = await getSupabase();
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password,

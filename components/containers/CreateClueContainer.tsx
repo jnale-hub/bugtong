@@ -1,5 +1,5 @@
 import CreateClueView, { SelectionRange } from "@/components/ui/CreateClueView";
-import { supabase } from "@/utils/supabase";
+import { getSupabase } from "@/utils/supabase";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -62,7 +62,9 @@ export default function CreateClueContainer() {
     ) => {
       if (!baseSession) return null;
 
-      const { data: userData, error: userError } = await supabase.auth.getUser();
+      const supabase = await getSupabase();
+      const { data: userData, error: userError } =
+        await supabase.auth.getUser();
       if (userError) {
         console.error("Auth user error:", userError);
         return baseSession;
@@ -73,6 +75,7 @@ export default function CreateClueContainer() {
 
     const initAuth = async () => {
       try {
+        const supabase = await getSupabase();
         const { data, error: sessionError } = await supabase.auth.getSession();
         if (sessionError) {
           console.error("Auth session error:", sessionError);
@@ -94,21 +97,31 @@ export default function CreateClueContainer() {
       }
     };
 
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (_event, nextSession) => {
-        const rawSession = nextSession ? { user: nextSession.user } : null;
-        const sessionWithUser = await withFreshUser(rawSession);
-        if (!isMounted) return;
+    let unsubscribe: (() => void) | null = null;
 
-        setSession(sessionWithUser);
-      },
-    );
+    const initListener = async () => {
+      const supabase = await getSupabase();
+      const { data: authListener } = supabase.auth.onAuthStateChange(
+        async (_event, nextSession) => {
+          const rawSession = nextSession ? { user: nextSession.user } : null;
+          const sessionWithUser = await withFreshUser(rawSession);
+          if (!isMounted) return;
 
-    initAuth();
+          setSession(sessionWithUser);
+        },
+      );
+
+      unsubscribe = () => {
+        authListener.subscription.unsubscribe();
+      };
+    };
+
+    void initListener();
+    void initAuth();
 
     return () => {
       isMounted = false;
-      authListener.subscription.unsubscribe();
+      unsubscribe?.();
     };
   }, []);
 
@@ -120,6 +133,7 @@ export default function CreateClueContainer() {
 
   const handleSignOut = async () => {
     try {
+      const supabase = await getSupabase();
       await supabase.auth.signOut();
     } catch (err) {
       console.error(err);
@@ -251,6 +265,7 @@ export default function CreateClueContainer() {
 
     try {
       setSaving(true);
+      const supabase = await getSupabase();
       const { error: insertError } = await supabase
         .from("submitted_clues")
         .insert(payload);

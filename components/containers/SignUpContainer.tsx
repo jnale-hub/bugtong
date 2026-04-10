@@ -1,5 +1,5 @@
 import AuthView from "@/components/ui/AuthView";
-import { supabase } from "@/utils/supabase";
+import { getSupabase } from "@/utils/supabase";
 import { useRouter } from "expo-router";
 import { useMemo, useState } from "react";
 
@@ -30,6 +30,7 @@ export default function SignUpContainer() {
 
     try {
       setLoading(true);
+      const supabase = await getSupabase();
       const { data, error: signUpError } = await supabase.auth.signUp({
         email: email.trim(),
         password,
