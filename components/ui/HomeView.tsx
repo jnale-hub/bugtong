@@ -4,7 +4,7 @@ import PageHeader from "@/components/ui/PageHeader";
 import PageShell from "@/components/ui/PageShell";
 import PastWeekSection from "@/components/ui/PastWeekSection";
 import SectionCard from "@/components/ui/SectionCard";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 type HomeViewProps = {
   dateLabel: string;
@@ -23,6 +23,9 @@ type HomeViewProps = {
   onPlayPast: (dateKey: string) => void;
   onCreateYourOwn: () => void;
   onSignIn: () => void;
+  onSignOut: () => void;
+  isSignedIn: boolean;
+  signedInDisplayName?: string | null;
 };
 
 export default function HomeView({
@@ -37,7 +40,12 @@ export default function HomeView({
   onPlayPast,
   onCreateYourOwn,
   onSignIn,
+  onSignOut,
+  isSignedIn,
+  signedInDisplayName,
 }: HomeViewProps) {
+  const signedInLabel = signedInDisplayName?.trim() || null;
+
   const fullBleedSection = (
     <View className="gap-y-4">
       <PastWeekSection
@@ -48,10 +56,14 @@ export default function HomeView({
 
       <View className="px-4 pb-16 pt-6 items-center gap-y-4 max-w-lg mx-auto">
         <Text className="text-2xl font-sans-semibold text-center text-stone-900">
-          Have a bugtong of your own?
+          {isSignedIn
+            ? "Ready to create your own bugtong?"
+            : "Have a bugtong of your own?"}
         </Text>
-        <Text className="body-base text-lg text-center leading-snug">
-          Sign in and create your own bugtong for others to solve!
+        <Text className="body-base text-lg text-center leading-snug -mt-2">
+          {isSignedIn
+            ? "Share your own puzzle for others to solve!"
+            : "Sign in and create your own bugtong for others to solve!"}
         </Text>
         <View className="flex-row gap-3 justify-center flex-wrap">
           <ActionButton
@@ -59,12 +71,32 @@ export default function HomeView({
             color="bg-emerald-300"
             onPress={onCreateYourOwn}
           />
-          <ActionButton
-            label="Sign in"
-            color="bg-rose-200"
-            onPress={onSignIn}
-          />
+          {!isSignedIn ? (
+            <ActionButton
+              label="Sign in"
+              color="bg-rose-200"
+              onPress={onSignIn}
+            />
+          ) : null}
         </View>
+
+        {isSignedIn ? (
+          <View className="items-center gap-2 flex-row justify-center">
+            <Text className="body-base">
+              {signedInLabel ? (
+                <>
+                  Signed in as{" "}
+                  <Text className="font-sans-semibold">{signedInLabel}</Text>.
+                </>
+              ) : (
+                "Signed in."
+              )}
+            </Text>
+            <Pressable onPress={onSignOut} accessibilityRole="button">
+              <Text className="font-sans-semibold underline text-stone-900">Sign out</Text>
+            </Pressable>
+          </View>
+        ) : null}
       </View>
     </View>
   );
@@ -81,7 +113,25 @@ export default function HomeView({
         <>
           <PageHeader
             left={
-              <Text className="font-sans-semibold xs:text-lg">{dateLabel}</Text>
+              <View>
+                <Text className="font-sans-semibold xs:text-lg">
+                  {dateLabel}
+                </Text>
+                {isSignedIn ? (
+                  <Text className="body-base">
+                    {signedInLabel ? (
+                      <>
+                        Signed in as{" "}
+                        <Text className="font-sans-semibold">
+                          {signedInLabel}
+                        </Text>
+                      </>
+                    ) : (
+                      "Signed in"
+                    )}
+                  </Text>
+                ) : null}
+              </View>
             }
             right={<Logo />}
           />
