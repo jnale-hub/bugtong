@@ -10,14 +10,14 @@
 
 @layer components {
   .body-title {
-    @apply font-sans text-lg text-stone-800;
+    @apply font-sans text-lg text-stone-900;
   }
 
   .body-base {
     @apply font-sans text-pretty leading-relaxed text-stone-900;
   }
 
-  .body-title {
+  .title-sm {
     @apply font-sans-semibold text-xs tracking-wide text-stone-700;
   }
   
