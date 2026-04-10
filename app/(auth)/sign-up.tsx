@@ -1,5 +1,13 @@
-import SignUpContainer from "@/components/containers/SignUpContainer";
+import { lazy, Suspense } from "react";
+
+const SignUpContainer = lazy(
+  () => import("@/components/containers/SignUpContainer"),
+);
 
 export default function SignUp() {
-  return <SignUpContainer />;
+  return (
+    <Suspense fallback={null}>
+      <SignUpContainer />
+    </Suspense>
+  );
 }

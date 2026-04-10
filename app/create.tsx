@@ -1,5 +1,13 @@
-import CreateClueContainer from "@/components/containers/CreateClueContainer";
+import { lazy, Suspense } from "react";
+
+const CreateClueContainer = lazy(
+  () => import("@/components/containers/CreateClueContainer"),
+);
 
 export default function CreateClue() {
-  return <CreateClueContainer />;
+  return (
+    <Suspense fallback={null}>
+      <CreateClueContainer />
+    </Suspense>
+  );
 }
