@@ -105,7 +105,7 @@ export default function HomeView({
     <PageShell fullBleed={fullBleedSection}>
       {error && !loading ? (
         <View className="flex-1 items-center justify-center px-6">
-          <Text className="text-xl font-bold text-center">
+          <Text className="text-xl font-sans-semibold text-center">
             {error || "No clue available today!"}
           </Text>
         </View>

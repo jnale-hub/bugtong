@@ -75,7 +75,7 @@ export default function PastWeekSection({
             })}
           </View>
         ) : (
-          <Text className="mt-4  text-sm/60">No past clues yet.</Text>
+          <Text className="mt-4 body-base">No past clues yet.</Text>
         )}
       </View>
     </View>
