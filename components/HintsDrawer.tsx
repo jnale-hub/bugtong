@@ -9,7 +9,13 @@ interface HintRowProps {
   rightText?: string;
 }
 
-function HintRow({ label, onClick, colorName, disabled, rightText }: HintRowProps) {
+function HintRow({
+  label,
+  onClick,
+  colorName,
+  disabled,
+  rightText,
+}: HintRowProps) {
   return (
     <Pressable onPress={onClick} disabled={disabled}>
       <View
@@ -31,7 +37,9 @@ function HintRow({ label, onClick, colorName, disabled, rightText }: HintRowProp
           </Text>
         </View>
 
-        {rightText ? <Text className="body-muted text-sm">{rightText}</Text> : null}
+        {rightText ? (
+          <Text className="body-muted text-sm">{rightText}</Text>
+        ) : null}
       </View>
     </Pressable>
   );
@@ -69,6 +77,7 @@ export default function HintsDrawer({
     {
       key: "indicator",
       label: "show indicators",
+      rightText: "Tanda",
       colorName: "bg-rose-300/80",
       title: "Indicator",
       fallback: "No indicator explanation provided.",
@@ -76,6 +85,7 @@ export default function HintsDrawer({
     {
       key: "fodder",
       label: "show fodder",
+      rightText: "Sangkap",
       colorName: "bg-yellow-300/80",
       title: "Fodder",
       fallback: "No fodder explanation provided.",
@@ -83,6 +93,7 @@ export default function HintsDrawer({
     {
       key: "definition",
       label: "show definition",
+      rightText: "Kahulugan",
       colorName: "bg-blue-300/80",
       title: "Definition",
       fallback: "No definition explanation provided.",
@@ -125,23 +136,26 @@ export default function HintsDrawer({
             </View>
 
             <View className="flex-col sm:gap-1">
-              {hintOptions.map(({ key, label, colorName, title, fallback }) => {
-                const explanation = explanations[key];
-                if (!explanation) return null;
+              {hintOptions.map(
+                ({ key, label, rightText, colorName, title, fallback }) => {
+                  const explanation = explanations[key];
+                  if (!explanation) return null;
 
-                return (
-                  <HintRow
-                    key={key}
-                    label={label}
-                    colorName={colorName}
-                    onClick={() => {
-                      toggleHint(key);
-                      onClose();
-                      onExplain(title, explanation || fallback);
-                    }}
-                  />
-                );
-              })}
+                  return (
+                    <HintRow
+                      key={key}
+                      label={label}
+                      rightText={rightText}
+                      colorName={colorName}
+                      onClick={() => {
+                        toggleHint(key);
+                        onClose();
+                        onExplain(title, explanation || fallback);
+                      }}
+                    />
+                  );
+                },
+              )}
 
               <View className="h-2 sm:h-4" />
 
@@ -155,7 +169,6 @@ export default function HintsDrawer({
                   onClose();
                 }}
               />
-
             </View>
           </View>
         </Pressable>

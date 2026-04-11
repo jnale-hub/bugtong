@@ -21,6 +21,17 @@ export default function ClueDisplay({
   onExplain,
   isSolved = false,
 }: ClueDisplayProps) {
+  const componentTitle = (type: "definition" | "indicator" | "fodder") => {
+    switch (type) {
+      case "definition":
+        return "Definition (Kahulugan)";
+      case "indicator":
+        return "Indicator (Tanda)";
+      case "fodder":
+        return "Fodder (Sangkap)";
+    }
+  };
+
   const segments = useMemo(() => {
     if (!clue) return [];
     const cutPoints = new Set<number>([0, clue.clueText.length]);
@@ -92,12 +103,7 @@ export default function ClueDisplay({
             return <Segment key={i} text={seg.text} type={type} />;
           }
 
-          const title =
-            type === "definition"
-              ? "Definition"
-              : type === "indicator"
-                ? "Indicator"
-                : "Fodder";
+          const title = componentTitle(type);
 
           return (
             <Text
