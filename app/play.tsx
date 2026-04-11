@@ -9,7 +9,7 @@ export default function Play() {
   return (
     <>
       <Head>
-        <title>Play Filipino Minute Cryptic Now | Bugtong</title>
+        <title>Play Filipino Minute Cryptic Now | Bugtong Cryptic</title>
         <meta
           name="description"
           content="Subukan ang minute cryptic challenge ngayon. Isang mabilisang Filipino Bugtong cryptic puzzle na puwedeng i-share sa social media kasama ang kaibigan mo."
