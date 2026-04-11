@@ -1,8 +1,9 @@
 import { toastConfig } from "@/components/ui/ToastConfig";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, usePathname } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { Platform } from "react-native";
 import {
   configureReanimatedLogger,
   ReanimatedLogLevel,
@@ -18,6 +19,9 @@ configureReanimatedLogger({
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const pathname = usePathname();
+  const hasHandledInitialRoute = useRef(false);
+
   const [loaded, error] = useFonts({
     "Montserrat-Regular": require("../assets/fonts/Montserrat-Medium.ttf"),
     "Montserrat-SemiBold": require("../assets/fonts/Montserrat-SemiBold.ttf"),
@@ -29,6 +33,30 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded, error]);
+
+  useEffect(() => {
+    if (Platform.OS !== "web") {
+      return;
+    }
+
+    const measurementId = process.env.EXPO_PUBLIC_GA_MEASUREMENT_ID;
+    if (!measurementId || typeof window === "undefined") {
+      return;
+    }
+
+    if (!hasHandledInitialRoute.current) {
+      hasHandledInitialRoute.current = true;
+      return;
+    }
+
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "page_view", {
+        page_path: window.location.pathname + window.location.search,
+        page_location: window.location.href,
+        page_title: document.title,
+      });
+    }
+  }, [pathname]);
 
   if (!loaded && !error) {
     return null;

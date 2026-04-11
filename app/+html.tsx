@@ -10,6 +10,7 @@ const DEFAULT_TITLE = "Bugtong - Daily Filipino Minute Cryptic Puzzle";
 const DEFAULT_DESCRIPTION =
   "Laruin ang Bugtong: araw-araw na Filipino cryptic puzzle at palaisipan. Subukan ang wordplay, anagram clues, at hulaan ang sagot sa loob ng ilang minuto.";
 const DEFAULT_OG_IMAGE = `${SITE_URL}/assets/images/icon.png`;
+const GA_MEASUREMENT_ID = process.env.EXPO_PUBLIC_GA_MEASUREMENT_ID;
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -27,7 +28,7 @@ const organizationSchema = {
 
 export default function Root({ children }: RootProps) {
   return (
-    <html lang="fil">
+    <html lang="en-PH">
       <head>
         <meta charSet="utf-8" />
         <meta
@@ -58,7 +59,30 @@ export default function Root({ children }: RootProps) {
         <meta name="twitter:title" content={DEFAULT_TITLE} />
         <meta name="twitter:description" content={DEFAULT_DESCRIPTION} />
         <meta name="twitter:image" content={DEFAULT_OG_IMAGE} />
-        <meta name="twitter:image:alt" content="Bugtong minute cryptic puzzle" />
+        <meta
+          name="twitter:image:alt"
+          content="Bugtong minute cryptic puzzle"
+        />
+
+        {GA_MEASUREMENT_ID ? (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  window.gtag = gtag;
+                  gtag('js', new Date());
+                  gtag('config', '${GA_MEASUREMENT_ID}');
+                `,
+              }}
+            />
+          </>
+        ) : null}
 
         <script
           type="application/ld+json"
