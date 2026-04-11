@@ -18,7 +18,7 @@
   }
 
   .title-sm {
-    @apply font-sans-semibold text-xs tracking-wide text-stone-700;
+    @apply font-sans text-xs tracking-wide text-stone-6e00;
   }
   
   .body-muted {
