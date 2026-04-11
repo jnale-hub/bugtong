@@ -4,11 +4,11 @@ type RootProps = {
   children: React.ReactNode;
 };
 
-const SITE_NAME = "Bugtong";
+const SITE_NAME = "Bugtong Cryptic";
 const SITE_URL = "https://bugtong.online";
-const DEFAULT_TITLE = "Bugtong - Daily Filipino Minute Cryptic Puzzle";
+const DEFAULT_TITLE = "Bugtong Cryptic - Daily Filipino Minute Cryptic Puzzle";
 const DEFAULT_DESCRIPTION =
-  "Laruin ang Bugtong: araw-araw na Filipino cryptic puzzle at palaisipan. Subukan ang wordplay, anagram clues, at hulaan ang sagot sa loob ng ilang minuto.";
+  "Laruin ang Bugtong Cryptic: araw-araw na Filipino cryptic puzzle at palaisipan. Subukan ang wordplay, anagram clues, at hulaan ang sagot sa loob ng ilang minuto.";
 const DEFAULT_OG_IMAGE = `${SITE_URL}/assets/images/icon.png`;
 const GA_MEASUREMENT_ID = process.env.EXPO_PUBLIC_GA_MEASUREMENT_ID;
 

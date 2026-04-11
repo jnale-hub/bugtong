@@ -9,7 +9,7 @@ export default function CreateClue() {
   return (
     <>
       <Head>
-        <title>Create a Clue | Bugtong</title>
+        <title>Create a Clue | Bugtong Cryptic</title>
         <meta
           name="description"
           content="Submit your own Bugtong cryptic clue for review and help expand the daily puzzle archive."

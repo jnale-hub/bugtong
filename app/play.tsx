@@ -12,26 +12,18 @@ export default function Play() {
         <title>Play Filipino Minute Cryptic Now | Bugtong</title>
         <meta
           name="description"
-          content="Subukan ang minute cryptic challenge ngayon. Isang mabilisang Filipino Bugtong puzzle na puwedeng i-share sa social media kasama ang kaibigan mo."
+          content="Subukan ang minute cryptic challenge ngayon. Isang mabilisang Filipino Bugtong cryptic puzzle na puwedeng i-share sa social media kasama ang kaibigan mo."
         />
         <link rel="canonical" href="https://bugtong.online/play" />
         <meta
           property="og:title"
-          content="Play Filipino Minute Cryptic Now | Bugtong"
+          content="Play Filipino Minute Cryptic Now | Bugtong Cryptic"
         />
         <meta
           property="og:description"
-          content="Subukan ang minute cryptic challenge ngayon. Isang mabilisang Filipino Bugtong puzzle na puwedeng i-share sa social media kasama ang kaibigan mo."
+          content="Subukan ang minute cryptic challenge ngayon. Isang mabilisang Filipino Bugtong cryptic puzzle na puwedeng i-share sa social media kasama ang kaibigan mo."
         />
         <meta property="og:url" content="https://bugtong.online/play" />
-        <meta
-          name="twitter:title"
-          content="Play Filipino Minute Cryptic Now | Bugtong"
-        />
-        <meta
-          name="twitter:description"
-          content="Subukan ang minute cryptic challenge ngayon. Isang mabilisang Filipino Bugtong puzzle na puwedeng i-share sa social media kasama ang kaibigan mo."
-        />
       </Head>
       <Suspense fallback={null}>
         <PlayContainer />
