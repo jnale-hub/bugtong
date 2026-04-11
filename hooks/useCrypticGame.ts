@@ -63,8 +63,13 @@ export const useCrypticGame = (
   }, [clue, initialStatus]);
 
   const handleInput = useCallback((char: string) => {
-    const { guess: currentGuess, status: currentStatus, activeIndex: currentActiveIndex, revealed: currentRevealed } = stateRef.current;
-    
+    const {
+      guess: currentGuess,
+      status: currentStatus,
+      activeIndex: currentActiveIndex,
+      revealed: currentRevealed,
+    } = stateRef.current;
+
     if (currentStatus !== "playing") return;
 
     const newGuess = [...currentGuess];
@@ -97,18 +102,28 @@ export const useCrypticGame = (
       setActiveIndex(foundIndex);
     } else {
       // If everything is completely filled, advance to next or stay at end
-      setActiveIndex(currentActiveIndex + 1 < len ? currentActiveIndex + 1 : len - 1);
+      setActiveIndex(
+        currentActiveIndex + 1 < len ? currentActiveIndex + 1 : len - 1,
+      );
     }
   }, []);
 
   const handleBackspace = useCallback(() => {
-    const { guess: currentGuess, status: currentStatus, activeIndex: currentActiveIndex, revealed: currentRevealed } = stateRef.current;
-    
+    const {
+      guess: currentGuess,
+      status: currentStatus,
+      activeIndex: currentActiveIndex,
+      revealed: currentRevealed,
+    } = stateRef.current;
+
     if (currentStatus !== "playing") return;
     const revealedSet = new Set(currentRevealed);
 
     // If the current cell is not empty, clear it.
-    if (currentGuess[currentActiveIndex] !== "" && !revealedSet.has(currentActiveIndex)) {
+    if (
+      currentGuess[currentActiveIndex] !== "" &&
+      !revealedSet.has(currentActiveIndex)
+    ) {
       const newGuess = [...currentGuess];
       newGuess[currentActiveIndex] = "";
       setGuess(newGuess);
@@ -142,8 +157,12 @@ export const useCrypticGame = (
   }, [clue, correctAnswer]);
 
   const revealLetter = useCallback(() => {
-    const { guess: currentGuess, status: currentStatus, revealed: currentRevealed } = stateRef.current;
-    
+    const {
+      guess: currentGuess,
+      status: currentStatus,
+      revealed: currentRevealed,
+    } = stateRef.current;
+
     if (currentStatus !== "playing" || !clue || !correctAnswer) return;
     if (currentRevealed.length >= MAX_REVEAL_LETTER_HINTS) return;
 
