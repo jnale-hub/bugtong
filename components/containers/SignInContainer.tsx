@@ -20,7 +20,10 @@ export default function SignInContainer() {
 
   const handleSignIn = async () => {
     setError(null);
-    if (!email.trim() || !password.trim()) {
+    const trimmedEmail = email.trim().toLowerCase();
+    const trimmedPassword = password.trim();
+
+    if (!trimmedEmail || !trimmedPassword) {
       setError("Email and password are required.");
       return;
     }
@@ -29,8 +32,8 @@ export default function SignInContainer() {
       setLoading(true);
       const supabase = await getSupabase();
       const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password,
+        email: trimmedEmail,
+        password: trimmedPassword,
       });
 
       if (signInError) {
@@ -38,7 +41,7 @@ export default function SignInContainer() {
         return;
       }
 
-      router.replace("/create");
+      router.replace("/");
     } catch (err: any) {
       console.error(err);
       setError(err.message || "Unexpected error during sign in.");

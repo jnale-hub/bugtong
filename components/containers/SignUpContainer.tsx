@@ -3,6 +3,10 @@ import { getSupabase } from "@/utils/supabase";
 import { useRouter } from "expo-router";
 import { useMemo, useState } from "react";
 
+function normalizeSpaces(value: string) {
+  return value.replace(/\s+/g, " ").trim();
+}
+
 export default function SignUpContainer() {
   const router = useRouter();
   const [name, setName] = useState("");
@@ -23,7 +27,11 @@ export default function SignUpContainer() {
   const handleSignUp = async () => {
     setError(null);
     setSuccess(null);
-    if (!name.trim() || !email.trim() || !password.trim()) {
+    const trimmedName = normalizeSpaces(name);
+    const trimmedEmail = email.trim().toLowerCase();
+    const trimmedPassword = password.trim();
+
+    if (!trimmedName || !trimmedEmail || !trimmedPassword) {
       setError("Name, email, and password are required.");
       return;
     }
@@ -32,19 +40,32 @@ export default function SignUpContainer() {
       setLoading(true);
       const supabase = await getSupabase();
       const { data, error: signUpError } = await supabase.auth.signUp({
-        email: email.trim(),
-        password,
+        email: trimmedEmail,
+        password: trimmedPassword,
         options: {
           data: {
-            name: name.trim(),
-            display_name: name.trim(),
-            username: name.trim(),
+            name: trimmedName,
+            display_name: trimmedName,
+            username: trimmedName,
           },
         },
       });
 
       if (signUpError) {
         setError(signUpError.message || "Failed to sign up.");
+        return;
+      }
+
+      // Supabase may return a user with no identities instead of an explicit
+      // duplicate-email error to prevent account enumeration.
+      const isExistingEmail =
+        !!data?.user &&
+        !data.session &&
+        Array.isArray(data.user.identities) &&
+        data.user.identities.length === 0;
+
+      if (isExistingEmail) {
+        setError("This email is already registered. Please sign in instead.");
         return;
       }
 
