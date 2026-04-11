@@ -85,13 +85,15 @@ export default function CreateClueView({
       </Text>
 
       {authLoading ? (
-        <Text className="body-base text-center" accessibilityLabel="Checking session">
+        <Text
+          className="body-base text-center"
+          accessibilityLabel="Checking session"
+        >
           Checking session...
         </Text>
       ) : isSignedIn ? (
         <Text className="body-base text-center">
-          Signed in as{" "}
-          <Text className="font-semibold">{signedInLabel}</Text>.
+          Signed in as <Text className="font-semibold">{signedInLabel}</Text>.
         </Text>
       ) : null}
 
