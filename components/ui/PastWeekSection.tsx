@@ -62,7 +62,7 @@ export default function PastWeekSection({
                   onPress={() => onPlayPast(clue.dateKey)}
                   accessibilityRole="button"
                   accessibilityLabel={`${isSolved ? "Replay solved" : "Play"} ${dayLabel} clue`}
-                  className={`rounded-xl px-6 py-4 min-w-24 ${
+                  className={`rounded-xl px-[1.4rem] py-4 min-w-24 ${
                     isSolved
                       ? "bg-emerald-100/50"
                       : "bg-stone-200/50"
