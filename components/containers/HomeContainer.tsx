@@ -1,5 +1,5 @@
 import HomeView from "@/components/ui/HomeView";
-import { useDailyClue } from "@/hooks/useDailyClue";
+import { prefetchDailyClue, useDailyClue } from "@/hooks/useDailyClue";
 import { useRecentClues } from "@/hooks/useRecentClues";
 import { getSupabase } from "@/utils/supabase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -182,10 +182,14 @@ export default function HomeContainer() {
         isSolved: Boolean(solvedByDate[item.playDate]),
       }))}
       pastLoading={recentLoading}
-      onPlay={() => router.push("/play")}
-      onPlayPast={(dateKey: string) =>
-        router.push({ pathname: "/play", params: { date: dateKey } })
-      }
+      onPlay={() => {
+        void prefetchDailyClue();
+        router.push("/play");
+      }}
+      onPlayPast={(dateKey: string) => {
+        void prefetchDailyClue(dateKey);
+        router.push({ pathname: "/play", params: { date: dateKey } });
+      }}
       onCreateYourOwn={() => router.push("/create")}
       onSignIn={() => router.push("/sign-in")}
       onSignOut={() => {
