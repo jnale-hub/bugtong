@@ -153,3 +153,13 @@ export function useDailyClue(dateKey?: string) {
 
   return { clue, loading, error };
 }
+
+/**
+ * Prefetch the daily clue for a given date (or today if not specified).
+ * This populates the module-level cache so the clue is instantly available
+ * when navigating to the play screen.
+ */
+export function prefetchDailyClue(dateKey?: string): Promise<FetchResult> {
+  const todayKey = dateKey ?? getTodayKey();
+  return fetchDailyClue(todayKey);
+}
