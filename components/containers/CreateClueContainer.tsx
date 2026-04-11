@@ -19,6 +19,42 @@ type ClueInsertPayload = {
   fodder?: ClueComponentPayload | null;
 };
 
+function normalizeSpaces(value: string) {
+  return value.replace(/\s+/g, " ").trim();
+}
+
+function normalizeAnswer(value: string) {
+  return normalizeSpaces(value).toUpperCase();
+}
+
+function normalizeRanges(
+  ranges: SelectionRange[],
+  clueLength: number,
+): { start: number; end: number }[] {
+  const unique = new Set<string>();
+
+  return ranges
+    .map(({ start, end }) => ({
+      start: Math.max(0, Math.min(start, clueLength)),
+      end: Math.max(0, Math.min(end, clueLength)),
+    }))
+    .map(({ start, end }) => ({
+      start: Math.min(start, end),
+      end: Math.max(start, end),
+    }))
+    .filter(({ start, end }) => end > start)
+    .sort((a, b) => a.start - b.start || a.end - b.end)
+    .filter(({ start, end }) => {
+      const key = `${start}:${end}`;
+      if (unique.has(key)) {
+        return false;
+      }
+
+      unique.add(key);
+      return true;
+    });
+}
+
 export default function CreateClueContainer() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
@@ -192,7 +228,29 @@ export default function CreateClueContainer() {
       return;
     }
 
-    if (!clueText.trim()) {
+    const normalizedClueText = normalizeSpaces(clueText);
+    const normalizedAnswer = normalizeAnswer(answer);
+    const normalizedDefinitionExplanation = normalizeSpaces(
+      definitionExplanation,
+    );
+    const normalizedIndicatorExplanation =
+      normalizeSpaces(indicatorExplanation);
+    const normalizedFodderExplanation = normalizeSpaces(fodderExplanation);
+
+    const normalizedDefinitionRanges = normalizeRanges(
+      definitionSelections,
+      normalizedClueText.length,
+    );
+    const normalizedIndicatorRanges = normalizeRanges(
+      indicatorSelections,
+      normalizedClueText.length,
+    );
+    const normalizedFodderRanges = normalizeRanges(
+      fodderSelections,
+      normalizedClueText.length,
+    );
+
+    if (!normalizedClueText) {
       Toast.show({
         type: "error",
         text1: "Error",
@@ -200,7 +258,7 @@ export default function CreateClueContainer() {
       });
       return;
     }
-    if (!answer.trim()) {
+    if (!normalizedAnswer) {
       Toast.show({
         type: "error",
         text1: "Error",
@@ -208,7 +266,10 @@ export default function CreateClueContainer() {
       });
       return;
     }
-    if (!definitionSelections.length || !definitionExplanation.trim()) {
+    if (
+      !normalizedDefinitionRanges.length ||
+      !normalizedDefinitionExplanation
+    ) {
       Toast.show({
         type: "error",
         text1: "Error",
@@ -217,7 +278,7 @@ export default function CreateClueContainer() {
       return;
     }
 
-    if (indicatorSelections.length && !indicatorExplanation.trim()) {
+    if (normalizedIndicatorRanges.length && !normalizedIndicatorExplanation) {
       Toast.show({
         type: "error",
         text1: "Error",
@@ -226,7 +287,7 @@ export default function CreateClueContainer() {
       return;
     }
 
-    if (fodderSelections.length && !fodderExplanation.trim()) {
+    if (normalizedFodderRanges.length && !normalizedFodderExplanation) {
       Toast.show({
         type: "error",
         text1: "Error",
@@ -236,28 +297,29 @@ export default function CreateClueContainer() {
     }
 
     const definition: ClueComponentPayload = {
-      ranges: definitionSelections.map(({ start, end }) => ({ start, end })),
-      explanation: definitionExplanation.trim(),
+      ranges: normalizedDefinitionRanges,
+      explanation: normalizedDefinitionExplanation,
     };
 
-    const indicator: ClueComponentPayload | null = indicatorSelections.length
-      ? {
-          ranges: indicatorSelections.map(({ start, end }) => ({ start, end })),
-          explanation: indicatorExplanation.trim(),
-        }
-      : null;
+    const indicator: ClueComponentPayload | null =
+      normalizedIndicatorRanges.length
+        ? {
+            ranges: normalizedIndicatorRanges,
+            explanation: normalizedIndicatorExplanation,
+          }
+        : null;
 
-    const fodder: ClueComponentPayload | null = fodderSelections.length
+    const fodder: ClueComponentPayload | null = normalizedFodderRanges.length
       ? {
-          ranges: fodderSelections.map(({ start, end }) => ({ start, end })),
-          explanation: fodderExplanation.trim(),
+          ranges: normalizedFodderRanges,
+          explanation: normalizedFodderExplanation,
         }
       : null;
 
     const payload: ClueInsertPayload = {
       user_id: session.user.id,
-      clue_text: clueText.trim(),
-      answer: answer.trim(),
+      clue_text: normalizedClueText,
+      answer: normalizedAnswer,
       definition,
       indicator,
       fodder,
