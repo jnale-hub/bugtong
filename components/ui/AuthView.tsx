@@ -50,6 +50,7 @@ export default function AuthView({
     minHeight: 52,
     paddingHorizontal: 16,
     paddingVertical: Platform.OS === "ios" ? 12 : 10,
+    fontSize: 16,
     lineHeight: 20,
     ...(Platform.OS === "android"
       ? { textAlignVertical: "center" as const }
